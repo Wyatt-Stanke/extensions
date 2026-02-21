@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>AP Classroom Tools</h1>
+
+      <div id="status-container" class="status">
+        <div class="status-row">
+          <span class="status-label">Script Status:</span>
+          <span id="script-status" class="status-value loading"
+            >Checking...</span
+          >
+        </div>
+        <div class="status-row">
+          <span class="status-label">Video ID:</span>
+          <span id="video-id" class="status-value">—</span>
+        </div>
+        <div class="status-row">
+          <span class="status-label">Mode:</span>
+          <span id="mode" class="status-value">—</span>
+        </div>
+      </div>
+
+      <div id="not-on-page" class="warning" style="display: none">
+        <p>⚠️ Not on AP Classroom</p>
+        <p class="small">
+          Navigate to apclassroom.collegeboard.org to use this extension.
+        </p>
+      </div>
+
+      <div class="instructions">
+        <h2>How to Use</h2>
+        <ol>
+          <li>Navigate to a video on AP Classroom</li>
+          <li>Start playing the video briefly</li>
+          <li>Click the floating button to mark complete</li>
+        </ol>
+      </div>
+
+      <div class="footer">
+        <p>v1.0.0</p>
+      </div>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>
