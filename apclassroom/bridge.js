@@ -4,7 +4,7 @@
   let currentState = {
     initialized: false,
     videoId: null,
-    blocking: false,
+    blocking: [],
   };
 
   // Listen for state updates from the MAIN world content script

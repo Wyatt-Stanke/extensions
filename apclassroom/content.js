@@ -4,7 +4,7 @@
   let state = {
     videoId: null,
     duration: null,
-    blocking: false,
+    blocking: [],
     capturedHeaders: {},
     capturedBody: null,
     initialized: true,
@@ -59,10 +59,10 @@
     ) {
       const match = this._url.match(/\/videos\/(\d+)\/progress/);
 
-      if (state.blocking) {
+      if (match && state.blocking.includes(match[1])) {
         console.log(
           "[AP Tools] Blocked progress request for video:",
-          match?.[1],
+          match[1],
         );
         Object.defineProperty(this, "status", { value: 200 });
         Object.defineProperty(this, "readyState", { value: 4 });
@@ -132,8 +132,8 @@
     }
     if (!button) return;
 
-    if (state.blocking) {
-      button.innerHTML = "🔒 Blocking - Click to Reset";
+    if (state.blocking.length > 0) {
+      button.innerHTML = `🔒 Blocking (${state.blocking.length}) - Click to Reset`;
       button.style.background = "#f44336";
       button.style.color = "white";
       button.style.cursor = "pointer";
@@ -194,8 +194,8 @@
   }
 
   async function handleClick() {
-    if (state.blocking) {
-      state.blocking = false;
+    if (state.blocking.length > 0) {
+      state.blocking = [];
       state.videoId = null;
       state.duration = null;
       state.capturedHeaders = {};
@@ -273,7 +273,9 @@
           state.videoId,
           "as complete",
         );
-        state.blocking = true;
+        if (!state.blocking.includes(state.videoId)) {
+          state.blocking = [...state.blocking, state.videoId];
+        }
         updateButton();
         broadcastState();
         const closeBtn = document.querySelector(
@@ -316,7 +318,7 @@
   new MutationObserver(() => {
     if (location.href !== lastUrl) {
       lastUrl = location.href;
-      if (!state.blocking) {
+      if (state.blocking.length === 0) {
         state.videoId = null;
         state.duration = null;
         state.capturedHeaders = {};

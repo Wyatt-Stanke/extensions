@@ -50,8 +50,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
 
         // Mode
-        if (state.blocking) {
-          modeEl.textContent = "Blocking";
+        if (state.blocking?.length > 0) {
+          modeEl.textContent = `Blocking (${state.blocking.length})`;
           modeEl.className = "status-value blocking";
         } else if (state.videoId) {
           modeEl.textContent = "Ready";

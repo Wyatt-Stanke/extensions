@@ -11,7 +11,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (!state.initialized) {
       badgeText = "";
       badgeColor = "#888888";
-    } else if (state.blocking) {
+    } else if (state.blocking?.length > 0) {
       badgeText = "🔒";
       badgeColor = "#f44336";
     } else if (state.videoId) {
