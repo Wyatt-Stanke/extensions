@@ -52,7 +52,7 @@
     "commands": {
         "add-to-recent-list": {
             "suggested_key": {
-                "default": "Alt+Shift+C"
+                "default": "Ctrl+Shift+Y"
             },
             "description": "Add current tab to most recent Collapse list and close it"
         }

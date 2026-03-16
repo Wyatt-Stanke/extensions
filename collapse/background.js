@@ -487,7 +487,7 @@ async function handleAddToList(listId) {
     return { success: true, listId: list.id, count: videos.length };
 }
 
-// Keyboard shortcut: Ctrl+Alt+C adds current tab to most recent list
+// Keyboard shortcut: Ctrl+Shift+Y adds current tab to most recent list
 chrome.commands.onCommand.addListener(async (command) => {
     if (command !== "add-to-recent-list") return;
 
@@ -498,8 +498,20 @@ chrome.commands.onCommand.addListener(async (command) => {
     if (!tab || !YOUTUBE_VIDEO_PATTERN.test(tab.url)) return;
 
     const lists = await getVideoLists();
-    const targetList = getMostRecentList(lists);
-    if (!targetList) return;
+    let targetList = getMostRecentList(lists);
+    if (!targetList) {
+        targetList = {
+            id: crypto.randomUUID(),
+            name: new Date().toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+            }),
+            createdAt: Date.now(),
+            videos: [],
+        };
+        lists.push(targetList);
+    }
 
     const info = await getVideoInfoFromTab(tab.id);
     if (!info?.videoId) return;
