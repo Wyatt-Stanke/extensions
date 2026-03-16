@@ -84,10 +84,11 @@ async function addVideoFromUrl(videoUrl, listId) {
 async function rebuildContextMenus() {
     await chrome.contextMenus.removeAll();
 
-    const targetUrlPatterns = ["*://*.youtube.com/watch*"];
     const lists = await getVideoLists();
     const sorted = [...lists].sort((a, b) => b.createdAt - a.createdAt);
     const recent = sorted[0] || null;
+
+    const contexts = ["link", "selection"];
 
     // 1. Simple button: add to most recent list
     chrome.contextMenus.create({
@@ -95,8 +96,7 @@ async function rebuildContextMenus() {
         title: recent
             ? `Collapse to "${recent.name}"`
             : "Collapse (no lists yet)",
-        contexts: ["link"],
-        targetUrlPatterns,
+        contexts,
         enabled: Boolean(recent),
     });
 
@@ -104,8 +104,7 @@ async function rebuildContextMenus() {
     chrome.contextMenus.create({
         id: "collapse-add-to",
         title: "Collapse to…",
-        contexts: ["link"],
-        targetUrlPatterns,
+        contexts,
     });
 
     if (lists.length === 0) {
@@ -113,8 +112,7 @@ async function rebuildContextMenus() {
             id: "collapse-add-no-lists",
             parentId: "collapse-add-to",
             title: "No lists yet \u2014 create one first",
-            contexts: ["link"],
-            targetUrlPatterns,
+            contexts,
             enabled: false,
         });
     } else {
@@ -124,8 +122,7 @@ async function rebuildContextMenus() {
                 id: `collapse-add-list-${list.id}`,
                 parentId: "collapse-add-to",
                 title: `${list.name} (${count} video${count !== 1 ? "s" : ""})`,
-                contexts: ["link"],
-                targetUrlPatterns,
+                contexts,
             });
         }
     }
@@ -526,17 +523,26 @@ chrome.commands.onCommand.addListener(async (command) => {
 
 // Context menu click handler
 chrome.contextMenus.onClicked.addListener(async (info) => {
-    const { menuItemId, linkUrl } = info;
-    if (!linkUrl) return;
+    const { menuItemId, linkUrl, selectionText } = info;
+
+    // Resolve URL from link or from selected text that looks like a YouTube URL
+    let videoUrl = linkUrl || null;
+    if (!videoUrl && selectionText) {
+        const trimmed = selectionText.trim();
+        if (YOUTUBE_VIDEO_PATTERN.test(trimmed)) {
+            videoUrl = trimmed;
+        }
+    }
+    if (!videoUrl) return;
 
     if (menuItemId === "collapse-add-recent") {
-        await addVideoFromUrl(linkUrl, null);
+        await addVideoFromUrl(videoUrl, null);
     } else if (
         typeof menuItemId === "string" &&
         menuItemId.startsWith("collapse-add-list-")
     ) {
         const listId = menuItemId.slice("collapse-add-list-".length);
-        await addVideoFromUrl(linkUrl, listId);
+        await addVideoFromUrl(videoUrl, listId);
     }
 });
 
