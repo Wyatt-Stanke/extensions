@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/Wyatt-Stanke/extensions/compare/collapse-v1.1.0...collapse-v1.1.1) (2026-03-16)
+
+
+### Bug Fixes
+
+* remove unnecessary host_permissions for collapse ([d41b44d](https://github.com/Wyatt-Stanke/extensions/commit/d41b44d5c5718c2cfb4d6d75d4affa970433d541))
+
 ## [1.1.0](https://github.com/Wyatt-Stanke/extensions/compare/collapse-v1.0.0...collapse-v1.1.0) (2026-03-16)
 
 
