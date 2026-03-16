@@ -106,6 +106,36 @@ h2 {
   flex-shrink: 0;
 }
 
+.add-to-label {
+  font-size: 12px;
+  color: #888;
+  text-align: center;
+  margin: 10px 0 6px;
+}
+
+.add-to-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-size: 13px;
+  color: #333;
+}
+
+.add-to-item:hover {
+  background: #e8f0fe;
+}
+
+.add-to-item-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .footer {
   text-align: center;
 }

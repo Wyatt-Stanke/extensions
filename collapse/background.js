@@ -55,6 +55,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         handleMergeLists(message.targetId, message.sourceId).then(sendResponse);
         return true;
     }
+
+    if (message.type === "ADD_TO_LIST") {
+        handleAddToList(message.listId).then(sendResponse);
+        return true;
+    }
 });
 
 async function handleCollapseTabs() {
@@ -118,6 +123,27 @@ async function handleCollapseTabs() {
     return { success: true, listId: list.id, count: videos.length };
 }
 
+async function closeCollapsedTabsForList(listId) {
+    const allTabs = await chrome.tabs.query({});
+    const targetUrl = `collapsed.html?listId=${listId}`;
+    for (const tab of allTabs) {
+        if (tab.url?.includes(targetUrl)) {
+            await chrome.tabs.remove(tab.id);
+        }
+    }
+}
+
+async function autoDeleteIfEmpty(lists, listId) {
+    const list = lists.find((l) => l.id === listId);
+    if (list && list.videos.length === 0) {
+        const updated = lists.filter((l) => l.id !== listId);
+        await saveVideoLists(updated);
+        await closeCollapsedTabsForList(listId);
+        return true;
+    }
+    return false;
+}
+
 async function handleOpenVideo(listId, videoId) {
     const lists = await getVideoLists();
     const list = lists.find((l) => l.id === listId);
@@ -131,6 +157,7 @@ async function handleOpenVideo(listId, videoId) {
 
     list.videos = list.videos.filter((v) => v.videoId !== videoId);
     await saveVideoLists(lists);
+    await autoDeleteIfEmpty(lists, listId);
 
     await chrome.tabs.create({ url });
 
@@ -144,6 +171,7 @@ async function handleDeleteVideo(listId, videoId) {
 
     list.videos = list.videos.filter((v) => v.videoId !== videoId);
     await saveVideoLists(lists);
+    await autoDeleteIfEmpty(lists, listId);
 
     return { success: true };
 }
@@ -191,16 +219,66 @@ async function handleMergeLists(targetId, sourceId) {
     const updatedLists = lists.filter((l) => l.id !== sourceId);
     await saveVideoLists(updatedLists);
 
-    // Close any collapsed.html tab showing the source list
-    const allTabs = await chrome.tabs.query({});
-    const sourceUrl = `collapsed.html?listId=${sourceId}`;
-    for (const tab of allTabs) {
-        if (tab.url?.includes(sourceUrl)) {
-            await chrome.tabs.remove(tab.id);
+    await closeCollapsedTabsForList(sourceId);
+
+    return { success: true };
+}
+
+async function handleAddToList(listId) {
+    const tabs = await chrome.tabs.query({
+        highlighted: true,
+        currentWindow: true,
+    });
+
+    const youtubeTabs = tabs.filter((tab) => YOUTUBE_VIDEO_PATTERN.test(tab.url));
+
+    if (youtubeTabs.length === 0) {
+        return { success: false, error: "No YouTube video tabs selected" };
+    }
+
+    const lists = await getVideoLists();
+    const list = lists.find((l) => l.id === listId);
+    if (!list) return { success: false, error: "List not found" };
+
+    const videos = [];
+    for (const tab of youtubeTabs) {
+        const info = await getVideoInfoFromTab(tab.id);
+        if (info && info.videoId) {
+            videos.push({
+                videoId: info.videoId,
+                url: info.url,
+                title: info.title,
+                channelName: info.channelName,
+                thumbnailUrl: info.thumbnailUrl,
+                currentTime: info.currentTime,
+                duration: info.duration,
+                addedAt: Date.now(),
+            });
         }
     }
 
-    return { success: true };
+    if (videos.length === 0) {
+        return { success: false, error: "Could not get info from any tabs" };
+    }
+
+    // Add videos, dedup by videoId keeping newer
+    const existingIds = new Map(list.videos.map((v) => [v.videoId, v]));
+    for (const video of videos) {
+        const existing = existingIds.get(video.videoId);
+        if (!existing) {
+            list.videos.push(video);
+        } else if (video.addedAt > existing.addedAt) {
+            list.videos = list.videos.filter((v) => v.videoId !== video.videoId);
+            list.videos.push(video);
+        }
+    }
+
+    await saveVideoLists(lists);
+
+    const tabIds = youtubeTabs.map((t) => t.id);
+    await chrome.tabs.remove(tabIds);
+
+    return { success: true, listId: list.id, count: videos.length };
 }
 
 console.log("[Collapse] Background service worker initialized");

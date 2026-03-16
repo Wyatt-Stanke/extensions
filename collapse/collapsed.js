@@ -196,6 +196,9 @@
             const list = lists.find((l) => l.id === listId);
             if (list) {
                 renderVideos(list);
+            } else {
+                // List was deleted (e.g. auto-deleted when empty)
+                window.close();
             }
         }
     });
