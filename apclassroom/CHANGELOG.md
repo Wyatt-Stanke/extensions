@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.7](https://github.com/Wyatt-Stanke/extensions/compare/apclassroom-v1.0.6...apclassroom-v1.0.7) (2026-03-16)
+
+
+### Bug Fixes
+
+* add icon generation script ([b9ae19b](https://github.com/Wyatt-Stanke/extensions/commit/b9ae19bc60acb462df50da993e972c5db2d44293))
+* center text in icon ([b9bd801](https://github.com/Wyatt-Stanke/extensions/commit/b9bd8014866193076378a54818852b83e8daa639))
+
 ## [1.0.6](https://github.com/Wyatt-Stanke/extensions/compare/apclassroom-v1.0.5...apclassroom-v1.0.6) (2026-03-16)
 
 
