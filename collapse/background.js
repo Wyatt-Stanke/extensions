@@ -235,11 +235,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         handleAddToList(message.listId).then(sendResponse);
         return true;
     }
-
-    if (message.type === "ADD_LINK_TO_RECENT") {
-        addVideoFromUrl(message.url, null).then(sendResponse);
-        return true;
-    }
 });
 
 async function handleCollapseTabs() {

@@ -24,23 +24,5 @@
         }
     });
 
-    // Relay hover-link add requests from MAIN world to background
-    window.addEventListener("message", (event) => {
-        if (event.data?.type !== "COLLAPSE_ADD_HOVERED_LINK") return;
-
-        chrome.runtime.sendMessage(
-            { type: "ADD_LINK_TO_RECENT", url: event.data.url },
-            (response) => {
-                window.postMessage(
-                    {
-                        type: "COLLAPSE_ADD_HOVERED_LINK_RESULT",
-                        success: response?.success || false,
-                    },
-                    "*",
-                );
-            },
-        );
-    });
-
     console.log("[Collapse] Bridge script initialized");
 })();
