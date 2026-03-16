@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.1.0](https://github.com/Wyatt-Stanke/extensions/compare/collapse-v1.0.0...collapse-v1.1.0) (2026-03-16)
+
+
+### Features
+
+* add functionality to add hovered YouTube links to the most recent list via keyboard shortcut ([fe67d68](https://github.com/Wyatt-Stanke/extensions/commit/fe67d68e4c7638af0e814cbe7d426862b3d882ec))
+* enhance list management and user interface for collapsing tabs ([861ddbf](https://github.com/Wyatt-Stanke/extensions/commit/861ddbf2dda336d93ffc295385fd1323fe2cf42c))
+* implement add to existing list functionality and auto-delete empty lists ([5910b18](https://github.com/Wyatt-Stanke/extensions/commit/5910b18bddd1dc1ec14cf516c75e358106115897))
+* implement context menu for adding videos to lists and add keyboard shortcut for recent list ([0df130a](https://github.com/Wyatt-Stanke/extensions/commit/0df130af7b573130cc0cdced56cbdb80fbaf2dcd))
+* support adding videos from selected text via context menu ([4fc70b3](https://github.com/Wyatt-Stanke/extensions/commit/4fc70b3d606c103564acfd96d612f2e0f43598c6))
+
+
+### Bug Fixes
+
+* ensure only relevant tabs are closed when collapsing or adding to lists ([521c89b](https://github.com/Wyatt-Stanke/extensions/commit/521c89b79337a62732bfc575ccb3599cb3282595))
+* improve tab count display for singular and plural cases ([9af50fb](https://github.com/Wyatt-Stanke/extensions/commit/9af50fbe3ae86c5ab86eb52bdd20e582a7203177))
+* keyboard shortcut resiliency ([6a44a30](https://github.com/Wyatt-Stanke/extensions/commit/6a44a30361c5af555086222399de22895f213e38))
+* new icon ([716257c](https://github.com/Wyatt-Stanke/extensions/commit/716257cfd90420b73d417c8d36e379bff301c73f))
+* remove alt+c functionality ([d6aeb82](https://github.com/Wyatt-Stanke/extensions/commit/d6aeb82a928cf5f5f7055316da871de0ee312903))
+* remove prefix from collapsed list ([63b371a](https://github.com/Wyatt-Stanke/extensions/commit/63b371a441d0a81181bd38808d5102a672f2f6ad))
+* revert ([e6750bb](https://github.com/Wyatt-Stanke/extensions/commit/e6750bbff0c092f86f0f3c4613845e785433ae21))
+* try refreshing tabs if unable to get tab data ([19b59c6](https://github.com/Wyatt-Stanke/extensions/commit/19b59c62a23ba44f4e0f7e17e3069df9bce402d4))
+
 ## 1.0.0 (2026-03-16)
 
 ### Features
