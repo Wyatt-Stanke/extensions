@@ -33,21 +33,6 @@ jobs:
           EXTENSION_ID=$(jq -r '.extensionId' "${{ steps.meta.outputs.extension }}/info.json")
           echo "id=$EXTENSION_ID" >> "$GITHUB_OUTPUT"
 
-      - name: Create ZIP
-        run: |
-          cd "${{ steps.meta.outputs.extension }}"
-          zip -r "../${{ steps.meta.outputs.extension }}.zip" . \
-            -x "info.json" \
-            -x "version.txt" \
-            -x "CHANGELOG.md"
-
-      - name: Attach ZIP to release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh release upload "${{ github.event.release.tag_name }}" \
-            "${{ steps.meta.outputs.extension }}.zip"
-
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
@@ -55,6 +40,25 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Create ZIP
+        run: |
+          cd "${{ steps.meta.outputs.extension }}"
+          zip -r "../${{ steps.meta.outputs.extension }}.zip" . \
+            -x "info.json" \
+            -x "version.txt" \
+            -x "CHANGELOG.md" \
+            -x "icon.svg"
+
+      - name: Attach ZIP to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "${{ github.event.release.tag_name }}" \
+            "${{ steps.meta.outputs.extension }}.zip"
 
       - name: Upload and submit for review
         run: |
