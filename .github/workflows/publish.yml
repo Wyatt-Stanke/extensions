@@ -51,11 +51,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Upload and submit for review
         run: |
-          npx chrome-webstore-upload-cli@3 upload \
+          npx chrome-webstore-upload-cli upload \
             --source "${{ steps.meta.outputs.extension }}.zip" \
             --extension-id "${{ steps.extid.outputs.id }}" \
             --auto-publish

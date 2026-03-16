@@ -1,0 +1,6 @@
+{
+    "private": true,
+    "devDependencies": {
+        "chrome-webstore-upload-cli": "^3.0.0"
+    }
+}
