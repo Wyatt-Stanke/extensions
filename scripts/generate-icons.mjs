@@ -17,7 +17,8 @@ for (const entry of entries) {
         continue;
     }
 
-    const outDir = join(rootDir, entry.name, "icons");
+    const outDir = join(rootDir, entry.name, "dist", "icons");
+
     mkdirSync(outDir, { recursive: true });
 
     const svgBuffer = readFileSync(svgPath);

@@ -1,7 +1,8 @@
+import { createIcons, SquaresUnite } from "lucide";
+
 const YOUTUBE_VIDEO_PATTERN = /youtube\.com\/watch\?.*v=/;
 
 document.addEventListener("DOMContentLoaded", async () => {
-    // Display version
     const manifest = chrome.runtime.getManifest();
     document.getElementById("version-display").textContent = manifest.version;
 
@@ -10,21 +11,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     const listsSection = document.getElementById("lists-section");
     const listsContainer = document.getElementById("lists-container");
 
-    // Count highlighted YouTube tabs
     const tabs = await chrome.tabs.query({
         highlighted: true,
         currentWindow: true,
     });
-    const youtubeTabs = tabs.filter((tab) =>
-        YOUTUBE_VIDEO_PATTERN.test(tab.url),
-    );
-    const count = youtubeTabs.length;
+    const youtubeTabs = tabs.filter((tab) => YOUTUBE_VIDEO_PATTERN.test(tab.url));
+    const selectedCount = youtubeTabs.length;
 
-    tabCountEl.textContent = count;
-    collapseBtn.textContent = `Collapse ${count} Tab${count !== 1 ? "s" : ""}`;
-    collapseBtn.disabled = count === 0;
+    tabCountEl.textContent = selectedCount;
+    collapseBtn.textContent = `Collapse ${selectedCount} Tab${selectedCount !== 1 ? "s" : ""}`;
+    collapseBtn.disabled = selectedCount === 0;
 
-    // Collapse button handler
     collapseBtn.addEventListener("click", async () => {
         collapseBtn.disabled = true;
         collapseBtn.textContent = "Collapsing...";
@@ -38,60 +35,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         } else {
             collapseBtn.textContent = response?.error || "Failed";
             setTimeout(() => {
-                collapseBtn.textContent = `Collapse ${count} Tab${count !== 1 ? "s" : ""}`;
-                collapseBtn.disabled = count === 0;
+                collapseBtn.textContent = `Collapse ${selectedCount} Tab${selectedCount !== 1 ? "s" : ""}`;
+                collapseBtn.disabled = selectedCount === 0;
             }, 2000);
         }
     });
 
-    // Load existing lists
     const response = await chrome.runtime.sendMessage({ type: "GET_LISTS" });
     const lists = response?.lists || [];
-
-    // Show "add to existing list" when tabs are selected and lists exist
-    if (count > 0 && lists.length > 0) {
-        const addToSection = document.getElementById("add-to-section");
-        const addToContainer = document.getElementById("add-to-container");
-        addToSection.style.display = "block";
-        addToContainer.innerHTML = "";
-
-        for (const list of lists) {
-            const item = document.createElement("div");
-            item.className = "add-to-item";
-            item.addEventListener("click", async () => {
-                const items = addToContainer.querySelectorAll(".add-to-item");
-                for (const el of items) el.style.pointerEvents = "none";
-                item.textContent = "Adding...";
-
-                const res = await chrome.runtime.sendMessage({
-                    type: "ADD_TO_LIST",
-                    listId: list.id,
-                });
-
-                if (res?.success) {
-                    window.close();
-                } else {
-                    item.textContent = res?.error || "Failed";
-                    setTimeout(() => {
-                        item.textContent = list.name;
-                        for (const el of items) el.style.pointerEvents = "";
-                    }, 2000);
-                }
-            });
-
-            const name = document.createElement("span");
-            name.className = "add-to-item-name";
-            name.textContent = list.name;
-
-            const badge = document.createElement("span");
-            badge.className = "list-item-count";
-            badge.textContent = `${list.videos.length} video${list.videos.length !== 1 ? "s" : ""}`;
-
-            item.appendChild(name);
-            item.appendChild(badge);
-            addToContainer.appendChild(item);
-        }
-    }
 
     if (lists.length > 0) {
         listsSection.style.display = "block";
@@ -111,13 +62,47 @@ document.addEventListener("DOMContentLoaded", async () => {
             name.className = "list-item-name";
             name.textContent = list.name;
 
-            const count = document.createElement("span");
-            count.className = "list-item-count";
-            count.textContent = `${list.videos.length} video${list.videos.length !== 1 ? "s" : ""}`;
+            const countBadge = document.createElement("span");
+            countBadge.className = "list-item-count";
+            countBadge.textContent = `${list.videos.length} video${list.videos.length !== 1 ? "s" : ""}`;
 
             item.appendChild(name);
-            item.appendChild(count);
+            item.appendChild(countBadge);
+
+            if (selectedCount > 0) {
+                const addBtn = document.createElement("button");
+                addBtn.className = "btn-add-to-list";
+                addBtn.title = "Add selected tabs to this list";
+                addBtn.innerHTML = '<i data-lucide="squares-unite"></i>';
+                addBtn.addEventListener("click", async (event) => {
+                    event.stopPropagation();
+                    addBtn.disabled = true;
+                    const result = await chrome.runtime.sendMessage({
+                        type: "ADD_TO_LIST",
+                        listId: list.id,
+                    });
+                    if (result?.success) {
+                        window.close();
+                    } else {
+                        addBtn.disabled = false;
+                    }
+                });
+                item.appendChild(addBtn);
+            }
+
             listsContainer.appendChild(item);
+        }
+
+        if (selectedCount > 0) {
+            createIcons({
+                icons: {
+                    SquaresUnite,
+                },
+                attrs: {
+                    width: "16",
+                    height: "16",
+                },
+            });
         }
     }
 });
