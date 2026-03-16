@@ -14,8 +14,13 @@ jobs:
         id: meta
         run: |
           TAG="${{ github.event.release.tag_name }}"
-          EXTENSION="${TAG%-v*}"
-          VERSION="${TAG##*-v}"
+          if [[ "$TAG" == *-v* ]]; then
+            EXTENSION="${TAG%-v*}"
+            VERSION="${TAG##*-v}"
+          else
+            echo "::error::Tag '$TAG' missing component prefix (expected format: <extension>-v<version>)"
+            exit 1
+          fi
           echo "extension=$EXTENSION" >> "$GITHUB_OUTPUT"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 

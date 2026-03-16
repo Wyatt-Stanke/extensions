@@ -5,6 +5,7 @@
     "packages": {
         "apclassroom": {
             "release-type": "simple",
+            "component": "apclassroom",
             "extra-files": [
                 {
                     "type": "json",
