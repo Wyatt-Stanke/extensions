@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const listTabs = tabs.filter((tab) => Boolean(getCollapsedListIdFromUrl(tab.url)));
     const selectedCount = youtubeTabs.length + listTabs.length;
 
-    tabCountEl.textContent = selectedCount;
+    tabCountEl.textContent = `${selectedCount} tab${selectedCount !== 1 ? "s" : ""}`;
     collapseBtn.textContent = `Create List from ${selectedCount} Tab${selectedCount !== 1 ? "s" : ""}`;
     collapseBtn.disabled = selectedCount === 0;
 
