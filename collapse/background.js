@@ -75,6 +75,7 @@ async function handleCollapseTabs() {
     }
 
     const videos = [];
+    const tabsToClose = [];
     for (const tab of youtubeTabs) {
         const info = await getVideoInfoFromTab(tab.id);
         if (info && info.videoId) {
@@ -88,6 +89,7 @@ async function handleCollapseTabs() {
                 duration: info.duration,
                 addedAt: Date.now(),
             });
+            tabsToClose.push(tab.id);
         }
     }
 
@@ -117,8 +119,9 @@ async function handleCollapseTabs() {
         url: chrome.runtime.getURL(`collapsed.html?listId=${list.id}`),
     });
 
-    const tabIds = youtubeTabs.map((t) => t.id);
-    await chrome.tabs.remove(tabIds);
+    if (tabsToClose.length > 0) {
+        await chrome.tabs.remove(tabsToClose);
+    }
 
     return { success: true, listId: list.id, count: videos.length };
 }
@@ -241,6 +244,7 @@ async function handleAddToList(listId) {
     if (!list) return { success: false, error: "List not found" };
 
     const videos = [];
+    const tabsToClose = [];
     for (const tab of youtubeTabs) {
         const info = await getVideoInfoFromTab(tab.id);
         if (info && info.videoId) {
@@ -254,6 +258,7 @@ async function handleAddToList(listId) {
                 duration: info.duration,
                 addedAt: Date.now(),
             });
+            tabsToClose.push(tab.id);
         }
     }
 
@@ -275,8 +280,9 @@ async function handleAddToList(listId) {
 
     await saveVideoLists(lists);
 
-    const tabIds = youtubeTabs.map((t) => t.id);
-    await chrome.tabs.remove(tabIds);
+    if (tabsToClose.length > 0) {
+        await chrome.tabs.remove(tabsToClose);
+    }
 
     return { success: true, listId: list.id, count: videos.length };
 }
