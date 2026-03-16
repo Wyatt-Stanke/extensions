@@ -38,6 +38,99 @@ async function saveVideoLists(lists) {
     await chrome.storage.local.set({ videoLists: lists });
 }
 
+function getMostRecentList(lists) {
+    if (lists.length === 0) return null;
+    return lists.reduce((a, b) => (a.createdAt >= b.createdAt ? a : b));
+}
+
+function extractVideoIdFromUrl(urlString) {
+    try {
+        const url = new URL(urlString);
+        return url.searchParams.get("v") || null;
+    } catch {
+        return null;
+    }
+}
+
+async function addVideoFromUrl(videoUrl, listId) {
+    const videoId = extractVideoIdFromUrl(videoUrl);
+    if (!videoId) return { success: false };
+
+    const lists = await getVideoLists();
+    const list = listId
+        ? lists.find((l) => l.id === listId)
+        : getMostRecentList(lists);
+    if (!list) return { success: false };
+
+    if (list.videos.some((v) => v.videoId === videoId)) {
+        return { success: true, listId: list.id };
+    }
+
+    list.videos.push({
+        videoId,
+        url: videoUrl,
+        title: videoId,
+        channelName: "",
+        thumbnailUrl: `https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`,
+        currentTime: 0,
+        duration: 0,
+        addedAt: Date.now(),
+    });
+
+    await saveVideoLists(lists);
+    return { success: true, listId: list.id };
+}
+
+async function rebuildContextMenus() {
+    await chrome.contextMenus.removeAll();
+
+    const targetUrlPatterns = ["*://*.youtube.com/watch*"];
+    const lists = await getVideoLists();
+    const sorted = [...lists].sort((a, b) => b.createdAt - a.createdAt);
+    const recent = sorted[0] || null;
+
+    // 1. Simple button: add to most recent list
+    chrome.contextMenus.create({
+        id: "collapse-add-recent",
+        title: recent
+            ? `Collapse to "${recent.name}"`
+            : "Collapse (no lists yet)",
+        contexts: ["link"],
+        targetUrlPatterns,
+        enabled: Boolean(recent),
+    });
+
+    // 2. Submenu: pick a specific list
+    chrome.contextMenus.create({
+        id: "collapse-add-to",
+        title: "Collapse to…",
+        contexts: ["link"],
+        targetUrlPatterns,
+    });
+
+    if (lists.length === 0) {
+        chrome.contextMenus.create({
+            id: "collapse-add-no-lists",
+            parentId: "collapse-add-to",
+            title: "No lists yet \u2014 create one first",
+            contexts: ["link"],
+            targetUrlPatterns,
+            enabled: false,
+        });
+    } else {
+        for (const list of sorted) {
+            const count = list.videos.length;
+            chrome.contextMenus.create({
+                id: `collapse-add-list-${list.id}`,
+                parentId: "collapse-add-to",
+                title: `${list.name} (${count} video${count !== 1 ? "s" : ""})`,
+                contexts: ["link"],
+                targetUrlPatterns,
+            });
+        }
+    }
+}
+
 async function tryGetVideoInfoFromTab(tabId) {
     try {
         const response = await chrome.tabs.sendMessage(tabId, {
@@ -396,5 +489,64 @@ async function handleAddToList(listId) {
 
     return { success: true, listId: list.id, count: videos.length };
 }
+
+// Keyboard shortcut: Ctrl+Alt+C adds current tab to most recent list
+chrome.commands.onCommand.addListener(async (command) => {
+    if (command !== "add-to-recent-list") return;
+
+    const [tab] = await chrome.tabs.query({
+        active: true,
+        currentWindow: true,
+    });
+    if (!tab || !YOUTUBE_VIDEO_PATTERN.test(tab.url)) return;
+
+    const lists = await getVideoLists();
+    const targetList = getMostRecentList(lists);
+    if (!targetList) return;
+
+    const info = await getVideoInfoFromTab(tab.id);
+    if (!info?.videoId) return;
+
+    if (!targetList.videos.some((v) => v.videoId === info.videoId)) {
+        targetList.videos.push({
+            videoId: info.videoId,
+            url: info.url,
+            title: info.title,
+            channelName: info.channelName,
+            thumbnailUrl: info.thumbnailUrl,
+            currentTime: info.currentTime,
+            duration: info.duration,
+            addedAt: Date.now(),
+        });
+        await saveVideoLists(lists);
+    }
+
+    await chrome.tabs.remove(tab.id);
+});
+
+// Context menu click handler
+chrome.contextMenus.onClicked.addListener(async (info) => {
+    const { menuItemId, linkUrl } = info;
+    if (!linkUrl) return;
+
+    if (menuItemId === "collapse-add-recent") {
+        await addVideoFromUrl(linkUrl, null);
+    } else if (
+        typeof menuItemId === "string" &&
+        menuItemId.startsWith("collapse-add-list-")
+    ) {
+        const listId = menuItemId.slice("collapse-add-list-".length);
+        await addVideoFromUrl(linkUrl, listId);
+    }
+});
+
+// Build context menus on install/startup and keep them in sync
+chrome.runtime.onInstalled.addListener(rebuildContextMenus);
+chrome.runtime.onStartup.addListener(rebuildContextMenus);
+chrome.storage.onChanged.addListener((changes) => {
+    if (changes.videoLists) {
+        rebuildContextMenus();
+    }
+});
 
 console.log("[Collapse] Background service worker initialized");

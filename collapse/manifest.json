@@ -5,7 +5,8 @@
     "version": "1.0.0",
     "permissions": [
         "tabs",
-        "storage"
+        "storage",
+        "contextMenus"
     ],
     "host_permissions": [
         "https://www.youtube.com/*"
@@ -47,5 +48,13 @@
         "16": "dist/icons/icon16.png",
         "48": "dist/icons/icon48.png",
         "128": "dist/icons/icon128.png"
+    },
+    "commands": {
+        "add-to-recent-list": {
+            "suggested_key": {
+                "default": "Alt+Shift+C"
+            },
+            "description": "Add current tab to most recent Collapse list and close it"
+        }
     }
 }
