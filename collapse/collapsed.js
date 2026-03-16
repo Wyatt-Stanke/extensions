@@ -166,12 +166,18 @@
             option.className = "merge-option";
             option.textContent = `${list.name} (${list.videos.length} video${list.videos.length !== 1 ? "s" : ""})`;
             option.addEventListener("click", async () => {
-                await chrome.runtime.sendMessage({
+                const result = await chrome.runtime.sendMessage({
                     type: "MERGE_LISTS",
-                    targetId: listId,
-                    sourceId: list.id,
+                    targetId: list.id,
+                    sourceId: listId,
                 });
-                mergeModalEl.style.display = "none";
+
+                if (result?.success) {
+                    window.location.href = `collapsed.html?listId=${encodeURIComponent(list.id)}`;
+                } else {
+                    mergeModalEl.style.display = "none";
+                    alert("Failed to merge lists.");
+                }
             });
             mergeOptionsEl.appendChild(option);
         }

@@ -2,6 +2,21 @@ import { createIcons, SquaresUnite } from "lucide";
 
 const YOUTUBE_VIDEO_PATTERN = /youtube\.com\/watch\?.*v=/;
 
+function getCollapsedListIdFromUrl(urlString) {
+    if (!urlString) return null;
+
+    try {
+        const url = new URL(urlString);
+        if (!url.pathname.endsWith("/collapsed.html")) {
+            return null;
+        }
+
+        return url.searchParams.get("listId") || null;
+    } catch {
+        return null;
+    }
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
     const manifest = chrome.runtime.getManifest();
     document.getElementById("version-display").textContent = manifest.version;
@@ -16,10 +31,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         currentWindow: true,
     });
     const youtubeTabs = tabs.filter((tab) => YOUTUBE_VIDEO_PATTERN.test(tab.url));
-    const selectedCount = youtubeTabs.length;
+    const listTabs = tabs.filter((tab) => Boolean(getCollapsedListIdFromUrl(tab.url)));
+    const selectedCount = youtubeTabs.length + listTabs.length;
 
     tabCountEl.textContent = selectedCount;
-    collapseBtn.textContent = `Collapse ${selectedCount} Tab${selectedCount !== 1 ? "s" : ""}`;
+    collapseBtn.textContent = `Create List from ${selectedCount} Tab${selectedCount !== 1 ? "s" : ""}`;
     collapseBtn.disabled = selectedCount === 0;
 
     collapseBtn.addEventListener("click", async () => {
@@ -35,7 +51,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         } else {
             collapseBtn.textContent = response?.error || "Failed";
             setTimeout(() => {
-                collapseBtn.textContent = `Collapse ${selectedCount} Tab${selectedCount !== 1 ? "s" : ""}`;
+                collapseBtn.textContent = `Create List from ${selectedCount} Tab${selectedCount !== 1 ? "s" : ""}`;
                 collapseBtn.disabled = selectedCount === 0;
             }, 2000);
         }

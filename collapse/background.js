@@ -1,5 +1,34 @@
 const YOUTUBE_VIDEO_PATTERN = /youtube\.com\/watch\?.*v=/;
 
+function getCollapsedListIdFromTabUrl(urlString) {
+    if (!urlString) return null;
+
+    try {
+        const url = new URL(urlString);
+        if (!url.pathname.endsWith("/collapsed.html")) {
+            return null;
+        }
+
+        const listId = url.searchParams.get("listId");
+        return listId || null;
+    } catch {
+        return null;
+    }
+}
+
+function dedupeVideosByNewest(videos) {
+    const byId = new Map();
+
+    for (const video of videos) {
+        const existing = byId.get(video.videoId);
+        if (!existing || (video.addedAt || 0) > (existing.addedAt || 0)) {
+            byId.set(video.videoId, video);
+        }
+    }
+
+    return Array.from(byId.values());
+}
+
 async function getVideoLists() {
     const result = await chrome.storage.local.get("videoLists");
     return result.videoLists || [];
@@ -69,12 +98,31 @@ async function handleCollapseTabs() {
     });
 
     const youtubeTabs = tabs.filter((tab) => YOUTUBE_VIDEO_PATTERN.test(tab.url));
+    const listTabs = tabs
+        .map((tab) => ({
+            tabId: tab.id,
+            listId: getCollapsedListIdFromTabUrl(tab.url),
+        }))
+        .filter((entry) => Boolean(entry.listId));
 
-    if (youtubeTabs.length === 0) {
-        return { success: false, error: "No YouTube video tabs selected" };
+    if (youtubeTabs.length === 0 && listTabs.length === 0) {
+        return {
+            success: false,
+            error: "No YouTube video or collapsed list tabs selected",
+        };
     }
 
+    const lists = await getVideoLists();
+    const selectedListIds = Array.from(new Set(listTabs.map((entry) => entry.listId)));
+
     const videos = [];
+    for (const selectedListId of selectedListIds) {
+        const existingList = lists.find((l) => l.id === selectedListId);
+        if (existingList) {
+            videos.push(...existingList.videos);
+        }
+    }
+
     const tabsToClose = [];
     for (const tab of youtubeTabs) {
         const info = await getVideoInfoFromTab(tab.id);
@@ -93,8 +141,15 @@ async function handleCollapseTabs() {
         }
     }
 
-    if (videos.length === 0) {
-        return { success: false, error: "Could not get info from any tabs" };
+    tabsToClose.push(...listTabs.map((entry) => entry.tabId));
+
+    const uniqueVideos = dedupeVideosByNewest(videos);
+
+    if (uniqueVideos.length === 0) {
+        return {
+            success: false,
+            error: "Could not get videos from selected tabs or lists",
+        };
     }
 
     const now = new Date();
@@ -108,22 +163,23 @@ async function handleCollapseTabs() {
         id: crypto.randomUUID(),
         name: `Collapsed — ${dateStr}`,
         createdAt: Date.now(),
-        videos,
+        videos: uniqueVideos,
     };
 
-    const lists = await getVideoLists();
-    lists.push(list);
-    await saveVideoLists(lists);
+    const updatedLists = lists.filter((l) => !selectedListIds.includes(l.id));
+    updatedLists.push(list);
+    await saveVideoLists(updatedLists);
 
     await chrome.tabs.create({
         url: chrome.runtime.getURL(`collapsed.html?listId=${list.id}`),
     });
 
     if (tabsToClose.length > 0) {
-        await chrome.tabs.remove(tabsToClose);
+        const uniqueTabIds = Array.from(new Set(tabsToClose));
+        await chrome.tabs.remove(uniqueTabIds);
     }
 
-    return { success: true, listId: list.id, count: videos.length };
+    return { success: true, listId: list.id, count: uniqueVideos.length };
 }
 
 async function closeCollapsedTabsForList(listId) {
@@ -221,8 +277,6 @@ async function handleMergeLists(targetId, sourceId) {
     // Remove source list
     const updatedLists = lists.filter((l) => l.id !== sourceId);
     await saveVideoLists(updatedLists);
-
-    await closeCollapsedTabsForList(sourceId);
 
     return { success: true };
 }
