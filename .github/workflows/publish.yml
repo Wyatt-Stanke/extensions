@@ -1,0 +1,50 @@
+name: Publish Extension
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Determine extension from release tag
+        id: meta
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+          EXTENSION="${TAG%-v*}"
+          VERSION="${TAG##*-v}"
+          echo "extension=$EXTENSION" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Read extension ID
+        id: extid
+        run: |
+          EXTENSION_ID=$(jq -r '.extensionId' "${{ steps.meta.outputs.extension }}/info.json")
+          echo "id=$EXTENSION_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Create ZIP
+        run: |
+          cd "${{ steps.meta.outputs.extension }}"
+          zip -r "../${{ steps.meta.outputs.extension }}.zip" . \
+            -x "info.json" \
+            -x "version.txt" \
+            -x "CHANGELOG.md"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Upload and submit for review
+        run: |
+          npx chrome-webstore-upload-cli@3 upload \
+            --source "${{ steps.meta.outputs.extension }}.zip" \
+            --extension-id "${{ steps.extid.outputs.id }}" \
+            --auto-publish
+        env:
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
