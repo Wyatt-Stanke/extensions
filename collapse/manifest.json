@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Collapse",
     "description": "Collapse multiple YouTube tabs into a single persistent list with saved watch progress.",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "permissions": [
         "tabs",
         "storage",
