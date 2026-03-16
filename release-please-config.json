@@ -2,6 +2,7 @@
     "include-component-in-tag": true,
     "include-v-in-tag": true,
     "separate-pull-requests": true,
+    "bootstrap-sha": "20dea56980bf8a44800c391ee35933b14cd9c475",
     "packages": {
         "apclassroom": {
             "release-type": "simple",
