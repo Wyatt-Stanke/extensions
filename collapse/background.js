@@ -310,7 +310,7 @@ async function handleCollapseTabs() {
 
     const list = {
         id: crypto.randomUUID(),
-        name: `Collapsed — ${dateStr}`,
+        name: dateStr,
         createdAt: Date.now(),
         videos: uniqueVideos,
     };
