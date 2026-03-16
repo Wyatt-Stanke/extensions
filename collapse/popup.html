@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Collapse</h1>
+
+      <div id="collapse-section" class="card">
+        <p class="tab-count">
+          <span id="tab-count">0</span> YouTube tab(s) selected
+        </p>
+        <button id="collapse-btn" class="btn-primary" disabled>
+          Collapse Tabs
+        </button>
+      </div>
+
+      <div id="lists-section" class="card" style="display: none">
+        <h2>Saved Lists</h2>
+        <div id="lists-container"></div>
+      </div>
+
+      <div class="footer">
+        <p>v<span id="version-display"></span></p>
+      </div>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>

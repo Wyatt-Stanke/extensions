@@ -30,7 +30,7 @@ jobs:
       - name: Read extension ID
         id: extid
         run: |
-          EXTENSION_ID=$(jq -r '.extensionId' "${{ steps.meta.outputs.extension }}/info.json")
+          EXTENSION_ID=$(jq -r '.extensionId // ""' "${{ steps.meta.outputs.extension }}/info.json")
           echo "id=$EXTENSION_ID" >> "$GITHUB_OUTPUT"
 
       - name: Setup Node.js
@@ -61,6 +61,7 @@ jobs:
             "${{ steps.meta.outputs.extension }}.zip"
 
       - name: Upload and submit for review
+        if: ${{ steps.extid.outputs.id != '' }}
         run: |
           npx chrome-webstore-upload-cli upload \
             --source "${{ steps.meta.outputs.extension }}.zip" \

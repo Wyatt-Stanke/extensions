@@ -1,0 +1,116 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 300px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+  background: #f5f5f5;
+}
+
+.container {
+  padding: 16px;
+}
+
+h1 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #1a73e8;
+}
+
+h2 {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.card {
+  background: white;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #e0e0e0;
+}
+
+.tab-count {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.tab-count span {
+  font-weight: 700;
+  color: #1a73e8;
+}
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #1557b0;
+}
+
+.btn-primary:disabled {
+  background: #ccc;
+  cursor: default;
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.list-item:last-child {
+  border-bottom: none;
+}
+
+.list-item:hover {
+  background: #f8f9fa;
+}
+
+.list-item-name {
+  font-size: 13px;
+  color: #333;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.list-item-count {
+  font-size: 12px;
+  color: #888;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+.footer {
+  text-align: center;
+}
+
+.footer p {
+  font-size: 11px;
+  color: #999;
+}
