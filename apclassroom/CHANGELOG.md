@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.6](https://github.com/Wyatt-Stanke/extensions/compare/apclassroom-v1.0.5...apclassroom-v1.0.6) (2026-03-16)
+
+
+### Bug Fixes
+
+* add version prefix ([a36e7bf](https://github.com/Wyatt-Stanke/extensions/commit/a36e7bfc145db918e2b67790ac6d0017736263fa))
+
 ## [1.0.5](https://github.com/Wyatt-Stanke/extensions/compare/apclassroom-v1.0.4...apclassroom-v1.0.5) (2026-03-16)
 
 
