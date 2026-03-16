@@ -38,7 +38,7 @@ async function saveVideoLists(lists) {
     await chrome.storage.local.set({ videoLists: lists });
 }
 
-async function getVideoInfoFromTab(tabId) {
+async function tryGetVideoInfoFromTab(tabId) {
     try {
         const response = await chrome.tabs.sendMessage(tabId, {
             type: "GET_VIDEO_INFO",
@@ -47,6 +47,62 @@ async function getVideoInfoFromTab(tabId) {
     } catch {
         return null;
     }
+}
+
+async function waitForTabLoadComplete(tabId, timeoutMs = 10000) {
+    return await new Promise((resolve) => {
+        let resolved = false;
+
+        const cleanup = () => {
+            if (resolved) return;
+            resolved = true;
+            chrome.tabs.onUpdated.removeListener(onUpdated);
+            clearTimeout(timeout);
+        };
+
+        const onUpdated = (updatedTabId, changeInfo) => {
+            if (updatedTabId === tabId && changeInfo.status === "complete") {
+                cleanup();
+                resolve(true);
+            }
+        };
+
+        const timeout = setTimeout(() => {
+            cleanup();
+            resolve(false);
+        }, timeoutMs);
+
+        chrome.tabs.onUpdated.addListener(onUpdated);
+
+        chrome.tabs
+            .get(tabId)
+            .then((tab) => {
+                if (tab?.status === "complete") {
+                    cleanup();
+                    resolve(true);
+                }
+            })
+            .catch(() => {
+                cleanup();
+                resolve(false);
+            });
+    });
+}
+
+async function getVideoInfoFromTab(tabId) {
+    const firstAttempt = await tryGetVideoInfoFromTab(tabId);
+    if (firstAttempt?.videoId) {
+        return firstAttempt;
+    }
+
+    try {
+        await chrome.tabs.reload(tabId);
+        await waitForTabLoadComplete(tabId);
+    } catch {
+        return firstAttempt;
+    }
+
+    return await tryGetVideoInfoFromTab(tabId);
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
