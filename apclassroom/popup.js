@@ -1,15 +1,7 @@
-function displayExtensionVersion() {
-  const manifest = chrome.runtime.getManifest();
-  const version = manifest.version;
-
-  const versionDisplayElement = document.getElementById('version-display');
-  if (versionDisplayElement) {
-    versionDisplayElement.textContent = version;
-  }
-}
+import { displayVersion } from "../shared/popup-version.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
-  displayExtensionVersion();
+  displayVersion();
   const scriptStatusEl = document.getElementById("script-status");
   const videoIdEl = document.getElementById("video-id");
   const modeEl = document.getElementById("mode");

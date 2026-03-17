@@ -1,4 +1,5 @@
 import { createIcons, SquaresUnite } from "lucide";
+import { displayVersion } from "../shared/popup-version.js";
 
 const YOUTUBE_VIDEO_PATTERN = /youtube\.com\/watch\?.*v=/;
 
@@ -18,8 +19,7 @@ function getCollapsedListIdFromUrl(urlString) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const manifest = chrome.runtime.getManifest();
-    document.getElementById("version-display").textContent = manifest.version;
+    displayVersion();
 
     const tabCountEl = document.getElementById("tab-count");
     const collapseBtn = document.getElementById("collapse-btn");

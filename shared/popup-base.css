@@ -1,0 +1,32 @@
+@import "./reset.css";
+
+body {
+    width: 300px;
+}
+
+.container {
+    padding: 16px;
+}
+
+h1 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--accent-color, #1a73e8);
+}
+
+h2 {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.footer {
+    text-align: center;
+}
+
+.footer p {
+    font-size: 11px;
+    color: #999;
+}

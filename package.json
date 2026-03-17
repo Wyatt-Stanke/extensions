@@ -2,14 +2,13 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "npm run build:icons && npm run build:popup",
-        "build:icons": "node scripts/generate-icons.mjs",
-        "build:popup": "rolldown -c rolldown.config.mjs"
+        "build": "npm run build:icons && node scripts/build.mjs",
+        "build:icons": "node scripts/generate-icons.mjs"
     },
     "devDependencies": {
         "chrome-webstore-upload-cli": "^3.0.0",
+        "esbuild": "^0.25.0",
         "lucide": "^0.577.0",
-        "rolldown": "^1.0.0-beta.39",
         "sharp": "^0.34.0"
     }
 }
