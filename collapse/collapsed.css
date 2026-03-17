@@ -146,6 +146,17 @@ h1:focus {
   margin-bottom: 8px;
 }
 
+.playlist-badge {
+  display: inline-block;
+  font-size: 10px;
+  color: #1a73e8;
+  background: #e8f0fe;
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
 .progress-container {
   display: flex;
   align-items: center;

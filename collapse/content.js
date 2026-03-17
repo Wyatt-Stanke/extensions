@@ -21,6 +21,8 @@
 
         const url = new URL(window.location.href);
         const videoId = url.searchParams.get("v") || "";
+        const playlistId = url.searchParams.get("list") || null;
+        const playlistIndex = url.searchParams.get("index") || null;
 
         window.postMessage(
             {
@@ -35,6 +37,8 @@
                         : "",
                     currentTime,
                     duration,
+                    playlistId,
+                    playlistIndex,
                 },
             },
             "*",

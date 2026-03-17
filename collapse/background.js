@@ -66,6 +66,14 @@ async function addVideoFromUrl(videoUrl, listId) {
         return { success: true, listId: list.id };
     }
 
+    let playlistId = null;
+    let playlistIndex = null;
+    try {
+        const parsedUrl = new URL(videoUrl);
+        playlistId = parsedUrl.searchParams.get("list") || null;
+        playlistIndex = parsedUrl.searchParams.get("index") || null;
+    } catch { }
+
     list.videos.push({
         videoId,
         url: videoUrl,
@@ -74,6 +82,8 @@ async function addVideoFromUrl(videoUrl, listId) {
         thumbnailUrl: `https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`,
         currentTime: 0,
         duration: 0,
+        playlistId,
+        playlistIndex,
         addedAt: Date.now(),
     });
 
@@ -281,6 +291,8 @@ async function handleCollapseTabs() {
                 thumbnailUrl: info.thumbnailUrl,
                 currentTime: info.currentTime,
                 duration: info.duration,
+                playlistId: info.playlistId || null,
+                playlistIndex: info.playlistIndex || null,
                 addedAt: Date.now(),
             });
             tabsToClose.push(tab.id);
@@ -358,7 +370,13 @@ async function handleOpenVideo(listId, videoId) {
     if (!video) return { success: false };
 
     const timestamp = Math.floor(video.currentTime);
-    const url = `https://www.youtube.com/watch?v=${encodeURIComponent(video.videoId)}${timestamp > 0 ? `&t=${timestamp}s` : ""}`;
+    let url = `https://www.youtube.com/watch?v=${encodeURIComponent(video.videoId)}${timestamp > 0 ? `&t=${timestamp}s` : ""}`;
+    if (video.playlistId) {
+        url += `&list=${encodeURIComponent(video.playlistId)}`;
+        if (video.playlistIndex) {
+            url += `&index=${encodeURIComponent(video.playlistIndex)}`;
+        }
+    }
 
     list.videos = list.videos.filter((v) => v.videoId !== videoId);
     await saveVideoLists(lists);
@@ -456,6 +474,8 @@ async function handleAddToList(listId) {
                 thumbnailUrl: info.thumbnailUrl,
                 currentTime: info.currentTime,
                 duration: info.duration,
+                playlistId: info.playlistId || null,
+                playlistIndex: info.playlistIndex || null,
                 addedAt: Date.now(),
             });
             tabsToClose.push(tab.id);
@@ -525,6 +545,8 @@ chrome.commands.onCommand.addListener(async (command) => {
             thumbnailUrl: info.thumbnailUrl,
             currentTime: info.currentTime,
             duration: info.duration,
+            playlistId: info.playlistId || null,
+            playlistIndex: info.playlistIndex || null,
             addedAt: Date.now(),
         });
         await saveVideoLists(lists);

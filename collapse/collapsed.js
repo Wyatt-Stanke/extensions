@@ -57,7 +57,7 @@
         <img class="video-thumbnail" src="${escapeAttr(video.thumbnailUrl)}" alt="" />
         <div class="video-info">
           <div class="video-title">${escapeHtml(video.title)}</div>
-          <div class="video-channel">${escapeHtml(video.channelName)}</div>
+          <div class="video-channel">${escapeHtml(video.channelName)}${video.playlistId ? ' <span class="playlist-badge" title="In playlist">&#9776; Playlist</span>' : ''}</div>
           <div class="progress-container">
             <div class="progress-bar">
               <div class="progress-fill" style="width: ${progress}%"></div>
