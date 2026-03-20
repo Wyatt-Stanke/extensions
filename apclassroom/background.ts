@@ -28,7 +28,7 @@ onMessage(ApMessageType.STATE_UPDATE, (message, sender) => {
 });
 
 // Clear badge when tab is updated
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, _tab) => {
 	if (changeInfo.status === "loading") {
 		chrome.action.setBadgeText({ text: "", tabId });
 	}

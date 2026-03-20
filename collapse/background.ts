@@ -2,8 +2,8 @@ import {
 	CollapseMessageType,
 	onMessage,
 	sendTabMessage,
-	VideoInfo,
-	VideoList,
+	type VideoInfo,
+	type VideoList,
 } from "./messaging";
 
 const YOUTUBE_VIDEO_PATTERN = /youtube\.com\/watch\?.*v=/;
@@ -173,7 +173,10 @@ async function waitForTabLoadComplete(
 			clearTimeout(timeoutId);
 		};
 
-		const onUpdated = (updatedTabId: number, changeInfo: any) => {
+		const onUpdated = (
+			updatedTabId: number,
+			changeInfo: { status?: string },
+		) => {
 			if (updatedTabId === tabId && changeInfo.status === "complete") {
 				cleanup();
 				resolve(true);
@@ -260,7 +263,7 @@ async function extractVideosFromTabs(youtubeTabs: chrome.tabs.Tab[]) {
 		),
 	);
 	for (const { tab, info } of infoResults) {
-		if (info && info.videoId) {
+		if (info?.videoId) {
 			videos.push({
 				videoId: info.videoId,
 				url: info.url,
@@ -508,7 +511,7 @@ chrome.commands.onCommand.addListener(async (command) => {
 
 	const lists = await getVideoLists();
 
-	let targetListId;
+	let targetListId: string | undefined;
 
 	if (command === "add-to-specific-list") {
 		try {

@@ -1,4 +1,9 @@
-import { ApMessageType, ApState, onMessage, sendMessage } from "./messaging";
+import {
+	ApMessageType,
+	type ApState,
+	onMessage,
+	sendMessage,
+} from "./messaging";
 
 let currentState: ApState = {
 	initialized: false,
@@ -22,7 +27,7 @@ window.addEventListener("message", (event) => {
 });
 
 // Listen for state requests from popup
-onMessage(ApMessageType.GET_STATE, (message) => {
+onMessage(ApMessageType.GET_STATE, (_message) => {
 	// Request fresh state from content script
 	window.postMessage({ type: ApMessageType.AP_TOOLS_GET_STATE }, "*");
 

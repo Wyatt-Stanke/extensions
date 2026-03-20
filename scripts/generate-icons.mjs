@@ -1,8 +1,7 @@
+import { mkdirSync, readdirSync, readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import sharp from "sharp";
-import { readFileSync, mkdirSync } from "fs";
-import { join, dirname } from "path";
-import { fileURLToPath } from "url";
-import { readdirSync } from "fs";
 
 const rootDir = join(dirname(fileURLToPath(import.meta.url)), "..");
 const sizes = [16, 32, 48, 128];

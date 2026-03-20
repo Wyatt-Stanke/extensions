@@ -1,6 +1,6 @@
-import { CollapseMessageType, sendMessage, VideoList } from "./messaging";
-import { getById } from "../shared/typed-getters";
 import { html } from "../shared/html";
+import { getById } from "../shared/typed-getters";
+import { CollapseMessageType, sendMessage, type VideoList } from "./messaging";
 
 const params = new URLSearchParams(window.location.search);
 const listId = params.get("listId");

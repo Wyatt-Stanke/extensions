@@ -38,11 +38,9 @@ export type VideoList = {
 export type CollapseProtocol = {
 	[CollapseMessageType.COLLAPSE_GET_VIDEO_INFO]: {
 		request: { type: CollapseMessageType.COLLAPSE_GET_VIDEO_INFO };
-		response: void;
 	};
 	[CollapseMessageType.COLLAPSE_VIDEO_INFO]: {
 		request: { type: CollapseMessageType.COLLAPSE_VIDEO_INFO; data: VideoInfo };
-		response: void;
 	};
 	[CollapseMessageType.GET_VIDEO_INFO]: {
 		request: { type: CollapseMessageType.GET_VIDEO_INFO };
@@ -66,7 +64,6 @@ export type CollapseProtocol = {
 			listId: string;
 			videoId: string;
 		};
-		response: void;
 	};
 	[CollapseMessageType.DELETE_VIDEO]: {
 		request: {
@@ -74,11 +71,9 @@ export type CollapseProtocol = {
 			listId: string;
 			videoId: string;
 		};
-		response: void;
 	};
 	[CollapseMessageType.DELETE_LIST]: {
 		request: { type: CollapseMessageType.DELETE_LIST; listId: string };
-		response: void;
 	};
 	[CollapseMessageType.RENAME_LIST]: {
 		request: {
@@ -86,7 +81,6 @@ export type CollapseProtocol = {
 			listId: string;
 			name: string;
 		};
-		response: void;
 	};
 	[CollapseMessageType.MERGE_LISTS]: {
 		request: {

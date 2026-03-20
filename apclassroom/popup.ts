@@ -1,15 +1,25 @@
 import { displayVersion } from "../shared/popup-version.js";
 import { ApMessageType, sendTabMessage } from "./messaging";
 
-document.addEventListener("DOMContentLoaded", async function () {
+document.addEventListener("DOMContentLoaded", async () => {
 	displayVersion();
-	const scriptStatusEl = document.getElementById("script-status")!;
-	const videoIdEl = document.getElementById("video-id")!;
-	const modeEl = document.getElementById("mode")!;
-	const statusContainer = document.getElementById("status-container")!;
-	const notOnPageEl = document.getElementById("not-on-page")!;
+	const scriptStatusEl = document.getElementById("script-status");
+	const videoIdEl = document.getElementById("video-id");
+	const modeEl = document.getElementById("mode");
+	const statusContainer = document.getElementById("status-container");
+	const notOnPageEl = document.getElementById("not-on-page");
 
 	async function updateStatus() {
+		if (
+			!scriptStatusEl ||
+			!videoIdEl ||
+			!modeEl ||
+			!statusContainer ||
+			!notOnPageEl
+		) {
+			return;
+		}
+
 		try {
 			// Get the active tab
 			const [tab] = await chrome.tabs.query({
@@ -28,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 			notOnPageEl.style.display = "none";
 
 			// Try to get state from content script
-			const response = await sendTabMessage(tab.id, {
+			const response = await sendTabMessage<ApMessageType.GET_STATE>(tab.id, {
 				type: ApMessageType.GET_STATE,
 			});
 

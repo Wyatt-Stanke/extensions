@@ -2,7 +2,7 @@ import { CollapseMessageType, onMessage } from "./messaging";
 import { showPalette } from "./palette";
 
 // Bridge between MAIN world content script (postMessage) and background (chrome.runtime)
-onMessage(CollapseMessageType.GET_VIDEO_INFO, async (message, sender) => {
+onMessage(CollapseMessageType.GET_VIDEO_INFO, async (_message, _sender) => {
 	return new Promise((resolve) => {
 		window.postMessage(
 			{ type: CollapseMessageType.COLLAPSE_GET_VIDEO_INFO },

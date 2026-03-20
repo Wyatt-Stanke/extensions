@@ -1,11 +1,11 @@
 import { ApMessageType } from "./messaging";
 
-let state = {
+const state = {
 	videoId: null as string | null,
 	duration: null as number | null,
 	blocking: [] as string[],
 	capturedHeaders: {} as Record<string, string>,
-	capturedBody: null as any,
+	capturedBody: null as unknown,
 	initialized: true,
 };
 
@@ -42,17 +42,16 @@ interface CustomXMLHttpRequest extends XMLHttpRequest {
 	_headers?: Record<string, string>;
 }
 
-// @ts-ignore
 XMLHttpRequest.prototype.open = function (
 	this: CustomXMLHttpRequest,
 	method: string,
 	url: string | URL,
-	...rest: any[]
+	...rest: unknown[]
 ) {
 	this._url = url.toString();
 	this._method = method;
 	this._headers = {};
-	// @ts-ignore
+	// @ts-expect-error
 	return originalOpen.call(this, method, url, ...rest);
 };
 
@@ -71,11 +70,7 @@ XMLHttpRequest.prototype.send = function (
 	this: CustomXMLHttpRequest,
 	body?: Document | XMLHttpRequestBodyInit | null,
 ) {
-	if (
-		this._url &&
-		this._url.includes("/videos/") &&
-		this._url.includes("/progress")
-	) {
+	if (this._url?.includes("/videos/") && this._url.includes("/progress")) {
 		const match = this._url.match(/\/videos\/(\d+)\/progress/);
 
 		if (match && state.blocking.includes(match[1])) {
@@ -94,7 +89,7 @@ XMLHttpRequest.prototype.send = function (
 			state.capturedHeaders = { ...this._headers };
 			try {
 				state.capturedBody = typeof body === "string" ? JSON.parse(body) : body;
-			} catch (e) {
+			} catch (_e) {
 				state.capturedBody = body;
 			}
 			console.log("[AP Tools] Captured headers:", state.capturedHeaders);
@@ -174,7 +169,7 @@ function updateButton() {
 function getVideoDuration() {
 	// Check main document first
 	const video = document.querySelector("video");
-	if (video && video.duration && !isNaN(video.duration)) {
+	if (video?.duration && !Number.isNaN(video.duration)) {
 		return Math.ceil(video.duration);
 	}
 
@@ -186,19 +181,15 @@ function getVideoDuration() {
 				const iframeVideo = (
 					iframe as HTMLIFrameElement
 				).contentDocument?.querySelector("video");
-				if (
-					iframeVideo &&
-					iframeVideo.duration &&
-					!isNaN(iframeVideo.duration)
-				) {
+				if (iframeVideo?.duration && !Number.isNaN(iframeVideo.duration)) {
 					return Math.ceil(iframeVideo.duration);
 				}
-			} catch (e) {
+			} catch (_e) {
 				// Cross-origin iframe, skip
 			}
 		}
-	} catch (e) {
-		console.log("[AP Tools] Error searching iframes for video:", e);
+	} catch (_e) {
+		console.log("[AP Tools] Error searching iframes for video:", _e);
 	}
 
 	// Check shadow DOMs (wistia-player is a custom element)
@@ -206,7 +197,7 @@ function getVideoDuration() {
 		const wistiaPlayers = document.querySelectorAll("wistia-player");
 		for (const player of wistiaPlayers) {
 			const shadowVideo = player.shadowRoot?.querySelector("video");
-			if (shadowVideo && shadowVideo.duration && !isNaN(shadowVideo.duration)) {
+			if (shadowVideo?.duration && !Number.isNaN(shadowVideo.duration)) {
 				return Math.ceil(shadowVideo.duration);
 			}
 		}
@@ -319,9 +310,9 @@ async function handleClick() {
 			alert(`Failed: ${response.status}`);
 			updateButton();
 		}
-	} catch (e: any) {
+	} catch (e: unknown) {
 		console.error("[AP Tools] Error:", e);
-		alert("Error: " + e.message);
+		alert(`Error: ${(e as Error).message}`);
 		updateButton();
 	}
 }

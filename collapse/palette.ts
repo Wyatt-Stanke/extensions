@@ -1,6 +1,6 @@
+import type { VideoList } from "./messaging";
 import paletteCss from "./palette.css";
 import paletteHtml from "./palette.html";
-import { VideoList } from "./messaging";
 
 export async function showPalette(
 	lists: VideoList[],
@@ -114,7 +114,7 @@ export async function showPalette(
 				}
 			} else if (e.key >= "1" && e.key <= "5" && searchInput.value === "") {
 				e.preventDefault();
-				const index = parseInt(e.key) - 1;
+				const index = Number.parseInt(e.key, 10) - 1;
 				if (index < filteredLists.length) {
 					resolve({ success: true, listId: filteredLists[index].id });
 					dialog.close();

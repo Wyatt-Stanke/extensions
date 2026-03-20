@@ -14,13 +14,13 @@ dialog {
 }
 @media (prefers-color-scheme: dark) {
 	dialog {
-		background: #282828 !important;
-		color: #fff !important;
-		border-color: #404040 !important;
+		background: #282828;
+		color: #fff;
+		border-color: #404040;
 	}
 	.list-item:hover,
 	.list-item.selected {
-		background: #3f3f3f !important;
+		background: #3f3f3f;
 	}
 	input {
 		background: #181818;

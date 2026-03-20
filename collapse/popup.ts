@@ -1,8 +1,8 @@
 import { createIcons, SquaresUnite } from "lucide";
+import { html } from "../shared/html";
 import { displayVersion } from "../shared/popup-version.js";
 import { getById } from "../shared/typed-getters";
-import { CollapseMessageType, sendMessage, VideoList } from "./messaging";
-import { html } from "../shared/html";
+import { CollapseMessageType, sendMessage, type VideoList } from "./messaging";
 
 const YOUTUBE_VIDEO_PATTERN = /youtube\.com\/watch\?.*v=/;
 

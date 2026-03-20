@@ -16,15 +16,12 @@ export type ApState = {
 export type ApProtocol = {
 	[ApMessageType.AP_TOOLS_GET_STATE]: {
 		request: { type: ApMessageType.AP_TOOLS_GET_STATE };
-		response: void;
 	};
 	[ApMessageType.AP_TOOLS_STATE]: {
 		request: { type: ApMessageType.AP_TOOLS_STATE; state: ApState };
-		response: void;
 	};
 	[ApMessageType.STATE_UPDATE]: {
 		request: { type: ApMessageType.STATE_UPDATE; state: ApState };
-		response: void;
 	};
 	[ApMessageType.GET_STATE]: {
 		request: { type: ApMessageType.GET_STATE };
