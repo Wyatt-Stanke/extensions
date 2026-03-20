@@ -1,10 +1,7 @@
 import { ApMessageType } from "./messaging";
 
-(function () {
-  "use strict";
-
-  let state = {
-    videoId: null as string | null,
+let state = {
+  videoId: null as string | null,
     duration: null as number | null,
     blocking: [] as string[],
     capturedHeaders: {} as Record<string, string>,
@@ -347,4 +344,3 @@ import { ApMessageType } from "./messaging";
 
   init();
   console.log("[AP Tools] Content script initialized");
-})();

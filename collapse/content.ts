@@ -1,10 +1,7 @@
 import { CollapseMessageType } from "./messaging";
 
-(function () {
-    "use strict";
-
-    // Listens for requests from the bridge script to gather video info from the page DOM
-    window.addEventListener("message", (event) => {
+// Listens for requests from the bridge script to gather video info from the page DOM
+window.addEventListener("message", (event) => {
         if (event.data?.type !== CollapseMessageType.COLLAPSE_GET_VIDEO_INFO) return;
 
         const video = document.querySelector("video");
@@ -48,4 +45,3 @@ import { CollapseMessageType } from "./messaging";
     });
 
     console.log("[Collapse] Content script initialized");
-})();

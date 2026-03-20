@@ -1,16 +1,13 @@
 import { CollapseMessageType, sendMessage, VideoList } from "./messaging";
 import { getById } from "../shared/typed-getters";
 
-(function () {
-    "use strict";
-
-    const params = new URLSearchParams(window.location.search);
+const params = new URLSearchParams(window.location.search);
     const listId = params.get("listId");
 
     if (!listId) {
         document.body.innerHTML =
                 '<div class="empty-state"><p>No list ID specified.</p></div>';
-        return;
+        throw new Error("No list ID specified.");
     }
 
     const listNameEl = getById<HTMLElement>("list-name");
@@ -215,4 +212,3 @@ import { getById } from "../shared/typed-getters";
 
     // Initial load
     loadAndRender();
-})();

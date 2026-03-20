@@ -3,6 +3,7 @@ import esbuild from "esbuild";
 const shared = {
     bundle: true,
     platform: "browser",
+    format: "iife",
     treeShaking: true,
     logLevel: "info",
 };
