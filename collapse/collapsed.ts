@@ -1,12 +1,12 @@
 import { CollapseMessageType, sendMessage, VideoList } from "./messaging";
 import { getById } from "../shared/typed-getters";
+import { html } from "../shared/html";
 
 const params = new URLSearchParams(window.location.search);
 const listId = params.get("listId");
 
 if (!listId) {
-	document.body.innerHTML =
-		'<div class="empty-state"><p>No list ID specified.</p></div>';
+	document.body.innerHTML = html`<div class="empty-state"><p>No list ID specified.</p></div>`;
 	throw new Error("No list ID specified.");
 }
 
@@ -54,7 +54,7 @@ function renderVideos(list: VideoList) {
 		const progress =
 			video.duration > 0 ? (video.currentTime / video.duration) * 100 : 0;
 
-		row.innerHTML = `
+		row.innerHTML = html`
         <img class="video-thumbnail" src="${escapeAttr(video.thumbnailUrl)}" alt="" />
         <div class="video-info">
           <div class="video-title">${escapeHtml(video.title)}</div>
@@ -121,8 +121,7 @@ async function loadAndRender() {
 	const list = lists.find((l) => l.id === listId);
 
 	if (!list) {
-		document.body.innerHTML =
-			'<div class="empty-state"><p>List not found.</p></div>';
+		document.body.innerHTML = html`<div class="empty-state"><p>List not found.</p></div>`;
 		return;
 	}
 

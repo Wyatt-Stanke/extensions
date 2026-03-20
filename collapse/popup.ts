@@ -2,6 +2,7 @@ import { createIcons, SquaresUnite } from "lucide";
 import { displayVersion } from "../shared/popup-version.js";
 import { getById } from "../shared/typed-getters";
 import { CollapseMessageType, sendMessage, VideoList } from "./messaging";
+import { html } from "../shared/html";
 
 const YOUTUBE_VIDEO_PATTERN = /youtube\.com\/watch\?.*v=/;
 
@@ -97,7 +98,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 				const addBtn = document.createElement("button");
 				addBtn.className = "btn-add-to-list";
 				addBtn.title = "Add selected tabs to this list";
-				addBtn.innerHTML = '<i data-lucide="squares-unite"></i>';
+				addBtn.innerHTML = html`<i data-lucide="squares-unite"></i>`;
 				addBtn.addEventListener("click", async (event) => {
 					event.stopPropagation();
 					addBtn.disabled = true;
