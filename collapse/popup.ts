@@ -1,5 +1,6 @@
 import { createIcons, SquaresUnite } from "lucide";
 import { displayVersion } from "../shared/popup-version.js";
+import { getById } from "../shared/typed-getters";
 import { CollapseMessageType, sendMessage, VideoList } from "./messaging";
 
 const YOUTUBE_VIDEO_PATTERN = /youtube\.com\/watch\?.*v=/;
@@ -22,10 +23,10 @@ function getCollapsedListIdFromUrl(urlString: string) {
 document.addEventListener("DOMContentLoaded", async () => {
     displayVersion();
 
-    const tabCountEl = document.getElementById("tab-count") as HTMLElement;
-    const collapseBtn = document.getElementById("collapse-btn") as HTMLButtonElement;
-    const listsSection = document.getElementById("lists-section") as HTMLElement;
-    const listsContainer = document.getElementById("lists-container") as HTMLElement;
+    const tabCountEl = getById<HTMLElement>("tab-count");
+    const collapseBtn = getById<HTMLButtonElement>("collapse-btn");
+    const listsSection = getById<HTMLElement>("lists-section");
+    const listsContainer = getById<HTMLElement>("lists-container");
 
     const tabs = await chrome.tabs.query({
         highlighted: true,

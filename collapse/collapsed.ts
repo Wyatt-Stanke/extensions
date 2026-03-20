@@ -1,4 +1,5 @@
 import { CollapseMessageType, sendMessage, VideoList } from "./messaging";
+import { getById } from "../shared/typed-getters";
 
 (function () {
     "use strict";
@@ -12,15 +13,15 @@ import { CollapseMessageType, sendMessage, VideoList } from "./messaging";
         return;
     }
 
-    const listNameEl = document.getElementById("list-name") as HTMLElement;
-    const videoCountEl = document.getElementById("video-count") as HTMLElement;
-    const videosEl = document.getElementById("videos") as HTMLElement;
-    const emptyStateEl = document.getElementById("empty-state") as HTMLElement;
-    const mergeBtnEl = document.getElementById("merge-btn") as HTMLButtonElement;
-    const deleteListBtnEl = document.getElementById("delete-list-btn") as HTMLButtonElement;
-    const mergeModalEl = document.getElementById("merge-modal") as HTMLElement;
-    const mergeOptionsEl = document.getElementById("merge-list-options") as HTMLElement;
-    const mergeCancelEl = document.getElementById("merge-cancel") as HTMLButtonElement;
+    const listNameEl = getById<HTMLElement>("list-name");
+    const videoCountEl = getById<HTMLElement>("video-count");
+    const videosEl = getById<HTMLElement>("videos");
+    const emptyStateEl = getById<HTMLElement>("empty-state");
+    const mergeBtnEl = getById<HTMLButtonElement>("merge-btn");
+    const deleteListBtnEl = getById<HTMLButtonElement>("delete-list-btn");
+    const mergeModalEl = getById<HTMLElement>("merge-modal");
+    const mergeOptionsEl = getById<HTMLElement>("merge-list-options");
+    const mergeCancelEl = getById<HTMLButtonElement>("merge-cancel");
 
     function formatTime(seconds: number) {
         const s = Math.floor(seconds);
