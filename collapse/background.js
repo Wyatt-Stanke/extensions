@@ -280,8 +280,8 @@ async function handleCollapseTabs() {
     }
 
     const tabsToClose = [];
-    for (const tab of youtubeTabs) {
-        const info = await getVideoInfoFromTab(tab.id);
+    const infoResults = await Promise.all(youtubeTabs.map(tab => getVideoInfoFromTab(tab.id).then(info => ({ tab, info }))));
+    for (const { tab, info } of infoResults) {
         if (info && info.videoId) {
             videos.push({
                 videoId: info.videoId,
@@ -463,8 +463,8 @@ async function handleAddToList(listId) {
 
     const videos = [];
     const tabsToClose = [];
-    for (const tab of youtubeTabs) {
-        const info = await getVideoInfoFromTab(tab.id);
+    const infoResults = await Promise.all(youtubeTabs.map(tab => getVideoInfoFromTab(tab.id).then(info => ({ tab, info }))));
+    for (const { tab, info } of infoResults) {
         if (info && info.videoId) {
             videos.push({
                 videoId: info.videoId,
