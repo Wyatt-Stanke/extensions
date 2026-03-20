@@ -4,10 +4,11 @@
     "scripts": {
         "build": "npm run build:icons && node scripts/build.mjs",
         "build:icons": "node scripts/generate-icons.mjs",
-        "format": "biome format apclassroom/ collapse/ scripts/ shared/ --fix"
+        "format": "biome format . --fix",
+        "lint": "biome lint ."
     },
     "devDependencies": {
-        "@biomejs/biome": "2.4.8",
+        "@biomejs/biome": "^2.4.8",
         "chrome-types": "^0.1.425",
         "chrome-webstore-upload-cli": "^3.0.0",
         "esbuild": "^0.27.0",
