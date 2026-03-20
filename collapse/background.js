@@ -247,6 +247,30 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 });
 
+async function extractVideosFromTabs(youtubeTabs) {
+    const videos = [];
+    const tabIds = [];
+    const infoResults = await Promise.all(youtubeTabs.map(tab => getVideoInfoFromTab(tab.id).then(info => ({ tab, info }))));
+    for (const { tab, info } of infoResults) {
+        if (info && info.videoId) {
+            videos.push({
+                videoId: info.videoId,
+                url: info.url,
+                title: info.title,
+                channelName: info.channelName,
+                thumbnailUrl: info.thumbnailUrl,
+                currentTime: info.currentTime,
+                duration: info.duration,
+                playlistId: info.playlistId || null,
+                playlistIndex: info.playlistIndex || null,
+                addedAt: Date.now(),
+            });
+            tabIds.push(tab.id);
+        }
+    }
+    return { extractedVideos: videos, extractedTabIds: tabIds };
+}
+
 async function handleCollapseTabs() {
     const tabs = await chrome.tabs.query({
         highlighted: true,
@@ -280,24 +304,9 @@ async function handleCollapseTabs() {
     }
 
     const tabsToClose = [];
-    const infoResults = await Promise.all(youtubeTabs.map(tab => getVideoInfoFromTab(tab.id).then(info => ({ tab, info }))));
-    for (const { tab, info } of infoResults) {
-        if (info && info.videoId) {
-            videos.push({
-                videoId: info.videoId,
-                url: info.url,
-                title: info.title,
-                channelName: info.channelName,
-                thumbnailUrl: info.thumbnailUrl,
-                currentTime: info.currentTime,
-                duration: info.duration,
-                playlistId: info.playlistId || null,
-                playlistIndex: info.playlistIndex || null,
-                addedAt: Date.now(),
-            });
-            tabsToClose.push(tab.id);
-        }
-    }
+    const { extractedVideos, extractedTabIds } = await extractVideosFromTabs(youtubeTabs);
+    videos.push(...extractedVideos);
+    tabsToClose.push(...extractedTabIds);
 
     tabsToClose.push(...listTabs.map((entry) => entry.tabId));
 
@@ -425,18 +434,7 @@ async function handleMergeLists(targetId, sourceId) {
     if (!target || !source) return { success: false };
 
     // Merge videos, dedup by videoId keeping the one with later addedAt
-    const existingIds = new Map(target.videos.map((v) => [v.videoId, v]));
-    for (const video of source.videos) {
-        const existing = existingIds.get(video.videoId);
-        if (!existing || video.addedAt > existing.addedAt) {
-            if (existing) {
-                target.videos = target.videos.filter(
-                    (v) => v.videoId !== video.videoId,
-                );
-            }
-            target.videos.push(video);
-        }
-    }
+    target.videos = dedupeVideosByNewest([...target.videos, ...source.videos]);
 
     // Remove source list
     const updatedLists = lists.filter((l) => l.id !== sourceId);
@@ -461,42 +459,14 @@ async function handleAddToList(listId) {
     const list = lists.find((l) => l.id === listId);
     if (!list) return { success: false, error: "List not found" };
 
-    const videos = [];
-    const tabsToClose = [];
-    const infoResults = await Promise.all(youtubeTabs.map(tab => getVideoInfoFromTab(tab.id).then(info => ({ tab, info }))));
-    for (const { tab, info } of infoResults) {
-        if (info && info.videoId) {
-            videos.push({
-                videoId: info.videoId,
-                url: info.url,
-                title: info.title,
-                channelName: info.channelName,
-                thumbnailUrl: info.thumbnailUrl,
-                currentTime: info.currentTime,
-                duration: info.duration,
-                playlistId: info.playlistId || null,
-                playlistIndex: info.playlistIndex || null,
-                addedAt: Date.now(),
-            });
-            tabsToClose.push(tab.id);
-        }
-    }
+    const { extractedVideos: videos, extractedTabIds: tabsToClose } = await extractVideosFromTabs(youtubeTabs);
 
     if (videos.length === 0) {
         return { success: false, error: "Could not get info from any tabs" };
     }
 
     // Add videos, dedup by videoId keeping newer
-    const existingIds = new Map(list.videos.map((v) => [v.videoId, v]));
-    for (const video of videos) {
-        const existing = existingIds.get(video.videoId);
-        if (!existing) {
-            list.videos.push(video);
-        } else if (video.addedAt > existing.addedAt) {
-            list.videos = list.videos.filter((v) => v.videoId !== video.videoId);
-            list.videos.push(video);
-        }
-    }
+    list.videos = dedupeVideosByNewest([...list.videos, ...videos]);
 
     await saveVideoLists(lists);
 
@@ -533,26 +503,13 @@ chrome.commands.onCommand.addListener(async (command) => {
         lists.push(targetList);
     }
 
-    const info = await getVideoInfoFromTab(tab.id);
-    if (!info?.videoId) return;
+    const { extractedVideos, extractedTabIds } = await extractVideosFromTabs([tab]);
+    if (extractedVideos.length === 0) return;
 
-    if (!targetList.videos.some((v) => v.videoId === info.videoId)) {
-        targetList.videos.push({
-            videoId: info.videoId,
-            url: info.url,
-            title: info.title,
-            channelName: info.channelName,
-            thumbnailUrl: info.thumbnailUrl,
-            currentTime: info.currentTime,
-            duration: info.duration,
-            playlistId: info.playlistId || null,
-            playlistIndex: info.playlistIndex || null,
-            addedAt: Date.now(),
-        });
-        await saveVideoLists(lists);
-    }
+    targetList.videos = dedupeVideosByNewest([...targetList.videos, ...extractedVideos]);
+    await saveVideoLists(lists);
 
-    await chrome.tabs.remove(tab.id);
+    await chrome.tabs.remove(extractedTabIds);
 });
 
 // Context menu click handler
