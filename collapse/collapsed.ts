@@ -7,7 +7,8 @@ import { CollapseMessageType, sendMessage, VideoList } from "./messaging";
     const listId = params.get("listId");
 
     if (!listId) {
-        document.body.textContent = "No list ID specified.";
+        document.body.innerHTML =
+                '<div class="empty-state"><p>No list ID specified.</p></div>';
         return;
     }
 
