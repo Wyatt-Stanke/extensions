@@ -3,20 +3,32 @@
 	"name": "Collapse",
 	"description": "Collapse multiple YouTube tabs into a single persistent list with saved watch progress.",
 	"version": "1.1.1",
-	"permissions": ["tabs", "storage", "contextMenus"],
+	"permissions": [
+		"tabs",
+		"storage",
+		"contextMenus"
+	],
 	"background": {
 		"service_worker": "dist/background.js"
 	},
 	"content_scripts": [
 		{
-			"matches": ["https://www.youtube.com/*"],
-			"js": ["dist/content.js"],
+			"matches": [
+				"https://www.youtube.com/*"
+			],
+			"js": [
+				"dist/content.js"
+			],
 			"run_at": "document_start",
 			"world": "MAIN"
 		},
 		{
-			"matches": ["https://www.youtube.com/*"],
-			"js": ["dist/bridge.js"],
+			"matches": [
+				"https://www.youtube.com/*"
+			],
+			"js": [
+				"dist/bridge.js"
+			],
 			"run_at": "document_start",
 			"world": "ISOLATED"
 		}
@@ -40,6 +52,12 @@
 				"default": "Ctrl+Shift+Y"
 			},
 			"description": "Add current tab to most recent Collapse list and close it"
+		},
+		"add-to-specific-list": {
+			"suggested_key": {
+				"default": "Ctrl+Shift+U"
+			},
+			"description": "Add current tab to a specific Collapse list and close it"
 		}
 	}
 }

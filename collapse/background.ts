@@ -497,7 +497,7 @@ async function handleAddToList(listId: string | null) {
 
 // Keyboard shortcut: Ctrl+Shift+Y adds current tab to most recent list
 chrome.commands.onCommand.addListener(async (command) => {
-	if (command !== "add-to-recent-list") return;
+	if (command !== "add-to-recent-list" && command !== "add-to-specific-list") return;
 
 	const [tab] = await chrome.tabs.query({
 		active: true,
@@ -506,7 +506,26 @@ chrome.commands.onCommand.addListener(async (command) => {
 	if (!tab || !YOUTUBE_VIDEO_PATTERN.test(tab.url || "")) return;
 
 	const lists = await getVideoLists();
-	let targetList = getMostRecentList(lists);
+
+	let targetListId;
+
+	if (command === "add-to-specific-list") {
+		try {
+			const res = (await sendTabMessage(tab.id as number, {
+				type: CollapseMessageType.SHOW_PALETTE,
+				lists,
+			})) as { success: boolean; listId?: string };
+			if (!res?.success || !res?.listId) return;
+			targetListId = res.listId;
+		} catch {
+			return;
+		}
+	}
+
+	let targetList = targetListId 
+		? lists.find((l) => l.id === targetListId) 
+		: getMostRecentList(lists);
+
 	if (!targetList) {
 		targetList = {
 			id: crypto.randomUUID(),

@@ -8,6 +8,14 @@ const shared = {
 	logLevel: "info",
 };
 
+const jsShared = {
+	...shared,
+	loader: {
+		".html": "text",
+		".css": "text",
+	},
+};
+
 const css = [
 	{ src: "apclassroom/popup.css", out: "apclassroom/dist/popup.css" },
 	{ src: "collapse/popup.css", out: "collapse/dist/popup.css" },
@@ -41,7 +49,7 @@ const entryPoints = [
 
 for (const { src, out, globalName } of entryPoints) {
 	const options = {
-		...shared,
+		...jsShared,
 		entryPoints: [src],
 		outfile: out,
 	};

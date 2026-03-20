@@ -1,4 +1,5 @@
 import { CollapseMessageType, onMessage } from "./messaging";
+import { showPalette } from "./palette";
 
 // Bridge between MAIN world content script (postMessage) and background (chrome.runtime)
 onMessage(CollapseMessageType.GET_VIDEO_INFO, async (message, sender) => {
@@ -22,6 +23,10 @@ onMessage(CollapseMessageType.GET_VIDEO_INFO, async (message, sender) => {
 			resolve({ data: null });
 		}, 3000);
 	});
+});
+
+onMessage(CollapseMessageType.SHOW_PALETTE, async (message) => {
+	return await showPalette(message.lists || []);
 });
 
 console.log("[Collapse] Bridge script initialized");

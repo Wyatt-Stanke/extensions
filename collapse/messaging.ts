@@ -12,6 +12,7 @@ export enum CollapseMessageType {
 	DELETE_LIST = "DELETE_LIST",
 	RENAME_LIST = "RENAME_LIST",
 	MERGE_LISTS = "MERGE_LISTS",
+	SHOW_PALETTE = "SHOW_PALETTE",
 }
 
 export type VideoInfo = {
@@ -94,6 +95,13 @@ export type CollapseProtocol = {
 			sourceId: string;
 		};
 		response: { success: boolean };
+	};
+	[CollapseMessageType.SHOW_PALETTE]: {
+		request: {
+			type: CollapseMessageType.SHOW_PALETTE;
+			lists: VideoList[];
+		};
+		response: { success: boolean; listId?: string };
 	};
 };
 
