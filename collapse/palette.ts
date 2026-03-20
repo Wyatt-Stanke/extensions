@@ -2,17 +2,23 @@ import paletteCss from "./palette.css";
 import paletteHtml from "./palette.html";
 import { VideoList } from "./messaging";
 
-export async function showPalette(lists: VideoList[]): Promise<{ success: boolean; listId?: string }> {
+export async function showPalette(
+	lists: VideoList[],
+): Promise<{ success: boolean; listId?: string }> {
 	return new Promise((resolve) => {
 		const container = document.createElement("div");
 		const shadow = container.attachShadow({ mode: "open" });
 
 		shadow.innerHTML = `<style>${paletteCss}</style>${paletteHtml}`;
-		
+
 		const dialog = shadow.getElementById("palette-dialog") as HTMLDialogElement;
 		const closeBtn = shadow.getElementById("close-btn") as HTMLButtonElement;
-		const searchInput = shadow.getElementById("search-input") as HTMLInputElement;
-		const listContainer = shadow.getElementById("list-container") as HTMLDivElement;
+		const searchInput = shadow.getElementById(
+			"search-input",
+		) as HTMLInputElement;
+		const listContainer = shadow.getElementById(
+			"list-container",
+		) as HTMLDivElement;
 
 		closeBtn.onclick = () => dialog.close();
 
@@ -38,10 +44,10 @@ export async function showPalette(lists: VideoList[]): Promise<{ success: boolea
 				if (i === selectedIndex) {
 					item.classList.add("selected");
 				}
-				
+
 				const info = document.createElement("div");
 				info.className = "list-info";
-				
+
 				if (i < 5) {
 					const number = document.createElement("span");
 					number.className = "list-number";
@@ -52,14 +58,14 @@ export async function showPalette(lists: VideoList[]): Promise<{ success: boolea
 				const name = document.createElement("span");
 				name.textContent = list.name;
 				info.appendChild(name);
-				
+
 				const count = document.createElement("span");
 				count.className = "count";
 				count.textContent = list.videos.length.toString();
-				
+
 				item.appendChild(info);
 				item.appendChild(count);
-				
+
 				item.onclick = () => {
 					resolve({ success: true, listId: list.id });
 					dialog.close();
@@ -73,7 +79,7 @@ export async function showPalette(lists: VideoList[]): Promise<{ success: boolea
 			if (q === "") {
 				filteredLists = sorted.slice(0, 5);
 			} else {
-				filteredLists = sorted.filter(l => l.name.toLowerCase().includes(q));
+				filteredLists = sorted.filter((l) => l.name.toLowerCase().includes(q));
 			}
 			selectedIndex = 0;
 			render();
@@ -86,14 +92,19 @@ export async function showPalette(lists: VideoList[]): Promise<{ success: boolea
 				if (filteredLists.length > 0) {
 					selectedIndex = (selectedIndex + 1) % filteredLists.length;
 					render();
-					(listContainer.children[selectedIndex] as HTMLElement)?.scrollIntoView({ block: "nearest" });
+					(
+						listContainer.children[selectedIndex] as HTMLElement
+					)?.scrollIntoView({ block: "nearest" });
 				}
 			} else if (e.key === "ArrowUp") {
 				e.preventDefault();
 				if (filteredLists.length > 0) {
-					selectedIndex = (selectedIndex - 1 + filteredLists.length) % filteredLists.length;
+					selectedIndex =
+						(selectedIndex - 1 + filteredLists.length) % filteredLists.length;
 					render();
-					(listContainer.children[selectedIndex] as HTMLElement)?.scrollIntoView({ block: "nearest" });
+					(
+						listContainer.children[selectedIndex] as HTMLElement
+					)?.scrollIntoView({ block: "nearest" });
 				}
 			} else if (e.key === "Enter") {
 				e.preventDefault();

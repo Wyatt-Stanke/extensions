@@ -497,7 +497,8 @@ async function handleAddToList(listId: string | null) {
 
 // Keyboard shortcut: Ctrl+Shift+Y adds current tab to most recent list
 chrome.commands.onCommand.addListener(async (command) => {
-	if (command !== "add-to-recent-list" && command !== "add-to-specific-list") return;
+	if (command !== "add-to-recent-list" && command !== "add-to-specific-list")
+		return;
 
 	const [tab] = await chrome.tabs.query({
 		active: true,
@@ -522,8 +523,8 @@ chrome.commands.onCommand.addListener(async (command) => {
 		}
 	}
 
-	let targetList = targetListId 
-		? lists.find((l) => l.id === targetListId) 
+	let targetList = targetListId
+		? lists.find((l) => l.id === targetListId)
 		: getMostRecentList(lists);
 
 	if (!targetList) {
