@@ -1,45 +1,44 @@
 @import "./reset.css";
 
 body {
-    width: 300px;
+	width: 300px;
 }
 
 .container {
-    padding: 16px;
+	padding: 16px;
 }
 
 h1 {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 2px solid var(--accent-color, #1a73e8);
+	font-size: 18px;
+	color: #333;
+	margin-bottom: 12px;
+	padding-bottom: 8px;
+	border-bottom: 2px solid var(--accent-color, #1a73e8);
 }
 
 h2 {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 8px;
+	font-size: 14px;
+	color: #555;
+	margin-bottom: 8px;
 }
 
 .footer {
-    text-align: center;
+	text-align: center;
 }
 
 .footer p {
-    font-size: 11px;
-    color: #999;
+	font-size: 11px;
+	color: #999;
 }
 
 @media (prefers-color-scheme: dark) {
-    h1 {
-        color: #e8eaed;
-    }
-    h2 {
-        color: #bdc1c6;
-    }
-    .footer p {
-        color: #9aa0a6;
-    }
+	h1 {
+		color: #e8eaed;
+	}
+	h2 {
+		color: #bdc1c6;
+	}
+	.footer p {
+		color: #9aa0a6;
+	}
 }
-

@@ -1,57 +1,45 @@
 {
-    "manifest_version": 3,
-    "name": "Collapse",
-    "description": "Collapse multiple YouTube tabs into a single persistent list with saved watch progress.",
-    "version": "1.1.1",
-    "permissions": [
-        "tabs",
-        "storage",
-        "contextMenus"
-    ],
-    "background": {
-        "service_worker": "dist/background.js"
-    },
-    "content_scripts": [
-        {
-            "matches": [
-                "https://www.youtube.com/*"
-            ],
-            "js": [
-                "dist/content.js"
-            ],
-            "run_at": "document_start",
-            "world": "MAIN"
-        },
-        {
-            "matches": [
-                "https://www.youtube.com/*"
-            ],
-            "js": [
-                "dist/bridge.js"
-            ],
-            "run_at": "document_start",
-            "world": "ISOLATED"
-        }
-    ],
-    "action": {
-        "default_popup": "popup.html",
-        "default_icon": {
-            "16": "dist/icons/icon16.png",
-            "48": "dist/icons/icon48.png",
-            "128": "dist/icons/icon128.png"
-        }
-    },
-    "icons": {
-        "16": "dist/icons/icon16.png",
-        "48": "dist/icons/icon48.png",
-        "128": "dist/icons/icon128.png"
-    },
-    "commands": {
-        "add-to-recent-list": {
-            "suggested_key": {
-                "default": "Ctrl+Shift+Y"
-            },
-            "description": "Add current tab to most recent Collapse list and close it"
-        }
-    }
+	"manifest_version": 3,
+	"name": "Collapse",
+	"description": "Collapse multiple YouTube tabs into a single persistent list with saved watch progress.",
+	"version": "1.1.1",
+	"permissions": ["tabs", "storage", "contextMenus"],
+	"background": {
+		"service_worker": "dist/background.js"
+	},
+	"content_scripts": [
+		{
+			"matches": ["https://www.youtube.com/*"],
+			"js": ["dist/content.js"],
+			"run_at": "document_start",
+			"world": "MAIN"
+		},
+		{
+			"matches": ["https://www.youtube.com/*"],
+			"js": ["dist/bridge.js"],
+			"run_at": "document_start",
+			"world": "ISOLATED"
+		}
+	],
+	"action": {
+		"default_popup": "popup.html",
+		"default_icon": {
+			"16": "dist/icons/icon16.png",
+			"48": "dist/icons/icon48.png",
+			"128": "dist/icons/icon128.png"
+		}
+	},
+	"icons": {
+		"16": "dist/icons/icon16.png",
+		"48": "dist/icons/icon48.png",
+		"128": "dist/icons/icon128.png"
+	},
+	"commands": {
+		"add-to-recent-list": {
+			"suggested_key": {
+				"default": "Ctrl+Shift+Y"
+			},
+			"description": "Add current tab to most recent Collapse list and close it"
+		}
+	}
 }

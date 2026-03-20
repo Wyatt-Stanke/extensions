@@ -1,155 +1,156 @@
 @import "../shared/popup-base.css";
 
 :root {
-  --accent-color: #1a73e8;
+	--accent-color: #1a73e8;
 }
 
 .card {
-  background: white;
-  border-radius: 6px;
-  padding: 12px;
-  margin-bottom: 12px;
-  border: 1px solid #e0e0e0;
+	background: white;
+	border-radius: 6px;
+	padding: 12px;
+	margin-bottom: 12px;
+	border: 1px solid #e0e0e0;
 }
 
 .tab-count {
-  font-size: 14px;
-  color: #333;
-  margin-bottom: 10px;
-  text-align: center;
+	font-size: 14px;
+	color: #333;
+	margin-bottom: 10px;
+	text-align: center;
 }
 
 .tab-count span {
-  font-weight: 700;
-  color: #1a73e8;
+	font-weight: 700;
+	color: #1a73e8;
 }
 
 .btn-primary {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  background: #1a73e8;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
+	display: block;
+	width: 100%;
+	padding: 10px;
+	background: #1a73e8;
+	color: white;
+	border: none;
+	border-radius: 6px;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background 0.2s;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: #1557b0;
+	background: #1557b0;
 }
 
 .btn-primary:disabled {
-  background: #ccc;
-  cursor: default;
+	background: #ccc;
+	cursor: default;
 }
 
 .list-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid #f0f0f0;
-  cursor: pointer;
-  transition: background 0.15s;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 8px 0;
+	border-bottom: 1px solid #f0f0f0;
+	cursor: pointer;
+	transition: background 0.15s;
 }
 
 .list-item:last-child {
-  border-bottom: none;
+	border-bottom: none;
 }
 
 .list-item:hover {
-  background: #f8f9fa;
+	background: #f8f9fa;
 }
 
 .list-item-name {
-  font-size: 13px;
-  color: #333;
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+	font-size: 13px;
+	color: #333;
+	flex: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .list-item-count {
-  font-size: 12px;
-  color: #888;
-  margin-left: 8px;
-  flex-shrink: 0;
+	font-size: 12px;
+	color: #888;
+	margin-left: 8px;
+	flex-shrink: 0;
 }
 
 .btn-add-to-list {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 4px;
-  margin-left: 6px;
-  cursor: pointer;
-  color: #666;
-  flex-shrink: 0;
-  transition: color 0.15s, border-color 0.15s, background 0.15s;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: none;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	padding: 4px;
+	margin-left: 6px;
+	cursor: pointer;
+	color: #666;
+	flex-shrink: 0;
+	transition:
+		color 0.15s,
+		border-color 0.15s,
+		background 0.15s;
 }
 
 .btn-add-to-list:hover:not(:disabled) {
-  color: #1a73e8;
-  border-color: #1a73e8;
-  background: #e8f0fe;
+	color: #1a73e8;
+	border-color: #1a73e8;
+	background: #e8f0fe;
 }
 
 .btn-add-to-list:disabled {
-  opacity: 0.4;
-  cursor: default;
+	opacity: 0.4;
+	cursor: default;
 }
-
 
 @media (prefers-color-scheme: dark) {
-  .card {
-    background: #292a2d;
-    border-color: #3c4043;
-  }
-  .tab-count {
-    color: #e8eaed;
-  }
-  .tab-count span {
-    color: #8ab4f8;
-  }
-  .btn-primary {
-    background: #8ab4f8;
-    color: #202124;
-  }
-  .btn-primary:hover:not(:disabled) {
-    background: #aecbfa;
-  }
-  .btn-primary:disabled {
-    background: #5f6368;
-    color: #9aa0a6;
-  }
-  .list-item {
-    border-bottom-color: #3c4043;
-  }
-  .list-item:hover {
-    background: #35363a;
-  }
-  .list-item-name {
-    color: #e8eaed;
-  }
-  .list-item-count {
-    color: #9aa0a6;
-  }
-  .btn-add-to-list {
-    border-color: #5f6368;
-    color: #9aa0a6;
-  }
-  .btn-add-to-list:hover:not(:disabled) {
-    color: #8ab4f8;
-    border-color: #8ab4f8;
-    background: rgba(138, 180, 248, 0.1);
-  }
+	.card {
+		background: #292a2d;
+		border-color: #3c4043;
+	}
+	.tab-count {
+		color: #e8eaed;
+	}
+	.tab-count span {
+		color: #8ab4f8;
+	}
+	.btn-primary {
+		background: #8ab4f8;
+		color: #202124;
+	}
+	.btn-primary:hover:not(:disabled) {
+		background: #aecbfa;
+	}
+	.btn-primary:disabled {
+		background: #5f6368;
+		color: #9aa0a6;
+	}
+	.list-item {
+		border-bottom-color: #3c4043;
+	}
+	.list-item:hover {
+		background: #35363a;
+	}
+	.list-item-name {
+		color: #e8eaed;
+	}
+	.list-item-count {
+		color: #9aa0a6;
+	}
+	.btn-add-to-list {
+		border-color: #5f6368;
+		color: #9aa0a6;
+	}
+	.btn-add-to-list:hover:not(:disabled) {
+		color: #8ab4f8;
+		border-color: #8ab4f8;
+		background: rgba(138, 180, 248, 0.1);
+	}
 }
-

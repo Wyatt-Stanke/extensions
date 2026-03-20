@@ -1,149 +1,147 @@
 @import "../shared/popup-base.css";
 
 :root {
-    --accent-color: #4CAF50;
+	--accent-color: #4caf50;
 }
 
 .status {
-    background: white;
-    border-radius: 6px;
-    padding: 12px;
-    margin-bottom: 12px;
-    border: 1px solid #e0e0e0;
+	background: white;
+	border-radius: 6px;
+	padding: 12px;
+	margin-bottom: 12px;
+	border: 1px solid #e0e0e0;
 }
 
 .status-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6px 0;
-    border-bottom: 1px solid #f0f0f0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 6px 0;
+	border-bottom: 1px solid #f0f0f0;
 }
 
 .status-row:last-child {
-    border-bottom: none;
+	border-bottom: none;
 }
 
 .status-label {
-    font-size: 13px;
-    color: #666;
+	font-size: 13px;
+	color: #666;
 }
 
 .status-value {
-    font-size: 13px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 4px;
+	font-size: 13px;
+	font-weight: 600;
+	padding: 2px 8px;
+	border-radius: 4px;
 }
 
 .status-value.loading {
-    color: #888;
+	color: #888;
 }
 
 .status-value.active {
-    background: #e8f5e9;
-    color: #2e7d32;
+	background: #e8f5e9;
+	color: #2e7d32;
 }
 
 .status-value.inactive {
-    background: #ffebee;
-    color: #c62828;
+	background: #ffebee;
+	color: #c62828;
 }
 
 .status-value.ready {
-    background: #e3f2fd;
-    color: #1565c0;
+	background: #e3f2fd;
+	color: #1565c0;
 }
 
 .status-value.blocking {
-    background: #fff3e0;
-    color: #e65100;
+	background: #fff3e0;
+	color: #e65100;
 }
 
 .warning {
-    background: #fff3e0;
-    border: 1px solid #ffcc80;
-    border-radius: 6px;
-    padding: 12px;
-    margin-bottom: 12px;
-    text-align: center;
+	background: #fff3e0;
+	border: 1px solid #ffcc80;
+	border-radius: 6px;
+	padding: 12px;
+	margin-bottom: 12px;
+	text-align: center;
 }
 
 .warning p {
-    color: #e65100;
-    font-size: 14px;
-    font-weight: 600;
+	color: #e65100;
+	font-size: 14px;
+	font-weight: 600;
 }
 
 .warning p.small {
-    font-size: 12px;
-    font-weight: normal;
-    margin-top: 4px;
-    color: #f57c00;
+	font-size: 12px;
+	font-weight: normal;
+	margin-top: 4px;
+	color: #f57c00;
 }
 
 .instructions {
-    background: white;
-    border-radius: 6px;
-    padding: 12px;
-    margin-bottom: 12px;
-    border: 1px solid #e0e0e0;
+	background: white;
+	border-radius: 6px;
+	padding: 12px;
+	margin-bottom: 12px;
+	border: 1px solid #e0e0e0;
 }
 
 .instructions ol {
-    margin-left: 18px;
-    font-size: 12px;
-    color: #666;
-    line-height: 1.8;
+	margin-left: 18px;
+	font-size: 12px;
+	color: #666;
+	line-height: 1.8;
 }
-
 
 @media (prefers-color-scheme: dark) {
-    .status {
-        background: #292a2d;
-        border-color: #3c4043;
-    }
-    .status-row {
-        border-bottom-color: #3c4043;
-    }
-    .status-label {
-        color: #9aa0a6;
-    }
-    .status-value.loading {
-        color: #9aa0a6;
-    }
-    .status-value.active {
-        background: rgba(46, 125, 50, 0.3);
-        color: #81c784;
-    }
-    .status-value.inactive {
-        background: rgba(198, 40, 40, 0.3);
-        color: #e57373;
-    }
-    .status-value.ready {
-        background: rgba(21, 101, 192, 0.3);
-        color: #64b5f6;
-    }
-    .status-value.blocking {
-        background: rgba(230, 81, 0, 0.3);
-        color: #ffb74d;
-    }
-    .warning {
-        background: rgba(230, 81, 0, 0.15);
-        border-color: rgba(230, 81, 0, 0.4);
-    }
-    .warning p {
-        color: #ff9800;
-    }
-    .warning p.small {
-        color: #ffb74d;
-    }
-    .instructions {
-        background: #292a2d;
-        border-color: #3c4043;
-    }
-    .instructions ol {
-        color: #e8eaed;
-    }
+	.status {
+		background: #292a2d;
+		border-color: #3c4043;
+	}
+	.status-row {
+		border-bottom-color: #3c4043;
+	}
+	.status-label {
+		color: #9aa0a6;
+	}
+	.status-value.loading {
+		color: #9aa0a6;
+	}
+	.status-value.active {
+		background: rgba(46, 125, 50, 0.3);
+		color: #81c784;
+	}
+	.status-value.inactive {
+		background: rgba(198, 40, 40, 0.3);
+		color: #e57373;
+	}
+	.status-value.ready {
+		background: rgba(21, 101, 192, 0.3);
+		color: #64b5f6;
+	}
+	.status-value.blocking {
+		background: rgba(230, 81, 0, 0.3);
+		color: #ffb74d;
+	}
+	.warning {
+		background: rgba(230, 81, 0, 0.15);
+		border-color: rgba(230, 81, 0, 0.4);
+	}
+	.warning p {
+		color: #ff9800;
+	}
+	.warning p.small {
+		color: #ffb74d;
+	}
+	.instructions {
+		background: #292a2d;
+		border-color: #3c4043;
+	}
+	.instructions ol {
+		color: #e8eaed;
+	}
 }
-

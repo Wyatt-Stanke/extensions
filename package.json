@@ -3,7 +3,8 @@
     "type": "module",
     "scripts": {
         "build": "npm run build:icons && node scripts/build.mjs",
-        "build:icons": "node scripts/generate-icons.mjs"
+        "build:icons": "node scripts/generate-icons.mjs",
+        "format": "biome format apclassroom/ collapse/ scripts/ shared/ --fix"
     },
     "devDependencies": {
         "@biomejs/biome": "2.4.8",

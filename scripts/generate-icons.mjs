@@ -9,26 +9,28 @@ const sizes = [16, 32, 48, 128];
 
 const entries = readdirSync(rootDir, { withFileTypes: true });
 for (const entry of entries) {
-    if (!entry.isDirectory()) continue;
-    const svgPath = join(rootDir, entry.name, "icon.svg");
-    try {
-        readFileSync(svgPath);
-    } catch {
-        continue;
-    }
+	if (!entry.isDirectory()) continue;
+	const svgPath = join(rootDir, entry.name, "icon.svg");
+	try {
+		readFileSync(svgPath);
+	} catch {
+		continue;
+	}
 
-    const outDir = join(rootDir, entry.name, "dist", "icons");
+	const outDir = join(rootDir, entry.name, "dist", "icons");
 
-    mkdirSync(outDir, { recursive: true });
+	mkdirSync(outDir, { recursive: true });
 
-    const svgBuffer = readFileSync(svgPath);
-    await Promise.all(
-        sizes.map((size) =>
-            sharp(svgBuffer)
-                .resize(size, size)
-                .png()
-                .toFile(join(outDir, `icon${size}.png`))
-        )
-    );
-    console.log(`Generated icons for ${entry.name}: ${sizes.map((s) => `${s}x${s}`).join(", ")}`);
+	const svgBuffer = readFileSync(svgPath);
+	await Promise.all(
+		sizes.map((size) =>
+			sharp(svgBuffer)
+				.resize(size, size)
+				.png()
+				.toFile(join(outDir, `icon${size}.png`)),
+		),
+	);
+	console.log(
+		`Generated icons for ${entry.name}: ${sizes.map((s) => `${s}x${s}`).join(", ")}`,
+	);
 }
