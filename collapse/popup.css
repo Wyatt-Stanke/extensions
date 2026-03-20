@@ -107,3 +107,49 @@
   cursor: default;
 }
 
+
+@media (prefers-color-scheme: dark) {
+  .card {
+    background: #292a2d;
+    border-color: #3c4043;
+  }
+  .tab-count {
+    color: #e8eaed;
+  }
+  .tab-count span {
+    color: #8ab4f8;
+  }
+  .btn-primary {
+    background: #8ab4f8;
+    color: #202124;
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: #aecbfa;
+  }
+  .btn-primary:disabled {
+    background: #5f6368;
+    color: #9aa0a6;
+  }
+  .list-item {
+    border-bottom-color: #3c4043;
+  }
+  .list-item:hover {
+    background: #35363a;
+  }
+  .list-item-name {
+    color: #e8eaed;
+  }
+  .list-item-count {
+    color: #9aa0a6;
+  }
+  .btn-add-to-list {
+    border-color: #5f6368;
+    color: #9aa0a6;
+  }
+  .btn-add-to-list:hover:not(:disabled) {
+    color: #8ab4f8;
+    border-color: #8ab4f8;
+    background: rgba(138, 180, 248, 0.1);
+  }
+}
+

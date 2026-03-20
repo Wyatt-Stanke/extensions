@@ -30,3 +30,16 @@ h2 {
     font-size: 11px;
     color: #999;
 }
+
+@media (prefers-color-scheme: dark) {
+    h1 {
+        color: #e8eaed;
+    }
+    h2 {
+        color: #bdc1c6;
+    }
+    .footer p {
+        color: #9aa0a6;
+    }
+}
+

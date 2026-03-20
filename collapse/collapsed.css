@@ -271,3 +271,90 @@ h1:focus {
   display: flex;
   justify-content: flex-end;
 }
+
+@media (prefers-color-scheme: dark) {
+  header {
+    border-bottom-color: #8ab4f8;
+  }
+  h1 {
+    color: #e8eaed;
+  }
+  h1:focus {
+    border-bottom-color: #8ab4f8;
+  }
+  .video-count {
+    color: #9aa0a6;
+  }
+  .btn-secondary {
+    background: #3c4043;
+    color: #e8eaed;
+  }
+  .btn-secondary:hover {
+    background: #5f6368;
+  }
+  .btn-danger {
+    background: rgba(197, 34, 31, 0.2);
+    color: #f28b82;
+  }
+  .btn-danger:hover {
+    background: rgba(197, 34, 31, 0.4);
+  }
+  .video-row {
+    background: #292a2d;
+    border-color: #3c4043;
+  }
+  .video-row:hover {
+    border-color: #8ab4f8;
+    box-shadow: 0 2px 8px rgba(138, 180, 248, 0.15);
+  }
+  .video-thumbnail {
+    background: #3c4043;
+  }
+  .video-title {
+    color: #e8eaed;
+  }
+  .video-channel {
+    color: #9aa0a6;
+  }
+  .playlist-badge {
+    color: #8ab4f8;
+    background: rgba(138, 180, 248, 0.15);
+  }
+  .progress-bar {
+    background: #3c4043;
+  }
+  .progress-fill {
+    background: #8ab4f8;
+  }
+  .progress-text {
+    color: #9aa0a6;
+  }
+  .btn-remove {
+    color: #9aa0a6;
+  }
+  .btn-remove:hover {
+    background: rgba(197, 34, 31, 0.2);
+    color: #f28b82;
+  }
+  .empty-state {
+    color: #9aa0a6;
+  }
+  /* Modal */
+  .modal-overlay {
+    background: rgba(0, 0, 0, 0.6);
+  }
+  .modal {
+    background: #292a2d;
+  }
+  .modal p {
+    color: #9aa0a6;
+  }
+  .merge-option {
+    border-color: #3c4043;
+  }
+  .merge-option:hover {
+    background: rgba(138, 180, 248, 0.1);
+    border-color: #8ab4f8;
+  }
+}
+

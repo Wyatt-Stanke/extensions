@@ -97,3 +97,53 @@
     line-height: 1.8;
 }
 
+
+@media (prefers-color-scheme: dark) {
+    .status {
+        background: #292a2d;
+        border-color: #3c4043;
+    }
+    .status-row {
+        border-bottom-color: #3c4043;
+    }
+    .status-label {
+        color: #9aa0a6;
+    }
+    .status-value.loading {
+        color: #9aa0a6;
+    }
+    .status-value.active {
+        background: rgba(46, 125, 50, 0.3);
+        color: #81c784;
+    }
+    .status-value.inactive {
+        background: rgba(198, 40, 40, 0.3);
+        color: #e57373;
+    }
+    .status-value.ready {
+        background: rgba(21, 101, 192, 0.3);
+        color: #64b5f6;
+    }
+    .status-value.blocking {
+        background: rgba(230, 81, 0, 0.3);
+        color: #ffb74d;
+    }
+    .warning {
+        background: rgba(230, 81, 0, 0.15);
+        border-color: rgba(230, 81, 0, 0.4);
+    }
+    .warning p {
+        color: #ff9800;
+    }
+    .warning p.small {
+        color: #ffb74d;
+    }
+    .instructions {
+        background: #292a2d;
+        border-color: #3c4043;
+    }
+    .instructions ol {
+        color: #e8eaed;
+    }
+}
+
