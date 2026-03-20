@@ -26,20 +26,19 @@ const entryPoints = [
     { src: "apclassroom/bridge.ts", out: "apclassroom/dist/bridge.js" },
 ];
 
-await Promise.all([
-    ...entryPoints.map(({ src, out, globalName }) => {
-        const options = {
-            ...shared,
-            entryPoints: [src],
-            outfile: out,
-        };
-        if (globalName) {
-            options.format = "iife";
-            options.globalName = globalName;
-        }
-        return esbuild.build(options);
-    }),
-    ...css.map(({ src, out }) =>
-        esbuild.build({ ...shared, entryPoints: [src], outfile: out }),
-    ),
-]);
+for (const { src, out, globalName } of entryPoints) {
+    const options = {
+        ...shared,
+        entryPoints: [src],
+        outfile: out,
+    };
+    if (globalName) {
+        options.format = "iife";
+        options.globalName = globalName;
+    }
+    await esbuild.build(options);
+}
+
+for (const { src, out } of css) {
+    await esbuild.build({ ...shared, entryPoints: [src], outfile: out });
+}
