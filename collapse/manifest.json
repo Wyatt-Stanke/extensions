@@ -9,7 +9,7 @@
         "contextMenus"
     ],
     "background": {
-        "service_worker": "background.js"
+        "service_worker": "dist/background.js"
     },
     "content_scripts": [
         {
@@ -17,7 +17,7 @@
                 "https://www.youtube.com/*"
             ],
             "js": [
-                "content.js"
+                "dist/content.js"
             ],
             "run_at": "document_start",
             "world": "MAIN"
@@ -27,7 +27,7 @@
                 "https://www.youtube.com/*"
             ],
             "js": [
-                "bridge.js"
+                "dist/bridge.js"
             ],
             "run_at": "document_start",
             "world": "ISOLATED"

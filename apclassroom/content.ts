@@ -1,12 +1,14 @@
+import { ApMessageType } from "./messaging";
+
 (function () {
   "use strict";
 
   let state = {
-    videoId: null,
-    duration: null,
-    blocking: [],
-    capturedHeaders: {},
-    capturedBody: null,
+    videoId: null as string | null,
+    duration: null as number | null,
+    blocking: [] as string[],
+    capturedHeaders: {} as Record<string, string>,
+    capturedBody: null as any,
     initialized: true,
   };
 
@@ -14,7 +16,7 @@
   function broadcastState() {
     window.postMessage(
       {
-        type: "AP_TOOLS_STATE",
+        type: ApMessageType.AP_TOOLS_STATE,
         state: {
           initialized: state.initialized,
           videoId: state.videoId,
@@ -27,7 +29,7 @@
 
   // Listen for state requests from bridge
   window.addEventListener("message", (event) => {
-    if (event.data?.type === "AP_TOOLS_GET_STATE") {
+    if (event.data?.type === ApMessageType.AP_TOOLS_GET_STATE) {
       broadcastState();
     }
   });
@@ -37,21 +39,29 @@
   const originalSend = XMLHttpRequest.prototype.send;
   const originalSetRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
 
-  XMLHttpRequest.prototype.open = function (method, url, ...rest) {
-    this._url = url;
+  interface CustomXMLHttpRequest extends XMLHttpRequest {
+    _url?: string;
+    _method?: string;
+    _headers?: Record<string, string>;
+  }
+
+  // @ts-ignore
+  XMLHttpRequest.prototype.open = function (this: CustomXMLHttpRequest, method: string, url: string | URL, ...rest: any[]) {
+    this._url = url.toString();
     this._method = method;
     this._headers = {};
+    // @ts-ignore
     return originalOpen.call(this, method, url, ...rest);
   };
 
-  XMLHttpRequest.prototype.setRequestHeader = function (name, value) {
+  XMLHttpRequest.prototype.setRequestHeader = function (this: CustomXMLHttpRequest, name: string, value: string) {
     if (this._headers) {
       this._headers[name] = value;
     }
     return originalSetRequestHeader.call(this, name, value);
   };
 
-  XMLHttpRequest.prototype.send = function (body) {
+  XMLHttpRequest.prototype.send = function (this: CustomXMLHttpRequest, body?: Document | XMLHttpRequestBodyInit | null) {
     if (
       this._url &&
       this._url.includes("/videos/") &&
@@ -68,8 +78,8 @@
         Object.defineProperty(this, "readyState", { value: 4 });
         Object.defineProperty(this, "responseText", { value: "{}" });
         setTimeout(() => {
-          this.onreadystatechange?.();
-          this.onload?.();
+          this.onreadystatechange?.(new Event("readystatechange"));
+          this.onload?.(new ProgressEvent("load"));
         }, 10);
         return;
       }
@@ -77,7 +87,7 @@
       if (match) {
         state.capturedHeaders = { ...this._headers };
         try {
-          state.capturedBody = JSON.parse(body);
+          state.capturedBody = typeof body === "string" ? JSON.parse(body) : body;
         } catch (e) {
           state.capturedBody = body;
         }
@@ -96,7 +106,7 @@
   };
 
   // Create and manage the button
-  let button = null;
+  let button: HTMLButtonElement | null = null;
 
   function createButton() {
     if (document.getElementById("ap-tools-btn")) return;
@@ -128,7 +138,7 @@
 
   function updateButton() {
     if (!button) {
-      button = document.getElementById("ap-tools-btn");
+      button = document.getElementById("ap-tools-btn") as HTMLButtonElement | null;
     }
     if (!button) return;
 
@@ -165,7 +175,7 @@
       const iframes = document.querySelectorAll("iframe, wistia-player iframe");
       for (const iframe of iframes) {
         try {
-          const iframeVideo = iframe.contentDocument?.querySelector("video");
+          const iframeVideo = (iframe as HTMLIFrameElement).contentDocument?.querySelector("video");
           if (iframeVideo && iframeVideo.duration && !isNaN(iframeVideo.duration)) {
             return Math.ceil(iframeVideo.duration);
           }
@@ -257,8 +267,10 @@
     console.log("[AP Tools] Request body:", requestBody);
 
     try {
-      button.innerHTML = "⏳ Sending...";
-      button.disabled = true;
+      if (button) {
+        button.innerHTML = "⏳ Sending...";
+        button.disabled = true;
+      }
 
       const response = await fetch(url, {
         method: "POST",
@@ -278,7 +290,7 @@
         }
         updateButton();
         broadcastState();
-        const closeBtn = document.querySelector(
+        const closeBtn = document.querySelector<HTMLElement>(
           '[data-test-id="modal-close-button"]',
         );
         if (closeBtn) {
@@ -293,7 +305,7 @@
         alert(`Failed: ${response.status}`);
         updateButton();
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error("[AP Tools] Error:", e);
       alert("Error: " + e.message);
       updateButton();

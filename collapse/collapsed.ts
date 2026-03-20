@@ -1,3 +1,5 @@
+import { CollapseMessageType, sendMessage, VideoList } from "./messaging";
+
 (function () {
     "use strict";
 
@@ -9,17 +11,17 @@
         return;
     }
 
-    const listNameEl = document.getElementById("list-name");
-    const videoCountEl = document.getElementById("video-count");
-    const videosEl = document.getElementById("videos");
-    const emptyStateEl = document.getElementById("empty-state");
-    const mergeBtnEl = document.getElementById("merge-btn");
-    const deleteListBtnEl = document.getElementById("delete-list-btn");
-    const mergeModalEl = document.getElementById("merge-modal");
-    const mergeOptionsEl = document.getElementById("merge-list-options");
-    const mergeCancelEl = document.getElementById("merge-cancel");
+    const listNameEl = document.getElementById("list-name") as HTMLElement;
+    const videoCountEl = document.getElementById("video-count") as HTMLElement;
+    const videosEl = document.getElementById("videos") as HTMLElement;
+    const emptyStateEl = document.getElementById("empty-state") as HTMLElement;
+    const mergeBtnEl = document.getElementById("merge-btn") as HTMLButtonElement;
+    const deleteListBtnEl = document.getElementById("delete-list-btn") as HTMLButtonElement;
+    const mergeModalEl = document.getElementById("merge-modal") as HTMLElement;
+    const mergeOptionsEl = document.getElementById("merge-list-options") as HTMLElement;
+    const mergeCancelEl = document.getElementById("merge-cancel") as HTMLButtonElement;
 
-    function formatTime(seconds) {
+    function formatTime(seconds: number) {
         const s = Math.floor(seconds);
         const h = Math.floor(s / 3600);
         const m = Math.floor((s % 3600) / 60);
@@ -30,7 +32,7 @@
         return `${m}:${String(sec).padStart(2, "0")}`;
     }
 
-    function renderVideos(list) {
+    function renderVideos(list: VideoList) {
         document.title = list.name;
         listNameEl.textContent = list.name;
         videoCountEl.textContent = `${list.videos.length} video${list.videos.length !== 1 ? "s" : ""}`;
@@ -72,20 +74,20 @@
 
             // Click row to open video
             row.addEventListener("click", (e) => {
-                if (e.target.closest(".btn-remove")) return;
-                chrome.runtime.sendMessage({
-                    type: "OPEN_VIDEO",
-                    listId,
+                if ((e.target as Element).closest(".btn-remove")) return;
+                sendMessage({
+                    type: CollapseMessageType.OPEN_VIDEO,
+                    listId: listId as string,
                     videoId: video.videoId,
                 });
             });
 
             // Remove button
-            row.querySelector(".btn-remove").addEventListener("click", (e) => {
+            row.querySelector(".btn-remove")?.addEventListener("click", (e) => {
                 e.stopPropagation();
-                chrome.runtime.sendMessage({
-                    type: "DELETE_VIDEO",
-                    listId,
+                sendMessage({
+                    type: CollapseMessageType.DELETE_VIDEO,
+                    listId: listId as string,
                     videoId: video.videoId,
                 });
             });
@@ -94,13 +96,13 @@
         }
     }
 
-    function escapeHtml(str) {
+    function escapeHtml(str: string) {
         const div = document.createElement("div");
         div.textContent = str;
         return div.innerHTML;
     }
 
-    function escapeAttr(str) {
+    function escapeAttr(str: string) {
         return str
             .replace(/&/g, "&amp;")
             .replace(/"/g, "&quot;")
@@ -110,7 +112,7 @@
     }
 
     async function loadAndRender() {
-        const response = await chrome.runtime.sendMessage({ type: "GET_LISTS" });
+        const response = await sendMessage({ type: CollapseMessageType.GET_LISTS }) as Extract<import("./messaging").CollapseProtocol[CollapseMessageType.GET_LISTS]["response"], { lists: VideoList[] }>;
         const lists = response?.lists || [];
         const list = lists.find((l) => l.id === listId);
 
@@ -125,11 +127,11 @@
 
     // Rename on blur
     listNameEl.addEventListener("blur", () => {
-        const newName = listNameEl.textContent.trim();
+        const newName = listNameEl.textContent?.trim();
         if (newName) {
-            chrome.runtime.sendMessage({
-                type: "RENAME_LIST",
-                listId,
+            sendMessage({
+                type: CollapseMessageType.RENAME_LIST,
+                listId: listId || "",
                 name: newName,
             });
         }
@@ -146,14 +148,14 @@
     // Delete list
     deleteListBtnEl.addEventListener("click", async () => {
         if (!confirm("Delete this entire list?")) return;
-        await chrome.runtime.sendMessage({ type: "DELETE_LIST", listId });
+        await sendMessage({ type: CollapseMessageType.DELETE_LIST, listId: listId || "" });
         window.close();
     });
 
     // Merge modal
     mergeBtnEl.addEventListener("click", async () => {
-        const response = await chrome.runtime.sendMessage({ type: "GET_LISTS" });
-        const lists = (response?.lists || []).filter((l) => l.id !== listId);
+        const response = await sendMessage({ type: CollapseMessageType.GET_LISTS }) as { lists: VideoList[] };
+        const lists = (response?.lists || []).filter((l: VideoList) => l.id !== listId);
 
         if (lists.length === 0) {
             alert("No other lists to merge.");
@@ -166,11 +168,11 @@
             option.className = "merge-option";
             option.textContent = `${list.name} (${list.videos.length} video${list.videos.length !== 1 ? "s" : ""})`;
             option.addEventListener("click", async () => {
-                const result = await chrome.runtime.sendMessage({
-                    type: "MERGE_LISTS",
+                const result = await sendMessage({
+                    type: CollapseMessageType.MERGE_LISTS,
                     targetId: list.id,
-                    sourceId: listId,
-                });
+                    sourceId: listId || "",
+                }) as { success: boolean; error?: string };
 
                 if (result?.success) {
                     window.location.href = `collapsed.html?listId=${encodeURIComponent(list.id)}`;
@@ -198,7 +200,7 @@
     // Listen for storage changes to update reactively
     chrome.storage.onChanged.addListener((changes) => {
         if (changes.videoLists) {
-            const lists = changes.videoLists.newValue || [];
+            const lists = (changes.videoLists.newValue as VideoList[]) || [];
             const list = lists.find((l) => l.id === listId);
             if (list) {
                 renderVideos(list);

@@ -11,7 +11,7 @@
         "https://apc-api-production.collegeboard.org/*"
     ],
     "background": {
-        "service_worker": "background.js"
+        "service_worker": "dist/background.js"
     },
     "content_scripts": [
         {
@@ -19,7 +19,7 @@
                 "https://apclassroom.collegeboard.org/*"
             ],
             "js": [
-                "content.js"
+                "dist/content.js"
             ],
             "run_at": "document_start",
             "world": "MAIN"
@@ -29,7 +29,7 @@
                 "https://apclassroom.collegeboard.org/*"
             ],
             "js": [
-                "bridge.js"
+                "dist/bridge.js"
             ],
             "run_at": "document_start",
             "world": "ISOLATED"

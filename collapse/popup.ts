@@ -1,9 +1,10 @@
 import { createIcons, SquaresUnite } from "lucide";
 import { displayVersion } from "../shared/popup-version.js";
+import { CollapseMessageType, sendMessage, VideoList } from "./messaging";
 
 const YOUTUBE_VIDEO_PATTERN = /youtube\.com\/watch\?.*v=/;
 
-function getCollapsedListIdFromUrl(urlString) {
+function getCollapsedListIdFromUrl(urlString: string) {
     if (!urlString) return null;
 
     try {
@@ -21,17 +22,17 @@ function getCollapsedListIdFromUrl(urlString) {
 document.addEventListener("DOMContentLoaded", async () => {
     displayVersion();
 
-    const tabCountEl = document.getElementById("tab-count");
-    const collapseBtn = document.getElementById("collapse-btn");
-    const listsSection = document.getElementById("lists-section");
-    const listsContainer = document.getElementById("lists-container");
+    const tabCountEl = document.getElementById("tab-count") as HTMLElement;
+    const collapseBtn = document.getElementById("collapse-btn") as HTMLButtonElement;
+    const listsSection = document.getElementById("lists-section") as HTMLElement;
+    const listsContainer = document.getElementById("lists-container") as HTMLElement;
 
     const tabs = await chrome.tabs.query({
         highlighted: true,
         currentWindow: true,
     });
-    const youtubeTabs = tabs.filter((tab) => YOUTUBE_VIDEO_PATTERN.test(tab.url));
-    const listTabs = tabs.filter((tab) => Boolean(getCollapsedListIdFromUrl(tab.url)));
+    const youtubeTabs = tabs.filter((tab) => YOUTUBE_VIDEO_PATTERN.test(tab.url || ""));
+    const listTabs = tabs.filter((tab) => Boolean(getCollapsedListIdFromUrl(tab.url || "")));
     const selectedCount = youtubeTabs.length + listTabs.length;
 
     tabCountEl.textContent = `${selectedCount} tab${selectedCount !== 1 ? "s" : ""}`;
@@ -42,9 +43,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         collapseBtn.disabled = true;
         collapseBtn.textContent = "Collapsing...";
 
-        const response = await chrome.runtime.sendMessage({
-            type: "COLLAPSE_TABS",
-        });
+        const response = await sendMessage({
+            type: CollapseMessageType.COLLAPSE_TABS,
+        }) as { success: boolean; error?: string };
 
         if (response?.success) {
             window.close();
@@ -57,7 +58,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
-    const response = await chrome.runtime.sendMessage({ type: "GET_LISTS" });
+    const response = await sendMessage({ type: CollapseMessageType.GET_LISTS }) as { lists: VideoList[] };
     const lists = response?.lists || [];
 
     if (lists.length > 0) {
@@ -93,10 +94,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                 addBtn.addEventListener("click", async (event) => {
                     event.stopPropagation();
                     addBtn.disabled = true;
-                    const result = await chrome.runtime.sendMessage({
-                        type: "ADD_TO_LIST",
+                    const result = await sendMessage({
+                        type: CollapseMessageType.ADD_TO_LIST,
                         listId: list.id,
-                    });
+                    }) as { success: boolean; listId?: string };
                     if (result?.success) {
                         window.close();
                     } else {

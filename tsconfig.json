@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "types": ["chrome-types"],
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "noEmit": true
+  },
+  "include": [
+    "apclassroom/**/*.ts",
+    "collapse/**/*.ts",
+    "shared/**/*.ts",
+    "scripts/**/*.mts"
+  ]
+}

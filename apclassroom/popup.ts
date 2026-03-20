@@ -1,12 +1,13 @@
 import { displayVersion } from "../shared/popup-version.js";
+import { ApMessageType, sendTabMessage } from "./messaging";
 
 document.addEventListener("DOMContentLoaded", async function () {
   displayVersion();
-  const scriptStatusEl = document.getElementById("script-status");
-  const videoIdEl = document.getElementById("video-id");
-  const modeEl = document.getElementById("mode");
-  const statusContainer = document.getElementById("status-container");
-  const notOnPageEl = document.getElementById("not-on-page");
+  const scriptStatusEl = document.getElementById("script-status")!;
+  const videoIdEl = document.getElementById("video-id")!;
+  const modeEl = document.getElementById("mode")!;
+  const statusContainer = document.getElementById("status-container")!;
+  const notOnPageEl = document.getElementById("not-on-page")!;
 
   async function updateStatus() {
     try {
@@ -17,7 +18,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
 
       // Check if we're on AP Classroom
-      if (!tab.url?.includes("apclassroom.collegeboard.org")) {
+      if (!tab.id || !tab.url?.includes("apclassroom.collegeboard.org")) {
         statusContainer.style.display = "none";
         notOnPageEl.style.display = "block";
         return;
@@ -27,8 +28,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       notOnPageEl.style.display = "none";
 
       // Try to get state from content script
-      const response = await chrome.tabs.sendMessage(tab.id, {
-        type: "GET_STATE",
+      const response = await sendTabMessage(tab.id, {
+        type: ApMessageType.GET_STATE,
       });
 
       if (response?.state) {

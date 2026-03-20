@@ -1,6 +1,8 @@
+import { CollapseMessageType, onMessage, sendTabMessage, VideoInfo, VideoList } from "./messaging";
+
 const YOUTUBE_VIDEO_PATTERN = /youtube\.com\/watch\?.*v=/;
 
-function getCollapsedListIdFromTabUrl(urlString) {
+function getCollapsedListIdFromTabUrl(urlString: string | undefined): string | null {
     if (!urlString) return null;
 
     try {
@@ -16,8 +18,8 @@ function getCollapsedListIdFromTabUrl(urlString) {
     }
 }
 
-function dedupeVideosByNewest(videos) {
-    const byId = new Map();
+function dedupeVideosByNewest(videos: VideoInfo[]): VideoInfo[] {
+    const byId = new Map<string, VideoInfo>();
 
     for (const video of videos) {
         const existing = byId.get(video.videoId);
@@ -29,21 +31,21 @@ function dedupeVideosByNewest(videos) {
     return Array.from(byId.values());
 }
 
-async function getVideoLists() {
+async function getVideoLists(): Promise<VideoList[]> {
     const result = await chrome.storage.local.get("videoLists");
-    return result.videoLists || [];
+    return (result.videoLists as VideoList[]) || [];
 }
 
-async function saveVideoLists(lists) {
+async function saveVideoLists(lists: VideoList[]): Promise<void> {
     await chrome.storage.local.set({ videoLists: lists });
 }
 
-function getMostRecentList(lists) {
+function getMostRecentList(lists: VideoList[]): VideoList | null {
     if (lists.length === 0) return null;
     return lists.reduce((a, b) => (a.createdAt >= b.createdAt ? a : b));
 }
 
-function extractVideoIdFromUrl(urlString) {
+function extractVideoIdFromUrl(urlString: string): string | null {
     try {
         const url = new URL(urlString);
         return url.searchParams.get("v") || null;
@@ -52,7 +54,7 @@ function extractVideoIdFromUrl(urlString) {
     }
 }
 
-async function addVideoFromUrl(videoUrl, listId) {
+async function addVideoFromUrl(videoUrl: string, listId: string | null) {
     const videoId = extractVideoIdFromUrl(videoUrl);
     if (!videoId) return { success: false };
 
@@ -98,7 +100,7 @@ async function rebuildContextMenus() {
     const sorted = [...lists].sort((a, b) => b.createdAt - a.createdAt);
     const recent = sorted[0] || null;
 
-    const contexts = ["link", "selection"];
+    const contexts: ["link", "selection"] = ["link", "selection"];
 
     // 1. Simple button: add to most recent list
     chrome.contextMenus.create({
@@ -138,18 +140,18 @@ async function rebuildContextMenus() {
     }
 }
 
-async function tryGetVideoInfoFromTab(tabId) {
+async function tryGetVideoInfoFromTab(tabId: number): Promise<VideoInfo | null> {
     try {
-        const response = await chrome.tabs.sendMessage(tabId, {
-            type: "GET_VIDEO_INFO",
-        });
+        const response = (await sendTabMessage(tabId, {
+            type: CollapseMessageType.GET_VIDEO_INFO,
+        })) as { data: VideoInfo | null };
         return response?.data || null;
     } catch {
         return null;
     }
 }
 
-async function waitForTabLoadComplete(tabId, timeoutMs = 10000) {
+async function waitForTabLoadComplete(tabId: number, timeoutMs = 10000): Promise<boolean> {
     return await new Promise((resolve) => {
         let resolved = false;
 
@@ -157,17 +159,17 @@ async function waitForTabLoadComplete(tabId, timeoutMs = 10000) {
             if (resolved) return;
             resolved = true;
             chrome.tabs.onUpdated.removeListener(onUpdated);
-            clearTimeout(timeout);
+            clearTimeout(timeoutId);
         };
 
-        const onUpdated = (updatedTabId, changeInfo) => {
+        const onUpdated = (updatedTabId: number, changeInfo: any) => {
             if (updatedTabId === tabId && changeInfo.status === "complete") {
                 cleanup();
                 resolve(true);
             }
         };
 
-        const timeout = setTimeout(() => {
+        const timeoutId = setTimeout(() => {
             cleanup();
             resolve(false);
         }, timeoutMs);
@@ -189,7 +191,7 @@ async function waitForTabLoadComplete(tabId, timeoutMs = 10000) {
     });
 }
 
-async function getVideoInfoFromTab(tabId) {
+async function getVideoInfoFromTab(tabId: number): Promise<VideoInfo | null> {
     const firstAttempt = await tryGetVideoInfoFromTab(tabId);
     if (firstAttempt?.videoId) {
         return firstAttempt;
@@ -205,52 +207,43 @@ async function getVideoInfoFromTab(tabId) {
     return await tryGetVideoInfoFromTab(tabId);
 }
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.type === "COLLAPSE_TABS") {
-        handleCollapseTabs().then(sendResponse);
-        return true;
-    }
-
-    if (message.type === "GET_LISTS") {
-        getVideoLists().then((lists) => sendResponse({ lists }));
-        return true;
-    }
-
-    if (message.type === "OPEN_VIDEO") {
-        handleOpenVideo(message.listId, message.videoId).then(sendResponse);
-        return true;
-    }
-
-    if (message.type === "DELETE_VIDEO") {
-        handleDeleteVideo(message.listId, message.videoId).then(sendResponse);
-        return true;
-    }
-
-    if (message.type === "DELETE_LIST") {
-        handleDeleteList(message.listId).then(sendResponse);
-        return true;
-    }
-
-    if (message.type === "RENAME_LIST") {
-        handleRenameList(message.listId, message.name).then(sendResponse);
-        return true;
-    }
-
-    if (message.type === "MERGE_LISTS") {
-        handleMergeLists(message.targetId, message.sourceId).then(sendResponse);
-        return true;
-    }
-
-    if (message.type === "ADD_TO_LIST") {
-        handleAddToList(message.listId).then(sendResponse);
-        return true;
-    }
+onMessage(CollapseMessageType.COLLAPSE_TABS, async () => {
+    return await handleCollapseTabs();
 });
 
-async function extractVideosFromTabs(youtubeTabs) {
-    const videos = [];
-    const tabIds = [];
-    const infoResults = await Promise.all(youtubeTabs.map(tab => getVideoInfoFromTab(tab.id).then(info => ({ tab, info }))));
+onMessage(CollapseMessageType.GET_LISTS, async () => {
+    const lists = await getVideoLists();
+    return { lists };
+});
+
+onMessage(CollapseMessageType.OPEN_VIDEO, async (message) => {
+    await handleOpenVideo(message.listId, message.videoId);
+});
+
+onMessage(CollapseMessageType.DELETE_VIDEO, async (message) => {
+    await handleDeleteVideo(message.listId, message.videoId);
+});
+
+onMessage(CollapseMessageType.DELETE_LIST, async (message) => {
+    await handleDeleteList(message.listId);
+});
+
+onMessage(CollapseMessageType.RENAME_LIST, async (message) => {
+    await handleRenameList(message.listId, message.name);
+});
+
+onMessage(CollapseMessageType.MERGE_LISTS, async (message) => {
+    return await handleMergeLists(message.targetId, message.sourceId);
+});
+
+onMessage(CollapseMessageType.ADD_TO_LIST, async (message) => {
+    return await handleAddToList(message.listId);
+});
+
+async function extractVideosFromTabs(youtubeTabs: chrome.tabs.Tab[]) {
+    const videos: VideoInfo[] = [];
+    const tabIds: number[] = [];
+    const infoResults = await Promise.all(youtubeTabs.map((tab: chrome.tabs.Tab) => getVideoInfoFromTab(tab.id as number).then(info => ({ tab, info }))));
     for (const { tab, info } of infoResults) {
         if (info && info.videoId) {
             videos.push({
@@ -265,7 +258,7 @@ async function extractVideosFromTabs(youtubeTabs) {
                 playlistIndex: info.playlistIndex || null,
                 addedAt: Date.now(),
             });
-            tabIds.push(tab.id);
+            if (tab.id !== undefined) tabIds.push(tab.id);
         }
     }
     return { extractedVideos: videos, extractedTabIds: tabIds };
@@ -277,11 +270,11 @@ async function handleCollapseTabs() {
         currentWindow: true,
     });
 
-    const youtubeTabs = tabs.filter((tab) => YOUTUBE_VIDEO_PATTERN.test(tab.url));
+    const youtubeTabs = tabs.filter((tab) => YOUTUBE_VIDEO_PATTERN.test(tab.url || ""));
     const listTabs = tabs
         .map((tab) => ({
             tabId: tab.id,
-            listId: getCollapsedListIdFromTabUrl(tab.url),
+            listId: getCollapsedListIdFromTabUrl(tab.url || ""),
         }))
         .filter((entry) => Boolean(entry.listId));
 
@@ -342,24 +335,24 @@ async function handleCollapseTabs() {
     });
 
     if (tabsToClose.length > 0) {
-        const uniqueTabIds = Array.from(new Set(tabsToClose));
+        const uniqueTabIds = Array.from(new Set(tabsToClose)).filter(id => id !== undefined) as number[];
         await chrome.tabs.remove(uniqueTabIds);
     }
 
     return { success: true, listId: list.id, count: uniqueVideos.length };
 }
 
-async function closeCollapsedTabsForList(listId) {
+async function closeCollapsedTabsForList(listId: string) {
     const allTabs = await chrome.tabs.query({});
     const targetUrl = `collapsed.html?listId=${listId}`;
     for (const tab of allTabs) {
-        if (tab.url?.includes(targetUrl)) {
+        if (tab.url?.includes(targetUrl) && tab.id !== undefined) {
             await chrome.tabs.remove(tab.id);
         }
     }
 }
 
-async function autoDeleteIfEmpty(lists, listId) {
+async function autoDeleteIfEmpty(lists: VideoList[], listId: string) {
     const list = lists.find((l) => l.id === listId);
     if (list && list.videos.length === 0) {
         const updated = lists.filter((l) => l.id !== listId);
@@ -370,7 +363,7 @@ async function autoDeleteIfEmpty(lists, listId) {
     return false;
 }
 
-async function handleOpenVideo(listId, videoId) {
+async function handleOpenVideo(listId: string, videoId: string) {
     const lists = await getVideoLists();
     const list = lists.find((l) => l.id === listId);
     if (!list) return { success: false };
@@ -383,7 +376,7 @@ async function handleOpenVideo(listId, videoId) {
     if (video.playlistId) {
         url += `&list=${encodeURIComponent(video.playlistId)}`;
         if (video.playlistIndex) {
-            url += `&index=${encodeURIComponent(video.playlistIndex)}`;
+            url += `&index=${encodeURIComponent(video.playlistIndex)}`;       
         }
     }
 
@@ -396,7 +389,7 @@ async function handleOpenVideo(listId, videoId) {
     return { success: true };
 }
 
-async function handleDeleteVideo(listId, videoId) {
+async function handleDeleteVideo(listId: string, videoId: string) {
     const lists = await getVideoLists();
     const list = lists.find((l) => l.id === listId);
     if (!list) return { success: false };
@@ -408,7 +401,7 @@ async function handleDeleteVideo(listId, videoId) {
     return { success: true };
 }
 
-async function handleDeleteList(listId) {
+async function handleDeleteList(listId: string) {
     let lists = await getVideoLists();
     lists = lists.filter((l) => l.id !== listId);
     await saveVideoLists(lists);
@@ -416,7 +409,7 @@ async function handleDeleteList(listId) {
     return { success: true };
 }
 
-async function handleRenameList(listId, name) {
+async function handleRenameList(listId: string, name: string) {
     const lists = await getVideoLists();
     const list = lists.find((l) => l.id === listId);
     if (!list) return { success: false };
@@ -427,7 +420,7 @@ async function handleRenameList(listId, name) {
     return { success: true };
 }
 
-async function handleMergeLists(targetId, sourceId) {
+async function handleMergeLists(targetId: string, sourceId: string) {
     const lists = await getVideoLists();
     const target = lists.find((l) => l.id === targetId);
     const source = lists.find((l) => l.id === sourceId);
@@ -443,13 +436,13 @@ async function handleMergeLists(targetId, sourceId) {
     return { success: true };
 }
 
-async function handleAddToList(listId) {
+async function handleAddToList(listId: string | null) {
     const tabs = await chrome.tabs.query({
         highlighted: true,
         currentWindow: true,
     });
 
-    const youtubeTabs = tabs.filter((tab) => YOUTUBE_VIDEO_PATTERN.test(tab.url));
+    const youtubeTabs = tabs.filter((tab) => YOUTUBE_VIDEO_PATTERN.test(tab.url || ""));
 
     if (youtubeTabs.length === 0) {
         return { success: false, error: "No YouTube video tabs selected" };
@@ -485,7 +478,7 @@ chrome.commands.onCommand.addListener(async (command) => {
         active: true,
         currentWindow: true,
     });
-    if (!tab || !YOUTUBE_VIDEO_PATTERN.test(tab.url)) return;
+    if (!tab || !YOUTUBE_VIDEO_PATTERN.test(tab.url || "")) return;
 
     const lists = await getVideoLists();
     let targetList = getMostRecentList(lists);
