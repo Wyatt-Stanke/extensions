@@ -1,19 +1,19 @@
 {
-    "private": true,
-    "type": "module",
-    "scripts": {
-        "build": "npm run build:icons && node scripts/build.mjs",
-        "build:icons": "node scripts/generate-icons.mjs",
-        "format": "biome format . --fix",
-        "lint": "biome lint ."
-    },
-    "devDependencies": {
-        "@biomejs/biome": "^2.4.8",
-        "chrome-types": "^0.1.425",
-        "chrome-webstore-upload-cli": "^3.0.0",
-        "esbuild": "^0.27.0",
-        "lucide": "^0.577.0",
-        "sharp": "^0.34.0",
-        "typescript": "^5.9.3"
-    }
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"build": "npm run build:icons && node scripts/build.mjs",
+		"build:icons": "node scripts/generate-icons.mjs",
+		"format": "biome format . --fix",
+		"lint": "biome lint ."
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.8",
+		"chrome-types": "^0.1.425",
+		"chrome-webstore-upload-cli": "^3.0.0",
+		"esbuild": "^0.27.0",
+		"lucide": "^0.577.0",
+		"sharp": "^0.34.0",
+		"typescript": "^5.9.3"
+	}
 }
