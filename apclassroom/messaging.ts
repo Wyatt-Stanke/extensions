@@ -5,6 +5,8 @@ export enum ApMessageType {
 	AP_TOOLS_STATE = "AP_TOOLS_STATE",
 	STATE_UPDATE = "STATE_UPDATE",
 	GET_STATE = "GET_STATE",
+	CLICK_BUTTON = "CLICK_BUTTON",
+	SET_OVERLAY_VISIBLE = "SET_OVERLAY_VISIBLE",
 }
 
 export type ApState = {
@@ -26,6 +28,12 @@ export type ApProtocol = {
 	[ApMessageType.GET_STATE]: {
 		request: { type: ApMessageType.GET_STATE };
 		response: { state: ApState };
+	};
+	[ApMessageType.CLICK_BUTTON]: {
+		request: { type: ApMessageType.CLICK_BUTTON };
+	};
+	[ApMessageType.SET_OVERLAY_VISIBLE]: {
+		request: { type: ApMessageType.SET_OVERLAY_VISIBLE; visible: boolean };
 	};
 };
 

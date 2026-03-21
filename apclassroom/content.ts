@@ -24,10 +24,22 @@ function broadcastState() {
 	);
 }
 
+let overlayVisible = true;
+
 // Listen for state requests from bridge
 window.addEventListener("message", (event) => {
 	if (event.data?.type === ApMessageType.AP_TOOLS_GET_STATE) {
 		broadcastState();
+	}
+	if (event.data?.type === ApMessageType.CLICK_BUTTON) {
+		handleClick();
+	}
+	if (event.data?.type === ApMessageType.SET_OVERLAY_VISIBLE) {
+		overlayVisible = event.data.visible;
+		const btn = document.getElementById("ap-tools-btn");
+		if (btn) {
+			btn.style.display = overlayVisible ? "flex" : "none";
+		}
 	}
 });
 
@@ -114,26 +126,89 @@ function createButton() {
 
 	button = document.createElement("button");
 	button.id = "ap-tools-btn";
-	button.innerHTML = "⏸ Start playing a video...";
-	button.style.cssText = `
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            z-index: 999999;
-            padding: 12px 18px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: not-allowed;
-            background: #888;
-            color: #ccc;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        `;
+	button.innerHTML =
+		'<span class="ap-tools-dot"></span><span class="ap-tools-label">Waiting...</span>';
+
+	const style = document.createElement("style");
+	style.textContent = `
+		#ap-tools-btn {
+			position: fixed;
+			top: 14px;
+			right: 14px;
+			z-index: 999999;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			padding: 8px 14px;
+			border: none;
+			border-radius: 20px;
+			font-size: 13px;
+			font-weight: 600;
+			cursor: not-allowed;
+			background: rgba(0,0,0,0.65);
+			color: rgba(255,255,255,0.55);
+			backdrop-filter: blur(8px);
+			-webkit-backdrop-filter: blur(8px);
+			box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+			transition: background 0.2s, color 0.2s, transform 0.15s, box-shadow 0.2s;
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+			user-select: none;
+		}
+		#ap-tools-btn:hover:not(:disabled) {
+			transform: translateY(-1px);
+			box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+		}
+		#ap-tools-btn:active:not(:disabled) {
+			transform: translateY(0);
+		}
+		.ap-tools-dot {
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			background: #888;
+			flex-shrink: 0;
+			transition: background 0.2s;
+		}
+		.ap-tools-label {
+			white-space: nowrap;
+		}
+		#ap-tools-btn.ap-ready {
+			background: rgba(76,175,80,0.9);
+			color: white;
+			cursor: pointer;
+		}
+		#ap-tools-btn.ap-ready .ap-tools-dot {
+			background: #c8e6c9;
+		}
+		#ap-tools-btn.ap-blocking {
+			background: rgba(244,67,54,0.85);
+			color: white;
+			cursor: pointer;
+		}
+		#ap-tools-btn.ap-blocking .ap-tools-dot {
+			background: #ffcdd2;
+		}
+		#ap-tools-btn.ap-sending {
+			background: rgba(0,0,0,0.65);
+			color: rgba(255,255,255,0.7);
+			cursor: wait;
+		}
+		#ap-tools-btn.ap-sending .ap-tools-dot {
+			background: #ffc107;
+			animation: ap-pulse 1s ease-in-out infinite;
+		}
+		@keyframes ap-pulse {
+			0%, 100% { opacity: 1; }
+			50% { opacity: 0.3; }
+		}
+	`;
+	document.head.appendChild(style);
+
 	button.disabled = true;
 	button.onclick = handleClick;
+	if (!overlayVisible) {
+		button.style.display = "none";
+	}
 	document.body.appendChild(button);
 }
 
@@ -145,23 +220,20 @@ function updateButton() {
 	}
 	if (!button) return;
 
+	const label = button.querySelector(".ap-tools-label");
+	if (!label) return;
+
 	if (state.blocking.length > 0) {
-		button.innerHTML = `🔒 Blocking (${state.blocking.length}) - Click to Reset`;
-		button.style.background = "#f44336";
-		button.style.color = "white";
-		button.style.cursor = "pointer";
+		button.className = "ap-blocking";
+		label.textContent = `Blocking ${state.blocking.length} — Reset`;
 		button.disabled = false;
 	} else if (state.videoId) {
-		button.innerHTML = "✓ Mark Complete";
-		button.style.background = "#4CAF50";
-		button.style.color = "white";
-		button.style.cursor = "pointer";
+		button.className = "ap-ready";
+		label.textContent = "Mark Complete";
 		button.disabled = false;
 	} else {
-		button.innerHTML = "⏸ Start playing a video...";
-		button.style.background = "#888";
-		button.style.color = "#ccc";
-		button.style.cursor = "not-allowed";
+		button.className = "";
+		label.textContent = "Start playing a video...";
 		button.disabled = true;
 	}
 }
@@ -273,7 +345,9 @@ async function handleClick() {
 
 	try {
 		if (button) {
-			button.innerHTML = "⏳ Sending...";
+			const label = button.querySelector(".ap-tools-label");
+			if (label) label.textContent = "Sending...";
+			button.className = "ap-sending";
 			button.disabled = true;
 		}
 

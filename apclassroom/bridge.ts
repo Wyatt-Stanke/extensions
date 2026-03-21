@@ -35,6 +35,27 @@ onMessage(ApMessageType.GET_STATE, (_message) => {
 	return { state: currentState };
 });
 
+// Listen for click requests from popup
+onMessage(ApMessageType.CLICK_BUTTON, (_message) => {
+	window.postMessage({ type: ApMessageType.CLICK_BUTTON }, "*");
+});
+
+// Listen for overlay visibility changes from popup
+onMessage(ApMessageType.SET_OVERLAY_VISIBLE, (message) => {
+	window.postMessage(
+		{ type: ApMessageType.SET_OVERLAY_VISIBLE, visible: message.visible },
+		"*",
+	);
+});
+
+// Send initial overlay visibility to content script
+chrome.storage.local.get({ showOverlay: true }, (result) => {
+	window.postMessage(
+		{ type: ApMessageType.SET_OVERLAY_VISIBLE, visible: result.showOverlay },
+		"*",
+	);
+});
+
 // Request initial state
 setTimeout(() => {
 	window.postMessage({ type: ApMessageType.AP_TOOLS_GET_STATE }, "*");

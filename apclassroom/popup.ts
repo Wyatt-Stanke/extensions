@@ -3,41 +3,70 @@ import { ApMessageType, sendTabMessage } from "./messaging";
 
 document.addEventListener("DOMContentLoaded", async () => {
 	displayVersion();
-	const scriptStatusEl = document.getElementById("script-status");
-	const videoIdEl = document.getElementById("video-id");
-	const modeEl = document.getElementById("mode");
+	const statusDot = document.getElementById("status-dot");
+	const statusText = document.getElementById("status-text");
+	const statusDetail = document.getElementById("status-detail");
 	const statusContainer = document.getElementById("status-container");
 	const notOnPageEl = document.getElementById("not-on-page");
+	const actionSection = document.getElementById("action-section");
+	const actionBtn = document.getElementById(
+		"action-btn",
+	) as HTMLButtonElement | null;
+	const overlayToggle = document.getElementById(
+		"overlay-toggle",
+	) as HTMLInputElement | null;
+
+	let currentTabId: number | null = null;
+
+	// Initialize overlay toggle from storage
+	if (overlayToggle) {
+		const { showOverlay } = await chrome.storage.local.get({
+			showOverlay: true,
+		});
+		overlayToggle.checked = showOverlay;
+
+		overlayToggle.addEventListener("change", async () => {
+			const visible = overlayToggle.checked;
+			await chrome.storage.local.set({ showOverlay: visible });
+			if (currentTabId) {
+				await sendTabMessage<ApMessageType.SET_OVERLAY_VISIBLE>(currentTabId, {
+					type: ApMessageType.SET_OVERLAY_VISIBLE,
+					visible,
+				});
+			}
+		});
+	}
 
 	async function updateStatus() {
 		if (
-			!scriptStatusEl ||
-			!videoIdEl ||
-			!modeEl ||
+			!statusDot ||
+			!statusText ||
+			!statusDetail ||
 			!statusContainer ||
-			!notOnPageEl
+			!notOnPageEl ||
+			!actionSection ||
+			!actionBtn
 		) {
 			return;
 		}
 
 		try {
-			// Get the active tab
 			const [tab] = await chrome.tabs.query({
 				active: true,
 				currentWindow: true,
 			});
 
-			// Check if we're on AP Classroom
 			if (!tab.id || !tab.url?.includes("apclassroom.collegeboard.org")) {
 				statusContainer.style.display = "none";
+				actionSection.style.display = "none";
 				notOnPageEl.style.display = "block";
 				return;
 			}
 
+			currentTabId = tab.id;
 			statusContainer.style.display = "block";
 			notOnPageEl.style.display = "none";
 
-			// Try to get state from content script
 			const response = await sendTabMessage<ApMessageType.GET_STATE>(tab.id, {
 				type: ApMessageType.GET_STATE,
 			});
@@ -45,52 +74,56 @@ document.addEventListener("DOMContentLoaded", async () => {
 			if (response?.state) {
 				const state = response.state;
 
-				// Script status
-				if (state.initialized) {
-					scriptStatusEl.textContent = "Active";
-					scriptStatusEl.className = "status-value active";
-				} else {
-					scriptStatusEl.textContent = "Not Running";
-					scriptStatusEl.className = "status-value inactive";
-				}
-
-				// Video ID
-				if (state.videoId) {
-					videoIdEl.textContent = state.videoId;
-					videoIdEl.className = "status-value ready";
-				} else {
-					videoIdEl.textContent = "Waiting...";
-					videoIdEl.className = "status-value loading";
-				}
-
-				// Mode
-				if (state.blocking?.length > 0) {
-					modeEl.textContent = `Blocking (${state.blocking.length})`;
-					modeEl.className = "status-value blocking";
+				if (!state.initialized) {
+					statusDot.className = "status-dot inactive";
+					statusText.textContent = "Not Running";
+					statusDetail.textContent = "";
+					actionSection.style.display = "none";
+				} else if (state.blocking?.length > 0) {
+					statusDot.className = "status-dot blocking";
+					statusText.textContent = `Blocking ${state.blocking.length} video${state.blocking.length !== 1 ? "s" : ""}`;
+					statusDetail.textContent = "Progress requests are being intercepted.";
+					actionSection.style.display = "block";
+					actionBtn.textContent = "Reset";
+					actionBtn.className = "btn-action blocking";
+					actionBtn.disabled = false;
 				} else if (state.videoId) {
-					modeEl.textContent = "Ready";
-					modeEl.className = "status-value ready";
+					statusDot.className = "status-dot ready";
+					statusText.textContent = "Ready";
+					statusDetail.textContent = `Video ${state.videoId} detected.`;
+					actionSection.style.display = "block";
+					actionBtn.textContent = "Mark Complete";
+					actionBtn.className = "btn-action";
+					actionBtn.disabled = false;
 				} else {
-					modeEl.textContent = "Monitoring";
-					modeEl.className = "status-value loading";
+					statusDot.className = "status-dot active";
+					statusText.textContent = "Monitoring";
+					statusDetail.textContent = "Waiting for a video to play...";
+					actionSection.style.display = "none";
 				}
 			} else {
 				throw new Error("No response");
 			}
 		} catch (e) {
 			console.log("Error getting state:", e);
-			scriptStatusEl.textContent = "Not Running";
-			scriptStatusEl.className = "status-value inactive";
-			videoIdEl.textContent = "—";
-			videoIdEl.className = "status-value";
-			modeEl.textContent = "—";
-			modeEl.className = "status-value";
+			statusDot.className = "status-dot inactive";
+			statusText.textContent = "Not Running";
+			statusDetail.textContent = "";
+			actionSection.style.display = "none";
 		}
 	}
 
-	// Initial update
-	await updateStatus();
+	if (actionBtn) {
+		actionBtn.addEventListener("click", async () => {
+			if (!currentTabId) return;
+			actionBtn.disabled = true;
+			await sendTabMessage<ApMessageType.GET_STATE>(currentTabId, {
+				type: ApMessageType.CLICK_BUTTON,
+			});
+			setTimeout(updateStatus, 300);
+		});
+	}
 
-	// Refresh every second while popup is open
+	await updateStatus();
 	setInterval(updateStatus, 1000);
 });

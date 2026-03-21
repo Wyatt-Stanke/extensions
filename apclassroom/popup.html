@@ -8,38 +8,43 @@
     <div class="container">
       <h1>AP Classroom Tools</h1>
 
-      <div id="status-container" class="status">
-        <div class="status-row">
-          <span class="status-label">Script Status:</span>
-          <span id="script-status" class="status-value loading"
-            >Checking...</span
-          >
+      <div id="status-container" class="card">
+        <div class="status-indicator">
+          <span id="status-dot" class="status-dot"></span>
+          <span id="status-text" class="status-text">Checking...</span>
         </div>
-        <div class="status-row">
-          <span class="status-label">Video ID:</span>
-          <span id="video-id" class="status-value">—</span>
-        </div>
-        <div class="status-row">
-          <span class="status-label">Mode:</span>
-          <span id="mode" class="status-value">—</span>
-        </div>
+        <p id="status-detail" class="status-detail"></p>
       </div>
 
-      <div id="not-on-page" class="warning" style="display: none">
-        <p>⚠️ Not on AP Classroom</p>
-        <p class="small">
+      <div id="not-on-page" class="card warning" style="display: none">
+        <p class="warning-title">Not on AP Classroom</p>
+        <p class="warning-sub">
           Navigate to apclassroom.collegeboard.org to use this extension.
         </p>
       </div>
 
-      <div class="instructions">
-        <h2>How to Use</h2>
+      <div id="action-section" class="card" style="display: none">
+        <button id="action-btn" class="btn-action" type="button" disabled>
+          Mark Complete
+        </button>
+      </div>
+
+      <div class="card settings-section">
+        <label class="toggle-row">
+          <span class="toggle-label">Show in-page overlay</span>
+          <input type="checkbox" id="overlay-toggle" class="toggle-input" />
+          <span class="toggle-switch"></span>
+        </label>
+      </div>
+
+      <details class="card help-section">
+        <summary>How to Use</summary>
         <ol>
           <li>Navigate to a video on AP Classroom</li>
           <li>Start playing the video briefly</li>
-          <li>Click the floating button to mark complete</li>
+          <li>Click <strong>Mark Complete</strong> or use the page button</li>
         </ol>
-      </div>
+      </details>
 
       <div class="footer">
         <p>
