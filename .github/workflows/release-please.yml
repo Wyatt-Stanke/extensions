@@ -2,17 +2,68 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
   contents: write
   issues: write
   pull-requests: write
+  repository-projects: read
 
 name: release-please
 
 jobs:
   release-please:
     runs-on: ubuntu-latest
+    outputs:
+      releases_created: ${{ steps.release.outputs.releases_created }}
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+
+  check-conflicting-prs:
+    runs-on: ubuntu-latest
+    needs: release-please
+    if: needs.release-please.outputs.releases_created == 'true'
+    outputs:
+      need_rebase: ${{ steps.check-pending-prs.outputs.need_rebase }}
+    steps:
+      - name: Get pending PRs and remove label from conflicted ones
+        id: check-pending-prs
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          # Give GitHub a moment to compute mergeable status
+          sleep 10
+
+          pending_prs=$(gh pr list --repo "$REPO" --label "autorelease: pending" --state open --json number --jq '.[].number')
+          need_rebase=""
+
+          if [[ -n "$pending_prs" ]]; then
+              for pr_num in $pending_prs; do
+                  echo "Checking pr: $pr_num"
+                  mergeable=$(gh pr view --repo "$REPO" "$pr_num" --json mergeable --jq '.mergeable')
+                  echo "mergeable status: $mergeable"
+                  if [[ "$mergeable" != "MERGEABLE" ]]; then
+                      echo "pr: $pr_num is not MERGEABLE, removing 'autorelease: pending' label"
+                      gh pr edit --repo "$REPO" "$pr_num" --remove-label "autorelease: pending"
+                      need_rebase=true
+                  fi
+              done
+          else
+              echo "No pending PRs found."
+          fi
+
+          echo "need_rebase=${need_rebase}" >> "$GITHUB_OUTPUT"
+
+  release-please-rebase:
+    runs-on: ubuntu-latest
+    needs: check-conflicting-prs
+    if: needs.check-conflicting-prs.outputs.need_rebase == 'true'
     steps:
       - uses: googleapis/release-please-action@v4
         with:
