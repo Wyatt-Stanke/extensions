@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0](https://github.com/Wyatt-Stanke/extensions/compare/apclassroom-v1.0.7...apclassroom-v1.1.0) (2026-03-21)
+
+
+### Features
+
+* add dark mode support ([541516f](https://github.com/Wyatt-Stanke/extensions/commit/541516f4d63622e4ba13892e5ec665bfc6d9255e))
+
+
+### Bug Fixes
+
+* revert ([e6750bb](https://github.com/Wyatt-Stanke/extensions/commit/e6750bbff0c092f86f0f3c4613845e785433ae21))
+* update footer text ([f8f99c9](https://github.com/Wyatt-Stanke/extensions/commit/f8f99c941f9de8e2fb0a989a95244774d1015602))
+
 ## [1.0.7](https://github.com/Wyatt-Stanke/extensions/compare/apclassroom-v1.0.6...apclassroom-v1.0.7) (2026-03-16)
 
 
