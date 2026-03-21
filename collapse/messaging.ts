@@ -47,16 +47,30 @@ export type CollapseProtocol = {
 		response: { data: VideoInfo | null };
 	};
 	[CollapseMessageType.COLLAPSE_TABS]: {
-		request: { type: CollapseMessageType.COLLAPSE_TABS };
-		response: { success: boolean; error?: string };
+		request: { type: CollapseMessageType.COLLAPSE_TABS; allTabs?: boolean };
+		response: {
+			success: boolean;
+			error?: string;
+			listId?: string;
+			count?: number;
+		};
 	};
 	[CollapseMessageType.GET_LISTS]: {
 		request: { type: CollapseMessageType.GET_LISTS };
 		response: { lists: VideoList[] };
 	};
 	[CollapseMessageType.ADD_TO_LIST]: {
-		request: { type: CollapseMessageType.ADD_TO_LIST; listId: string | null };
-		response: { success: boolean; listId?: string };
+		request: {
+			type: CollapseMessageType.ADD_TO_LIST;
+			listId: string | null;
+			allTabs?: boolean;
+		};
+		response: {
+			success: boolean;
+			listId?: string;
+			count?: number;
+			error?: string;
+		};
 	};
 	[CollapseMessageType.OPEN_VIDEO]: {
 		request: {

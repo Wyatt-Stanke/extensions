@@ -9,7 +9,15 @@
       <h1>Collapse</h1>
 
       <div id="collapse-section" class="card">
-        <p class="tab-count"><span id="tab-count">0 tabs</span> selected</p>
+        <div class="scope-toggle">
+          <button id="scope-selected" class="scope-btn active" type="button">
+            Selected
+            <span id="scope-selected-count" class="scope-count">0</span>
+          </button>
+          <button id="scope-all" class="scope-btn" type="button">
+            All Tabs <span id="scope-all-count" class="scope-count">0</span>
+          </button>
+        </div>
         <button id="collapse-btn" class="btn-primary" type="button" disabled>
           Create List
         </button>

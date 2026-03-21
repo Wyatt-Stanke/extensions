@@ -221,8 +221,8 @@ async function getVideoInfoFromTab(tabId: number): Promise<VideoInfo | null> {
 	return await tryGetVideoInfoFromTab(tabId);
 }
 
-onMessage(CollapseMessageType.COLLAPSE_TABS, async () => {
-	return await handleCollapseTabs();
+onMessage(CollapseMessageType.COLLAPSE_TABS, async (message) => {
+	return await handleCollapseTabs(message.allTabs);
 });
 
 onMessage(CollapseMessageType.GET_LISTS, async () => {
@@ -251,7 +251,7 @@ onMessage(CollapseMessageType.MERGE_LISTS, async (message) => {
 });
 
 onMessage(CollapseMessageType.ADD_TO_LIST, async (message) => {
-	return await handleAddToList(message.listId);
+	return await handleAddToList(message.listId, message.allTabs);
 });
 
 async function extractVideosFromTabs(youtubeTabs: chrome.tabs.Tab[]) {
@@ -282,9 +282,9 @@ async function extractVideosFromTabs(youtubeTabs: chrome.tabs.Tab[]) {
 	return { extractedVideos: videos, extractedTabIds: tabIds };
 }
 
-async function handleCollapseTabs() {
+async function handleCollapseTabs(allTabs?: boolean) {
 	const tabs = await chrome.tabs.query({
-		highlighted: true,
+		...(allTabs ? {} : { highlighted: true }),
 		currentWindow: true,
 	});
 
@@ -461,26 +461,47 @@ async function handleMergeLists(targetId: string, sourceId: string) {
 	return { success: true };
 }
 
-async function handleAddToList(listId: string | null) {
+async function handleAddToList(listId: string | null, allTabs?: boolean) {
 	const tabs = await chrome.tabs.query({
-		highlighted: true,
+		...(allTabs ? {} : { highlighted: true }),
 		currentWindow: true,
 	});
 
 	const youtubeTabs = tabs.filter((tab) =>
 		YOUTUBE_VIDEO_PATTERN.test(tab.url || ""),
 	);
+	const listTabs = tabs
+		.map((tab) => ({
+			tabId: tab.id,
+			listId: getCollapsedListIdFromTabUrl(tab.url || ""),
+		}))
+		.filter((entry) => Boolean(entry.listId) && entry.listId !== listId);
 
-	if (youtubeTabs.length === 0) {
-		return { success: false, error: "No YouTube video tabs selected" };
+	if (youtubeTabs.length === 0 && listTabs.length === 0) {
+		return { success: false, error: "No YouTube video or list tabs selected" };
 	}
 
 	const lists = await getVideoLists();
 	const list = lists.find((l) => l.id === listId);
 	if (!list) return { success: false, error: "List not found" };
 
-	const { extractedVideos: videos, extractedTabIds: tabsToClose } =
+	const videos = [];
+	const selectedListIds = Array.from(
+		new Set(listTabs.map((entry) => entry.listId)),
+	);
+
+	for (const selectedListId of selectedListIds) {
+		const existingList = lists.find((l) => l.id === selectedListId);
+		if (existingList) {
+			videos.push(...existingList.videos);
+		}
+	}
+
+	const { extractedVideos, extractedTabIds: tabsToClose } =
 		await extractVideosFromTabs(youtubeTabs);
+
+	videos.push(...extractedVideos);
+	tabsToClose.push(...listTabs.map((entry) => entry.tabId as number));
 
 	if (videos.length === 0) {
 		return { success: false, error: "Could not get info from any tabs" };
@@ -489,10 +510,18 @@ async function handleAddToList(listId: string | null) {
 	// Add videos, dedup by videoId keeping newer
 	list.videos = dedupeVideosByNewest([...list.videos, ...videos]);
 
-	await saveVideoLists(lists);
+	// Update lists - replacing the target list, and also removing the lists we merged from
+	const updatedLists = lists
+		.filter((l) => !selectedListIds.includes(l.id) && l.id !== list.id)
+		.concat([list]);
+
+	await saveVideoLists(updatedLists);
 
 	if (tabsToClose.length > 0) {
-		await chrome.tabs.remove(tabsToClose);
+		const uniqueTabIds = Array.from(new Set(tabsToClose)).filter(
+			(id) => id !== undefined,
+		) as number[];
+		await chrome.tabs.remove(uniqueTabIds);
 	}
 
 	return { success: true, listId: list.id, count: videos.length };

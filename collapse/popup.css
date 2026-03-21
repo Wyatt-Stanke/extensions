@@ -12,16 +12,43 @@
 	border: 1px solid #e0e0e0;
 }
 
-.tab-count {
-	font-size: 14px;
-	color: #333;
+.scope-toggle {
+	display: flex;
 	margin-bottom: 10px;
-	text-align: center;
+	border-radius: 6px;
+	overflow: hidden;
+	border: 1px solid #e0e0e0;
 }
 
-.tab-count span {
+.scope-btn {
+	flex: 1;
+	padding: 7px 8px;
+	font-size: 13px;
+	font-weight: 500;
+	border: none;
+	background: transparent;
+	color: #666;
+	cursor: pointer;
+	transition:
+		background 0.15s,
+		color 0.15s;
+}
+
+.scope-btn:first-child {
+	border-right: 1px solid #e0e0e0;
+}
+
+.scope-btn.active {
+	background: #1a73e8;
+	color: white;
+}
+
+.scope-btn:hover:not(.active) {
+	background: #f0f0f0;
+}
+
+.scope-count {
 	font-weight: 700;
-	color: #1a73e8;
 }
 
 .btn-primary {
@@ -81,33 +108,97 @@
 	flex-shrink: 0;
 }
 
-.btn-add-to-list {
+.add-split {
+	position: relative;
+	display: flex;
+	margin-left: 6px;
+	flex-shrink: 0;
+}
+
+.add-split-main,
+.add-split-chevron {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	background: none;
 	border: 1px solid #ddd;
-	border-radius: 4px;
-	padding: 4px;
-	margin-left: 6px;
 	cursor: pointer;
 	color: #666;
-	flex-shrink: 0;
+	padding: 4px;
 	transition:
 		color 0.15s,
 		border-color 0.15s,
 		background 0.15s;
 }
 
-.btn-add-to-list:hover:not(:disabled) {
+.add-split-main {
+	border-radius: 4px 0 0 4px;
+	border-right: none;
+}
+
+.add-split-chevron {
+	border-radius: 0 4px 4px 0;
+	padding: 4px 3px;
+	font-size: 10px;
+}
+
+.add-split-main:hover:not(:disabled),
+.add-split-chevron:hover:not(:disabled) {
 	color: #1a73e8;
 	border-color: #1a73e8;
 	background: #e8f0fe;
 }
 
-.btn-add-to-list:disabled {
+.add-split-main:disabled,
+.add-split-chevron:disabled {
 	opacity: 0.4;
 	cursor: default;
+}
+
+.add-dropdown {
+	display: none;
+	position: absolute;
+	right: 0;
+	top: 100%;
+	margin-top: 2px;
+	background: white;
+	border: 1px solid #e0e0e0;
+	border-radius: 6px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+	z-index: 10;
+	min-width: 160px;
+	overflow: hidden;
+}
+
+.add-dropdown.open {
+	display: block;
+}
+
+.add-dropdown-item {
+	display: block;
+	width: 100%;
+	padding: 8px 12px;
+	border: none;
+	background: none;
+	color: #333;
+	font-size: 13px;
+	text-align: left;
+	cursor: pointer;
+	white-space: nowrap;
+	transition: background 0.12s;
+}
+
+.add-dropdown-item:hover {
+	background: #f0f0f0;
+}
+
+.add-dropdown-item:disabled {
+	color: #bbb;
+	cursor: default;
+}
+
+.add-dropdown-item:disabled:hover {
+	background: none;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -115,11 +206,21 @@
 		background: #292a2d;
 		border-color: #3c4043;
 	}
-	.tab-count {
-		color: #e8eaed;
+	.scope-toggle {
+		border-color: #3c4043;
 	}
-	.tab-count span {
-		color: #8ab4f8;
+	.scope-btn {
+		color: #9aa0a6;
+	}
+	.scope-btn:first-child {
+		border-right-color: #3c4043;
+	}
+	.scope-btn.active {
+		background: #8ab4f8;
+		color: #202124;
+	}
+	.scope-btn:hover:not(.active) {
+		background: #35363a;
 	}
 	.btn-primary {
 		background: #8ab4f8;
@@ -144,13 +245,29 @@
 	.list-item-count {
 		color: #9aa0a6;
 	}
-	.btn-add-to-list {
+	.add-split-main,
+	.add-split-chevron {
 		border-color: #5f6368;
 		color: #9aa0a6;
 	}
-	.btn-add-to-list:hover:not(:disabled) {
+	.add-split-main:hover:not(:disabled),
+	.add-split-chevron:hover:not(:disabled) {
 		color: #8ab4f8;
 		border-color: #8ab4f8;
 		background: rgba(138, 180, 248, 0.1);
+	}
+	.add-dropdown {
+		background: #292a2d;
+		border-color: #3c4043;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+	}
+	.add-dropdown-item {
+		color: #e8eaed;
+	}
+	.add-dropdown-item:hover {
+		background: #35363a;
+	}
+	.add-dropdown-item:disabled {
+		color: #5f6368;
 	}
 }
