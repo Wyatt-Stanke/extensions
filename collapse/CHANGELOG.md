@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.2.0](https://github.com/Wyatt-Stanke/extensions/compare/collapse-v1.1.1...collapse-v1.2.0) (2026-03-26)
+
+
+### Features
+
+* add dark mode support ([541516f](https://github.com/Wyatt-Stanke/extensions/commit/541516f4d63622e4ba13892e5ec665bfc6d9255e))
+* add palette command shortcut (CTRL+SHIFT+U) ([6a992fe](https://github.com/Wyatt-Stanke/extensions/commit/6a992fee9505830b80f2125e41eee2624466d6b9))
+* add playlist support to video handling and UI ([9eeb542](https://github.com/Wyatt-Stanke/extensions/commit/9eeb54229d6024f4283a2f6f94f69c27c5d0c7e4))
+* allow adding all tabs in current window to a list ([666be94](https://github.com/Wyatt-Stanke/extensions/commit/666be94974b48ce15c030c69d4d7512934e98811))
+* ui revamp ([666be94](https://github.com/Wyatt-Stanke/extensions/commit/666be94974b48ce15c030c69d4d7512934e98811))
+
+
+### Bug Fixes
+
+* consistent formatting for no ID in collapsed page ([7d24085](https://github.com/Wyatt-Stanke/extensions/commit/7d2408593d80b6e76bc133eab187ad8b7c6b29d4))
+* retrieve video information in parallel ([b2fa2b3](https://github.com/Wyatt-Stanke/extensions/commit/b2fa2b3eaa13c7c5ad612b37eaeca3afba42ab72))
+
 ## [1.1.1](https://github.com/Wyatt-Stanke/extensions/compare/collapse-v1.1.0...collapse-v1.1.1) (2026-03-16)
 
 
