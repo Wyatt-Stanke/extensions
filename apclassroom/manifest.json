@@ -2,8 +2,11 @@
 	"manifest_version": 3,
 	"name": "AP Classroom Tools",
 	"description": "Track and manage video watch progress on AP Classroom.",
-	"version": "1.1.0",
-	"permissions": ["activeTab", "storage"],
+	"version": "1.2.0",
+	"permissions": [
+		"activeTab",
+		"storage"
+	],
 	"host_permissions": [
 		"https://apclassroom.collegeboard.org/*",
 		"https://apc-api-production.collegeboard.org/*"
@@ -13,14 +16,22 @@
 	},
 	"content_scripts": [
 		{
-			"matches": ["https://apclassroom.collegeboard.org/*"],
-			"js": ["dist/content.js"],
+			"matches": [
+				"https://apclassroom.collegeboard.org/*"
+			],
+			"js": [
+				"dist/content.js"
+			],
 			"run_at": "document_start",
 			"world": "MAIN"
 		},
 		{
-			"matches": ["https://apclassroom.collegeboard.org/*"],
-			"js": ["dist/bridge.js"],
+			"matches": [
+				"https://apclassroom.collegeboard.org/*"
+			],
+			"js": [
+				"dist/bridge.js"
+			],
 			"run_at": "document_start",
 			"world": "ISOLATED"
 		}
