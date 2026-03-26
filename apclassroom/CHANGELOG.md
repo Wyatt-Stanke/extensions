@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0](https://github.com/Wyatt-Stanke/extensions/compare/apclassroom-v1.1.0...apclassroom-v1.2.0) (2026-03-26)
+
+
+### Features
+
+* implement overlay visibility toggle in popup ([97d034a](https://github.com/Wyatt-Stanke/extensions/commit/97d034af7760e79f362dc228e8a60fe7b612166b))
+* ui overhaul ([97d034a](https://github.com/Wyatt-Stanke/extensions/commit/97d034af7760e79f362dc228e8a60fe7b612166b))
+
 ## [1.1.0](https://github.com/Wyatt-Stanke/extensions/compare/apclassroom-v1.0.7...apclassroom-v1.1.0) (2026-03-21)
 
 
