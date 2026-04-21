@@ -8,6 +8,18 @@ import { CollapseMessageType, sendMessage, type VideoList } from "./messaging";
 
 const YOUTUBE_VIDEO_PATTERN = /youtube\.com\/watch\?.*v=/;
 
+function downloadJson(data: unknown, filename: string) {
+	const blob = new Blob([JSON.stringify(data, null, 2)], {
+		type: "application/json",
+	});
+	const url = URL.createObjectURL(blob);
+	const a = document.createElement("a");
+	a.href = url;
+	a.download = filename;
+	a.click();
+	URL.revokeObjectURL(url);
+}
+
 function getCollapsedListIdFromUrl(urlString: string) {
 	if (!urlString) return null;
 
@@ -33,6 +45,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 	const collapseBtn = getById<HTMLButtonElement>("collapse-btn");
 	const listsSection = getById<HTMLElement>("lists-section");
 	const listsContainer = getById<HTMLElement>("lists-container");
+	const exportAllBtn = getById<HTMLButtonElement>("export-all-btn");
+	const importInput = getById<HTMLInputElement>("import-input");
 
 	let useAllTabs = false;
 
@@ -104,6 +118,35 @@ document.addEventListener("DOMContentLoaded", async () => {
 		type: CollapseMessageType.GET_LISTS,
 	})) as { lists: VideoList[] };
 	const lists = response?.lists || [];
+
+	exportAllBtn.addEventListener("click", () => {
+		const timestamp = new Date().toISOString().slice(0, 10);
+		downloadJson(lists, `collapse-lists-${timestamp}.json`);
+	});
+
+	importInput.addEventListener("change", async () => {
+		const file = importInput.files?.[0];
+		if (!file) return;
+
+		try {
+			const text = await file.text();
+			const parsed = JSON.parse(text);
+			const incoming: VideoList[] = Array.isArray(parsed) ? parsed : [parsed];
+
+			const result = (await sendMessage({
+				type: CollapseMessageType.IMPORT_LISTS,
+				lists: incoming,
+			})) as { imported: number };
+
+			if (result.imported > 0) {
+				window.location.reload();
+			} else {
+				alert("All lists in the file are already imported.");
+			}
+		} catch {
+			alert("Failed to import: invalid file.");
+		}
+	});
 
 	if (lists.length > 0) {
 		show(listsSection);

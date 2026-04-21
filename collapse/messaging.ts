@@ -13,6 +13,7 @@ export enum CollapseMessageType {
 	RENAME_LIST = "RENAME_LIST",
 	MERGE_LISTS = "MERGE_LISTS",
 	SHOW_PALETTE = "SHOW_PALETTE",
+	IMPORT_LISTS = "IMPORT_LISTS",
 }
 
 export type VideoInfo = {
@@ -110,6 +111,13 @@ export type CollapseProtocol = {
 			lists: VideoList[];
 		};
 		response: { success: boolean; listId?: string };
+	};
+	[CollapseMessageType.IMPORT_LISTS]: {
+		request: {
+			type: CollapseMessageType.IMPORT_LISTS;
+			lists: VideoList[];
+		};
+		response: { imported: number };
 	};
 };
 

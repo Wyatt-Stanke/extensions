@@ -24,7 +24,16 @@
       </div>
 
       <div id="lists-section" class="card" style="display: none">
-        <h2>Saved Lists</h2>
+        <div class="lists-header">
+          <h2>Saved Lists</h2>
+          <div class="lists-header-actions">
+            <button type="button" id="export-all-btn" class="btn btn-sm btn-secondary">Export</button>
+            <label class="btn btn-sm btn-secondary" title="Import lists from JSON file">
+              Import
+              <input type="file" id="import-input" accept=".json" style="display:none" />
+            </label>
+          </div>
+        </div>
         <div id="lists-container"></div>
       </div>
 

@@ -21,6 +21,7 @@ const videosEl = getById<HTMLElement>("videos");
 const emptyStateEl = getById<HTMLElement>("empty-state");
 const mergeBtnEl = getById<HTMLButtonElement>("merge-btn");
 const deleteListBtnEl = getById<HTMLButtonElement>("delete-list-btn");
+const exportBtnEl = getById<HTMLButtonElement>("export-btn");
 const mergeModalEl = getById<HTMLElement>("merge-modal");
 const mergeOptionsEl = getById<HTMLElement>("merge-list-options");
 const mergeCancelEl = getById<HTMLButtonElement>("merge-cancel");
@@ -172,6 +173,25 @@ deleteListBtnEl.addEventListener("click", async () => {
 		listId: listId || "",
 	});
 	window.close();
+});
+
+// Export list
+exportBtnEl.addEventListener("click", async () => {
+	const response = (await sendMessage({
+		type: CollapseMessageType.GET_LISTS,
+	})) as { lists: VideoList[] };
+	const list = (response?.lists || []).find((l) => l.id === listId);
+	if (!list) return;
+
+	const blob = new Blob([JSON.stringify([list], null, 2)], {
+		type: "application/json",
+	});
+	const url = URL.createObjectURL(blob);
+	const a = document.createElement("a");
+	a.href = url;
+	a.download = `${list.name.replace(/[^a-z0-9]/gi, "_")}.json`;
+	a.click();
+	URL.revokeObjectURL(url);
 });
 
 // Merge modal

@@ -254,6 +254,10 @@ onMessage(CollapseMessageType.ADD_TO_LIST, async (message) => {
 	return await handleAddToList(message.listId, message.allTabs);
 });
 
+onMessage(CollapseMessageType.IMPORT_LISTS, async (message) => {
+	return await handleImportLists(message.lists);
+});
+
 async function extractVideosFromTabs(youtubeTabs: chrome.tabs.Tab[]) {
 	const videos: VideoInfo[] = [];
 	const tabIds: number[] = [];
@@ -459,6 +463,26 @@ async function handleMergeLists(targetId: string, sourceId: string) {
 	await saveVideoLists(updatedLists);
 
 	return { success: true };
+}
+
+async function handleImportLists(incoming: VideoList[]) {
+	const lists = await getVideoLists();
+	const existingIds = new Set(lists.map((l) => l.id));
+	let imported = 0;
+
+	for (const list of incoming) {
+		if (!existingIds.has(list.id)) {
+			lists.push(list);
+			existingIds.add(list.id);
+			imported++;
+		}
+	}
+
+	if (imported > 0) {
+		await saveVideoLists(lists);
+	}
+
+	return { imported };
 }
 
 async function handleAddToList(listId: string | null, allTabs?: boolean) {
