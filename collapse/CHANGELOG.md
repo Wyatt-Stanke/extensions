@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.3.0](https://github.com/Wyatt-Stanke/extensions/compare/collapse-v1.2.0...collapse-v1.3.0) (2026-04-21)
+
+
+### Features
+
+* **collapse:** add export/import for video lists ([4b08b4a](https://github.com/Wyatt-Stanke/extensions/commit/4b08b4a835f1e0afd7ab9d7bdd2e84d0abf560d8))
+* **collapse:** add more layout options for collapse page ([0c4c3cb](https://github.com/Wyatt-Stanke/extensions/commit/0c4c3cbc62131f5ef5cdc9a260ba44b41a15c5d7))
+* **collapse:** rewrite popup with JSX and shared UI utilities ([ff8c944](https://github.com/Wyatt-Stanke/extensions/commit/ff8c944d4fb7a27d5f73f85845cd37622566e34d))
+
 ## [1.2.0](https://github.com/Wyatt-Stanke/extensions/compare/collapse-v1.1.1...collapse-v1.2.0) (2026-03-26)
 
 
