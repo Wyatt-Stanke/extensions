@@ -1,6 +1,11 @@
+import { escapeAttr, escapeHtml } from "../shared/escape";
 import { html } from "../shared/html";
 import { getById } from "../shared/typed-getters";
+import { LayoutGrid, LayoutList, List, createIcons } from "lucide";
 import { CollapseMessageType, sendMessage, type VideoList } from "./messaging";
+
+type Layout = "list" | "grid" | "compact";
+const LAYOUT_KEY = "collapse-layout";
 
 const params = new URLSearchParams(window.location.search);
 const listId = params.get("listId");
@@ -19,6 +24,27 @@ const deleteListBtnEl = getById<HTMLButtonElement>("delete-list-btn");
 const mergeModalEl = getById<HTMLElement>("merge-modal");
 const mergeOptionsEl = getById<HTMLElement>("merge-list-options");
 const mergeCancelEl = getById<HTMLButtonElement>("merge-cancel");
+const layoutListBtn = getById<HTMLButtonElement>("layout-list");
+const layoutGridBtn = getById<HTMLButtonElement>("layout-grid");
+const layoutCompactBtn = getById<HTMLButtonElement>("layout-compact");
+
+let currentLayout: Layout =
+	(localStorage.getItem(LAYOUT_KEY) as Layout) ?? "list";
+
+function setLayout(layout: Layout) {
+	currentLayout = layout;
+	localStorage.setItem(LAYOUT_KEY, layout);
+	for (const [btn, id] of [
+		[layoutListBtn, "list"],
+		[layoutGridBtn, "grid"],
+		[layoutCompactBtn, "compact"],
+	] as const) {
+		const active = id === layout;
+		btn.classList.toggle("active", active);
+		btn.setAttribute("aria-pressed", String(active));
+	}
+	videosEl.dataset.layout = layout;
+}
 
 function formatTime(seconds: number) {
 	const s = Math.floor(seconds);
@@ -37,6 +63,7 @@ function renderVideos(list: VideoList) {
 	videoCountEl.textContent = `${list.videos.length} video${list.videos.length !== 1 ? "s" : ""}`;
 
 	videosEl.innerHTML = "";
+	setLayout(currentLayout);
 
 	if (list.videos.length === 0) {
 		videosEl.style.display = "none";
@@ -44,21 +71,25 @@ function renderVideos(list: VideoList) {
 		return;
 	}
 
-	videosEl.style.display = "flex";
+	videosEl.style.display = "";
 	emptyStateEl.style.display = "none";
 
 	for (const video of list.videos) {
-		const row = document.createElement("div");
-		row.className = "video-row";
+		const card = document.createElement("div");
+		card.className = "video-card";
 
 		const progress =
 			video.duration > 0 ? (video.currentTime / video.duration) * 100 : 0;
 
-		row.innerHTML = html`
+		const playlistBadge = video.playlistId
+			? ' <span class="playlist-badge" title="In playlist">&#9776; Playlist</span>'
+			: "";
+
+		card.innerHTML = html`
         <img class="video-thumbnail" src="${escapeAttr(video.thumbnailUrl)}" alt="" />
         <div class="video-info">
           <div class="video-title">${escapeHtml(video.title)}</div>
-          <div class="video-channel">${escapeHtml(video.channelName)}${video.playlistId ? ' <span class="playlist-badge" title="In playlist">&#9776; Playlist</span>' : ""}</div>
+          <div class="video-channel">${escapeHtml(video.channelName)}${playlistBadge}</div>
           <div class="progress-container">
             <div class="progress-bar">
               <div class="progress-fill" style="width: ${progress}%"></div>
@@ -71,8 +102,8 @@ function renderVideos(list: VideoList) {
         </div>
       `;
 
-		// Click row to open video
-		row.addEventListener("click", (e) => {
+		// Click card to open video
+		card.addEventListener("click", (e) => {
 			if ((e.target as Element).closest(".btn-remove")) return;
 			sendMessage({
 				type: CollapseMessageType.OPEN_VIDEO,
@@ -82,7 +113,7 @@ function renderVideos(list: VideoList) {
 		});
 
 		// Remove button
-		row.querySelector(".btn-remove")?.addEventListener("click", (e) => {
+		card.querySelector(".btn-remove")?.addEventListener("click", (e) => {
 			e.stopPropagation();
 			sendMessage({
 				type: CollapseMessageType.DELETE_VIDEO,
@@ -91,23 +122,8 @@ function renderVideos(list: VideoList) {
 			});
 		});
 
-		videosEl.appendChild(row);
+		videosEl.appendChild(card);
 	}
-}
-
-function escapeHtml(str: string) {
-	const div = document.createElement("div");
-	div.textContent = str;
-	return div.innerHTML;
-}
-
-function escapeAttr(str: string) {
-	return str
-		.replace(/&/g, "&amp;")
-		.replace(/"/g, "&quot;")
-		.replace(/'/g, "&#39;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;");
 }
 
 async function loadAndRender() {
@@ -207,6 +223,11 @@ mergeModalEl.addEventListener("click", (e) => {
 	}
 });
 
+// Layout toggle buttons
+layoutListBtn.addEventListener("click", () => setLayout("list"));
+layoutGridBtn.addEventListener("click", () => setLayout("grid"));
+layoutCompactBtn.addEventListener("click", () => setLayout("compact"));
+
 // Listen for storage changes to update reactively
 chrome.storage.onChanged.addListener((changes) => {
 	if (changes.videoLists) {
@@ -223,3 +244,9 @@ chrome.storage.onChanged.addListener((changes) => {
 
 // Initial load
 loadAndRender();
+
+// Render lucide icons
+createIcons({
+	icons: { LayoutList, LayoutGrid, List },
+	attrs: { width: "16", height: "16" },
+});
