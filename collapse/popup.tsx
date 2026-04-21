@@ -1,7 +1,9 @@
 import { ChevronDown, createIcons, SquaresUnite } from "lucide";
-import { html } from "../shared/html";
+// biome-ignore lint/correctness/noUnusedImports: JSX factory
+import { jsx } from "../shared/jsx-runtime";
 import { displayVersion } from "../shared/popup-version.js";
 import { getById } from "../shared/typed-getters";
+import { show } from "../shared/ui";
 import { CollapseMessageType, sendMessage, type VideoList } from "./messaging";
 
 const YOUTUBE_VIDEO_PATTERN = /youtube\.com\/watch\?.*v=/;
@@ -104,12 +106,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 	const lists = response?.lists || [];
 
 	if (lists.length > 0) {
-		listsSection.style.display = "block";
+		show(listsSection);
 		listsContainer.innerHTML = "";
 
 		for (const list of lists) {
-			const item = document.createElement("div");
-			item.className = "list-item";
+			const item = (
+				<div className="list-item">
+					<span className="list-item-name">{list.name}</span>
+					<span className="list-item-count">
+						{list.videos.length} video
+						{list.videos.length !== 1 ? "s" : ""}
+					</span>
+				</div>
+			);
 			item.addEventListener("click", () => {
 				chrome.tabs.create({
 					url: chrome.runtime.getURL(`collapsed.html?listId=${list.id}`),
@@ -117,27 +126,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 				window.close();
 			});
 
-			const name = document.createElement("span");
-			name.className = "list-item-name";
-			name.textContent = list.name;
-
-			const countBadge = document.createElement("span");
-			countBadge.className = "list-item-count";
-			countBadge.textContent = `${list.videos.length} video${list.videos.length !== 1 ? "s" : ""}`;
-
-			item.appendChild(name);
-			item.appendChild(countBadge);
-
 			if (totalCollapsableCount > 0) {
-				const splitWrap = document.createElement("div");
-				splitWrap.className = "add-split";
-
-				// Main button: add selected tabs (most common action)
-				const mainBtn = document.createElement("button");
-				mainBtn.className = "add-split-main";
-				mainBtn.title = `Add ${selectedCount} selected tab${selectedCount !== 1 ? "s" : ""}`;
-				mainBtn.innerHTML = html`<i data-lucide="squares-unite"></i>`;
-				mainBtn.disabled = selectedCount === 0;
+				const mainBtn = (
+					<button
+						type="button"
+						className="add-split-main"
+						title={`Add ${selectedCount} selected tab${selectedCount !== 1 ? "s" : ""}`}
+						disabled={selectedCount === 0}
+					>
+						<i data-lucide="squares-unite" />
+					</button>
+				) as HTMLButtonElement;
 				mainBtn.addEventListener("click", async (event) => {
 					event.stopPropagation();
 					mainBtn.disabled = true;
@@ -152,20 +151,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 					}
 				});
 
-				// Chevron button: opens dropdown
-				const chevronBtn = document.createElement("button");
-				chevronBtn.className = "add-split-chevron";
-				chevronBtn.title = "More options";
-				chevronBtn.innerHTML = html`<i data-lucide="chevron-down"></i>`;
-
-				// Dropdown menu
-				const dropdown = document.createElement("div");
-				dropdown.className = "add-dropdown";
-
-				const addSelectedOpt = document.createElement("button");
-				addSelectedOpt.className = "add-dropdown-item";
-				addSelectedOpt.textContent = `Add selected (${selectedCount})`;
-				addSelectedOpt.disabled = selectedCount === 0;
+				const addSelectedOpt = (
+					<button
+						type="button"
+						className="add-dropdown-item"
+						disabled={selectedCount === 0}
+					>
+						Add selected ({selectedCount})
+					</button>
+				) as HTMLButtonElement;
 				addSelectedOpt.addEventListener("click", async (event) => {
 					event.stopPropagation();
 					addSelectedOpt.disabled = true;
@@ -177,9 +171,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 					else addSelectedOpt.disabled = selectedCount === 0;
 				});
 
-				const addAllOpt = document.createElement("button");
-				addAllOpt.className = "add-dropdown-item";
-				addAllOpt.textContent = `Add all tabs (${totalCollapsableCount})`;
+				const addAllOpt = (
+					<button type="button" className="add-dropdown-item">
+						Add all tabs ({totalCollapsableCount})
+					</button>
+				) as HTMLButtonElement;
 				addAllOpt.addEventListener("click", async (event) => {
 					event.stopPropagation();
 					addAllOpt.disabled = true;
@@ -192,22 +188,35 @@ document.addEventListener("DOMContentLoaded", async () => {
 					else addAllOpt.disabled = false;
 				});
 
-				dropdown.appendChild(addSelectedOpt);
-				dropdown.appendChild(addAllOpt);
+				const dropdown = (
+					<div className="add-dropdown">
+						{addSelectedOpt}
+						{addAllOpt}
+					</div>
+				);
 
+				const chevronBtn = (
+					<button type="button" className="add-split-chevron" title="More options">
+						<i data-lucide="chevron-down" />
+					</button>
+				) as HTMLButtonElement;
 				chevronBtn.addEventListener("click", (event) => {
 					event.stopPropagation();
-					// Close any other open dropdowns first
-					for (const d of document.querySelectorAll(".add-dropdown.open")) {
+					for (const d of document.querySelectorAll(
+						".add-dropdown.open",
+					)) {
 						if (d !== dropdown) d.classList.remove("open");
 					}
 					dropdown.classList.toggle("open");
 				});
 
-				splitWrap.appendChild(mainBtn);
-				splitWrap.appendChild(chevronBtn);
-				splitWrap.appendChild(dropdown);
-				item.appendChild(splitWrap);
+				item.appendChild(
+					<div className="add-split">
+						{mainBtn}
+						{chevronBtn}
+						{dropdown}
+					</div>,
+				);
 			}
 
 			listsContainer.appendChild(item);
