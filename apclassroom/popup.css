@@ -1,15 +1,11 @@
 @import "../shared/popup-base.css";
+@import "../shared/ui.css";
 
 :root {
 	--accent-color: #4caf50;
-}
-
-.card {
-	background: white;
-	border-radius: 6px;
-	padding: 12px;
-	margin-bottom: 12px;
-	border: 1px solid #e0e0e0;
+	--accent-hover: #388e3c;
+	--accent-dark: #81c784;
+	--accent-hover-dark: #a5d6a7;
 }
 
 /* Status indicator */
@@ -65,150 +61,7 @@
 	display: none;
 }
 
-/* Warning */
-.warning {
-	background: #fff3e0;
-	border-color: #ffcc80;
-	text-align: center;
-}
-
-.warning-title {
-	color: #e65100;
-	font-size: 14px;
-	font-weight: 600;
-}
-
-.warning-sub {
-	font-size: 12px;
-	margin-top: 4px;
-	color: #f57c00;
-}
-
-/* Action button */
-.btn-action {
-	display: block;
-	width: 100%;
-	padding: 10px;
-	background: #4caf50;
-	color: white;
-	border: none;
-	border-radius: 6px;
-	font-size: 14px;
-	font-weight: 600;
-	cursor: pointer;
-	transition: background 0.2s;
-}
-
-.btn-action:hover:not(:disabled) {
-	background: #388e3c;
-}
-
-.btn-action:disabled {
-	background: #ccc;
-	cursor: default;
-}
-
-.btn-action.blocking {
-	background: #f44336;
-}
-
-.btn-action.blocking:hover:not(:disabled) {
-	background: #d32f2f;
-}
-
-/* Help section */
-.help-section {
-	cursor: pointer;
-}
-
-/* Settings toggle */
-.settings-section {
-	padding: 10px 12px;
-}
-
-.toggle-row {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	cursor: pointer;
-	gap: 10px;
-}
-
-.toggle-label {
-	font-size: 13px;
-	font-weight: 600;
-	color: #555;
-}
-
-.toggle-input {
-	position: absolute;
-	opacity: 0;
-	width: 0;
-	height: 0;
-}
-
-.toggle-switch {
-	position: relative;
-	width: 36px;
-	height: 20px;
-	background: #ccc;
-	border-radius: 10px;
-	flex-shrink: 0;
-	transition: background 0.2s;
-}
-
-.toggle-switch::after {
-	content: "";
-	position: absolute;
-	top: 2px;
-	left: 2px;
-	width: 16px;
-	height: 16px;
-	background: white;
-	border-radius: 50%;
-	transition: transform 0.2s;
-}
-
-.toggle-input:checked + .toggle-switch {
-	background: #4caf50;
-}
-
-.toggle-input:checked + .toggle-switch::after {
-	transform: translateX(16px);
-}
-
-.help-section summary {
-	font-size: 13px;
-	font-weight: 600;
-	color: #555;
-	list-style: none;
-	display: flex;
-	align-items: center;
-	gap: 6px;
-}
-
-.help-section summary::before {
-	content: "▸";
-	font-size: 11px;
-	transition: transform 0.15s;
-}
-
-.help-section[open] summary::before {
-	transform: rotate(90deg);
-}
-
-.help-section ol {
-	margin: 10px 0 0 18px;
-	font-size: 12px;
-	color: #666;
-	line-height: 1.8;
-}
-
 @media (prefers-color-scheme: dark) {
-	.card {
-		background: #292a2d;
-		border-color: #3c4043;
-	}
 	.status-text {
 		color: #e8eaed;
 	}
@@ -226,47 +79,5 @@
 	}
 	.status-dot.blocking {
 		background: #ffb74d;
-	}
-	.warning {
-		background: rgba(230, 81, 0, 0.15);
-		border-color: rgba(230, 81, 0, 0.4);
-	}
-	.warning-title {
-		color: #ff9800;
-	}
-	.warning-sub {
-		color: #ffb74d;
-	}
-	.btn-action {
-		background: #81c784;
-		color: #202124;
-	}
-	.btn-action:hover:not(:disabled) {
-		background: #a5d6a7;
-	}
-	.btn-action:disabled {
-		background: #5f6368;
-		color: #9aa0a6;
-	}
-	.btn-action.blocking {
-		background: #e57373;
-	}
-	.btn-action.blocking:hover:not(:disabled) {
-		background: #ef9a9a;
-	}
-	.toggle-label {
-		color: #bdc1c6;
-	}
-	.toggle-switch {
-		background: #5f6368;
-	}
-	.toggle-input:checked + .toggle-switch {
-		background: #81c784;
-	}
-	.help-section summary {
-		color: #bdc1c6;
-	}
-	.help-section ol {
-		color: #e8eaed;
 	}
 }

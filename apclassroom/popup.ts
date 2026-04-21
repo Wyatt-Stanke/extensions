@@ -1,4 +1,5 @@
 import { displayVersion } from "../shared/popup-version.js";
+import { bindToggle, hide, show } from "../shared/ui";
 import { ApMessageType, sendTabMessage } from "./messaging";
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -18,22 +19,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 	let currentTabId: number | null = null;
 
-	// Initialize overlay toggle from storage
 	if (overlayToggle) {
-		const { showOverlay } = await chrome.storage.local.get({
-			showOverlay: true,
-		});
-		overlayToggle.checked = showOverlay;
-
-		overlayToggle.addEventListener("change", async () => {
-			const visible = overlayToggle.checked;
-			await chrome.storage.local.set({ showOverlay: visible });
-			if (currentTabId) {
-				await sendTabMessage<ApMessageType.SET_OVERLAY_VISIBLE>(currentTabId, {
-					type: ApMessageType.SET_OVERLAY_VISIBLE,
-					visible,
-				});
-			}
+		await bindToggle(overlayToggle, "showOverlay", {
+			onChange: async (visible) => {
+				if (currentTabId) {
+					await sendTabMessage<ApMessageType.SET_OVERLAY_VISIBLE>(
+						currentTabId,
+						{ type: ApMessageType.SET_OVERLAY_VISIBLE, visible },
+					);
+				}
+			},
 		});
 	}
 
@@ -57,15 +52,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 			});
 
 			if (!tab.id || !tab.url?.includes("apclassroom.collegeboard.org")) {
-				statusContainer.style.display = "none";
-				actionSection.style.display = "none";
-				notOnPageEl.style.display = "block";
+				hide(statusContainer);
+				hide(actionSection);
+				show(notOnPageEl);
 				return;
 			}
 
 			currentTabId = tab.id;
-			statusContainer.style.display = "block";
-			notOnPageEl.style.display = "none";
+			show(statusContainer);
+			hide(notOnPageEl);
 
 			const response = await sendTabMessage<ApMessageType.GET_STATE>(tab.id, {
 				type: ApMessageType.GET_STATE,
@@ -78,28 +73,28 @@ document.addEventListener("DOMContentLoaded", async () => {
 					statusDot.className = "status-dot inactive";
 					statusText.textContent = "Not Running";
 					statusDetail.textContent = "";
-					actionSection.style.display = "none";
+					hide(actionSection);
 				} else if (state.blocking?.length > 0) {
 					statusDot.className = "status-dot blocking";
 					statusText.textContent = `Blocking ${state.blocking.length} video${state.blocking.length !== 1 ? "s" : ""}`;
 					statusDetail.textContent = "Progress requests are being intercepted.";
-					actionSection.style.display = "block";
+					show(actionSection);
 					actionBtn.textContent = "Reset";
-					actionBtn.className = "btn-action blocking";
+					actionBtn.className = "btn btn-danger";
 					actionBtn.disabled = false;
 				} else if (state.videoId) {
 					statusDot.className = "status-dot ready";
 					statusText.textContent = "Ready";
 					statusDetail.textContent = `Video ${state.videoId} detected.`;
-					actionSection.style.display = "block";
+					show(actionSection);
 					actionBtn.textContent = "Mark Complete";
-					actionBtn.className = "btn-action";
+					actionBtn.className = "btn";
 					actionBtn.disabled = false;
 				} else {
 					statusDot.className = "status-dot active";
 					statusText.textContent = "Monitoring";
 					statusDetail.textContent = "Waiting for a video to play...";
-					actionSection.style.display = "none";
+					hide(actionSection);
 				}
 			} else {
 				throw new Error("No response");
@@ -109,7 +104,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 			statusDot.className = "status-dot inactive";
 			statusText.textContent = "Not Running";
 			statusDetail.textContent = "";
-			actionSection.style.display = "none";
+			hide(actionSection);
 		}
 	}
 
