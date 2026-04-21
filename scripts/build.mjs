@@ -10,6 +10,9 @@ const shared = {
 
 const jsShared = {
 	...shared,
+	jsx: "transform",
+	jsxFactory: "jsx",
+	jsxFragment: "Fragment",
 	loader: {
 		".html": "text",
 		".css": "text",
@@ -24,7 +27,7 @@ const css = [
 
 const entryPoints = [
 	{
-		src: "collapse/popup.ts",
+		src: "collapse/popup.tsx",
 		out: "collapse/dist/popup.js",
 		globalName: "CollapsePopup",
 	},
