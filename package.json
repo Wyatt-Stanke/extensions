@@ -11,7 +11,7 @@
 		"@biomejs/biome": "^2.4.8",
 		"chrome-types": "^0.1.425",
 		"chrome-webstore-upload-cli": "^3.0.0",
-		"esbuild": "^0.27.0",
+		"esbuild": "^0.28.0",
 		"lucide": "^1.0.0",
 		"sharp": "^0.34.0",
 		"typescript": "^6.0.0"
