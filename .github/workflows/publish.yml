@@ -3,6 +3,12 @@ name: Publish Extension
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to republish (e.g. collapse-v1.2.3)"
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -16,7 +22,7 @@ jobs:
       - name: Determine extension from release tag
         id: meta
         run: |
-          TAG="${{ github.event.release.tag_name }}"
+          TAG="${{ github.event.release.tag_name || inputs.tag }}"
           if [[ "$TAG" == *-v* ]]; then
             EXTENSION="${TAG%-v*}"
             VERSION="${TAG##*-v}"
@@ -57,7 +63,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload "${{ github.event.release.tag_name }}" \
+          gh release upload "${{ github.event.release.tag_name || inputs.tag }}" \
+            --clobber \
             "${{ steps.meta.outputs.extension }}.zip"
 
       - name: Upload and submit for review
