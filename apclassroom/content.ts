@@ -1,5 +1,47 @@
 import { ApMessageType } from "./messaging";
 
+// ---------------------------------------------------------------------------
+// Locale helper (MAIN world — chrome.i18n is not available here)
+// Keep translations in sync with apclassroom/_locales/*/messages.json
+// ---------------------------------------------------------------------------
+type Lang = "en" | "es";
+
+const contentMessages: Record<Lang, Record<string, string>> = {
+	en: {
+		btnWaiting: "Waiting...",
+		btnSending: "Sending...",
+		btnMarkComplete: "Mark Complete",
+		btnStartPlaying: "Start playing a video...",
+		btnBlockingReset: "Blocking $1 — Reset",
+		alertNoDuration:
+			"Could not get video duration. Make sure the video is loaded.",
+		alertFailed: "Failed: $1",
+		alertError: "Error: $1",
+	},
+	es: {
+		btnWaiting: "Esperando...",
+		btnSending: "Enviando...",
+		btnMarkComplete: "Marcar como completado",
+		btnStartPlaying: "Empieza a reproducir un video...",
+		btnBlockingReset: "Bloqueando $1 — Restablecer",
+		alertNoDuration:
+			"No se pudo obtener la duración del video. Asegúrate de que el video esté cargado.",
+		alertFailed: "Falló: $1",
+		alertError: "Error: $1",
+	},
+};
+
+const _lang: Lang = navigator.language.startsWith("es") ? "es" : "en";
+
+function msg(key: string, ...subs: string[]): string {
+	let m = contentMessages[_lang][key] ?? contentMessages.en[key] ?? key;
+	for (let i = 0; i < subs.length; i++) {
+		m = m.replace(`$${i + 1}`, subs[i]);
+	}
+	return m;
+}
+// ---------------------------------------------------------------------------
+
 const state = {
 	videoId: null as string | null,
 	duration: null as number | null,
@@ -126,8 +168,7 @@ function createButton() {
 
 	button = document.createElement("button");
 	button.id = "ap-tools-btn";
-	button.innerHTML =
-		'<span class="ap-tools-dot"></span><span class="ap-tools-label">Waiting...</span>';
+	button.innerHTML = `<span class="ap-tools-dot"></span><span class="ap-tools-label">${msg("btnWaiting")}</span>`;
 
 	const style = document.createElement("style");
 	style.textContent = `
@@ -225,15 +266,15 @@ function updateButton() {
 
 	if (state.blocking.length > 0) {
 		button.className = "ap-blocking";
-		label.textContent = `Blocking ${state.blocking.length} — Reset`;
+		label.textContent = msg("btnBlockingReset", String(state.blocking.length));
 		button.disabled = false;
 	} else if (state.videoId) {
 		button.className = "ap-ready";
-		label.textContent = "Mark Complete";
+		label.textContent = msg("btnMarkComplete");
 		button.disabled = false;
 	} else {
 		button.className = "";
-		label.textContent = "Start playing a video...";
+		label.textContent = msg("btnStartPlaying");
 		button.disabled = true;
 	}
 }
@@ -297,7 +338,7 @@ async function handleClick() {
 
 	const duration = getVideoDuration();
 	if (!duration) {
-		alert("Could not get video duration. Make sure the video is loaded.");
+		alert(msg("alertNoDuration"));
 		return;
 	}
 
@@ -346,7 +387,7 @@ async function handleClick() {
 	try {
 		if (button) {
 			const label = button.querySelector(".ap-tools-label");
-			if (label) label.textContent = "Sending...";
+			if (label) label.textContent = msg("btnSending");
 			button.className = "ap-sending";
 			button.disabled = true;
 		}
@@ -381,12 +422,12 @@ async function handleClick() {
 		} else {
 			const text = await response.text();
 			console.error("[AP Tools] Failed:", response.status, text);
-			alert(`Failed: ${response.status}`);
+			alert(msg("alertFailed", String(response.status)));
 			updateButton();
 		}
 	} catch (e: unknown) {
 		console.error("[AP Tools] Error:", e);
-		alert(`Error: ${(e as Error).message}`);
+		alert(msg("alertError", (e as Error).message));
 		updateButton();
 	}
 }

@@ -1,0 +1,119 @@
+{
+    "extensionName": {
+        "message": "AP Classroom Tools"
+    },
+    "extensionDescription": {
+        "message": "Track and manage video watch progress on AP Classroom."
+    },
+    "statusChecking": {
+        "message": "Checking..."
+    },
+    "statusNotRunning": {
+        "message": "Not Running"
+    },
+    "statusBlockingSingular": {
+        "message": "Blocking $COUNT$ video",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "statusBlockingPlural": {
+        "message": "Blocking $COUNT$ videos",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "statusBlockingDetail": {
+        "message": "Progress requests are being intercepted."
+    },
+    "statusReady": {
+        "message": "Ready"
+    },
+    "statusVideoDetected": {
+        "message": "Video $VIDEO_ID$ detected.",
+        "placeholders": {
+            "video_id": {
+                "content": "$1",
+                "example": "12345"
+            }
+        }
+    },
+    "statusMonitoring": {
+        "message": "Monitoring"
+    },
+    "statusWaitingVideo": {
+        "message": "Waiting for a video to play..."
+    },
+    "btnMarkComplete": {
+        "message": "Mark Complete"
+    },
+    "btnReset": {
+        "message": "Reset"
+    },
+    "btnWaiting": {
+        "message": "Waiting..."
+    },
+    "btnSending": {
+        "message": "Sending..."
+    },
+    "btnStartPlaying": {
+        "message": "Start playing a video..."
+    },
+    "btnBlockingReset": {
+        "message": "Blocking $COUNT$ — Reset",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "notOnPage": {
+        "message": "Not on AP Classroom"
+    },
+    "notOnPageSub": {
+        "message": "Navigate to apclassroom.collegeboard.org to use this extension."
+    },
+    "showOverlayLabel": {
+        "message": "Show in-page overlay"
+    },
+    "howToUseTitle": {
+        "message": "How to Use"
+    },
+    "howToUseStep1": {
+        "message": "Navigate to a video on AP Classroom"
+    },
+    "howToUseStep2": {
+        "message": "Start playing the video briefly"
+    },
+    "howToUseStep3": {
+        "message": "Click <strong>Mark Complete</strong> or use the page button"
+    },
+    "alertNoDuration": {
+        "message": "Could not get video duration. Make sure the video is loaded."
+    },
+    "alertFailed": {
+        "message": "Failed: $CODE$",
+        "placeholders": {
+            "code": {
+                "content": "$1",
+                "example": "403"
+            }
+        }
+    },
+    "alertError": {
+        "message": "Error: $ERR$",
+        "placeholders": {
+            "err": {
+                "content": "$1",
+                "example": "Network error"
+            }
+        }
+    }
+}

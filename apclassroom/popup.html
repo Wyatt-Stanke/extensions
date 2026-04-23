@@ -6,43 +6,55 @@
   </head>
   <body>
     <div class="container">
-      <h1>AP Classroom Tools</h1>
+      <h1 data-i18n="extensionName">AP Classroom Tools</h1>
 
       <div id="status-container" class="card">
         <div class="status-indicator">
           <span id="status-dot" class="status-dot"></span>
-          <span id="status-text" class="status-text">Checking...</span>
+          <span id="status-text" class="status-text" data-i18n="statusChecking"
+            >Checking...</span
+          >
         </div>
         <p id="status-detail" class="status-detail"></p>
       </div>
 
       <div id="not-on-page" class="card warning" style="display: none">
-        <p class="warning-title">Not on AP Classroom</p>
-        <p class="warning-sub">
+        <p class="warning-title" data-i18n="notOnPage">Not on AP Classroom</p>
+        <p class="warning-sub" data-i18n="notOnPageSub">
           Navigate to apclassroom.collegeboard.org to use this extension.
         </p>
       </div>
 
       <div id="action-section" class="card" style="display: none">
-        <button id="action-btn" class="btn" type="button" disabled>
+        <button
+          id="action-btn"
+          class="btn"
+          type="button"
+          disabled
+          data-i18n="btnMarkComplete"
+        >
           Mark Complete
         </button>
       </div>
 
       <div class="card settings-section">
         <label class="toggle-row">
-          <span class="toggle-label">Show in-page overlay</span>
+          <span class="toggle-label" data-i18n="showOverlayLabel"
+            >Show in-page overlay</span
+          >
           <input type="checkbox" id="overlay-toggle" class="toggle-input" />
           <span class="toggle-switch"></span>
         </label>
       </div>
 
       <details class="card help-section">
-        <summary>How to Use</summary>
+        <summary data-i18n="howToUseTitle">How to Use</summary>
         <ol>
-          <li>Navigate to a video on AP Classroom</li>
-          <li>Start playing the video briefly</li>
-          <li>Click <strong>Mark Complete</strong> or use the page button</li>
+          <li data-i18n="howToUseStep1">Navigate to a video on AP Classroom</li>
+          <li data-i18n="howToUseStep2">Start playing the video briefly</li>
+          <li data-i18n-html="howToUseStep3">
+            Click <strong>Mark Complete</strong> or use the page button
+          </li>
         </ol>
       </details>
 

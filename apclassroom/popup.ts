@@ -1,8 +1,10 @@
 import { displayVersion } from "../shared/popup-version.js";
+import { applyI18n, t } from "../shared/i18n";
 import { bindToggle, hide, show } from "../shared/ui";
 import { ApMessageType, sendTabMessage } from "./messaging";
 
 document.addEventListener("DOMContentLoaded", async () => {
+	applyI18n();
 	displayVersion();
 	const statusDot = document.getElementById("status-dot");
 	const statusText = document.getElementById("status-text");
@@ -71,29 +73,33 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 				if (!state.initialized) {
 					statusDot.className = "status-dot inactive";
-					statusText.textContent = "Not Running";
+					statusText.textContent = t("statusNotRunning");
 					statusDetail.textContent = "";
 					hide(actionSection);
 				} else if (state.blocking?.length > 0) {
+					const count = state.blocking.length;
 					statusDot.className = "status-dot blocking";
-					statusText.textContent = `Blocking ${state.blocking.length} video${state.blocking.length !== 1 ? "s" : ""}`;
-					statusDetail.textContent = "Progress requests are being intercepted.";
+					statusText.textContent = t(
+						count === 1 ? "statusBlockingSingular" : "statusBlockingPlural",
+						[String(count)],
+					);
+					statusDetail.textContent = t("statusBlockingDetail");
 					show(actionSection);
-					actionBtn.textContent = "Reset";
+					actionBtn.textContent = t("btnReset");
 					actionBtn.className = "btn btn-danger";
 					actionBtn.disabled = false;
 				} else if (state.videoId) {
 					statusDot.className = "status-dot ready";
-					statusText.textContent = "Ready";
-					statusDetail.textContent = `Video ${state.videoId} detected.`;
+					statusText.textContent = t("statusReady");
+					statusDetail.textContent = t("statusVideoDetected", [state.videoId]);
 					show(actionSection);
-					actionBtn.textContent = "Mark Complete";
+					actionBtn.textContent = t("btnMarkComplete");
 					actionBtn.className = "btn";
 					actionBtn.disabled = false;
 				} else {
 					statusDot.className = "status-dot active";
-					statusText.textContent = "Monitoring";
-					statusDetail.textContent = "Waiting for a video to play...";
+					statusText.textContent = t("statusMonitoring");
+					statusDetail.textContent = t("statusWaitingVideo");
 					hide(actionSection);
 				}
 			} else {
@@ -102,7 +108,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		} catch (e) {
 			console.log("Error getting state:", e);
 			statusDot.className = "status-dot inactive";
-			statusText.textContent = "Not Running";
+			statusText.textContent = t("statusNotRunning");
 			statusDetail.textContent = "";
 			hide(actionSection);
 		}
