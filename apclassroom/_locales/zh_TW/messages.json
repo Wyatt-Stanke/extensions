@@ -1,0 +1,101 @@
+{
+	"extensionName": {
+		"message": "AP Classroom 工具"
+	},
+	"extensionDescription": {
+		"message": "追蹤並管理 AP Classroom 上的影片觀看進度。"
+	},
+	"statusChecking": {
+		"message": "檢查中..."
+	},
+	"statusNotRunning": {
+		"message": "未執行"
+	},
+	"statusBlockingSingular": {
+		"message": "正在攔截 $COUNT$ 部影片",
+		"placeholders": {
+			"count": { "content": "$1", "example": "1" }
+		}
+	},
+	"statusBlockingPlural": {
+		"message": "正在攔截 $COUNT$ 部影片",
+		"placeholders": {
+			"count": { "content": "$1", "example": "3" }
+		}
+	},
+	"statusBlockingDetail": {
+		"message": "進度請求正在被攔截。"
+	},
+	"statusReady": {
+		"message": "就緒"
+	},
+	"statusVideoDetected": {
+		"message": "偵測到影片 $VIDEO_ID$。",
+		"placeholders": {
+			"video_id": { "content": "$1", "example": "12345" }
+		}
+	},
+	"statusMonitoring": {
+		"message": "監控中"
+	},
+	"statusWaitingVideo": {
+		"message": "等待影片播放..."
+	},
+	"btnMarkComplete": {
+		"message": "標記為已完成"
+	},
+	"btnReset": {
+		"message": "重設"
+	},
+	"btnWaiting": {
+		"message": "等待中..."
+	},
+	"btnSending": {
+		"message": "傳送中..."
+	},
+	"btnStartPlaying": {
+		"message": "請開始播放影片..."
+	},
+	"btnBlockingReset": {
+		"message": "正在攔截 $COUNT$ 部 — 重設",
+		"placeholders": {
+			"count": { "content": "$1", "example": "2" }
+		}
+	},
+	"notOnPage": {
+		"message": "不在 AP Classroom 頁面"
+	},
+	"notOnPageSub": {
+		"message": "請前往 apclassroom.collegeboard.org 使用此擴充功能。"
+	},
+	"showOverlayLabel": {
+		"message": "在頁面上顯示懸浮視窗"
+	},
+	"howToUseTitle": {
+		"message": "使用方式"
+	},
+	"howToUseStep1": {
+		"message": "前往 AP Classroom 上的影片頁面"
+	},
+	"howToUseStep2": {
+		"message": "短暫播放影片"
+	},
+	"howToUseStep3": {
+		"message": "點擊<strong>標記為已完成</strong>或使用頁面上的按鈕"
+	},
+	"alertNoDuration": {
+		"message": "無法取得影片時間長度。請確認影片已載入。"
+	},
+	"alertFailed": {
+		"message": "失敗：$CODE$",
+		"placeholders": {
+			"code": { "content": "$1", "example": "403" }
+		}
+	},
+	"alertError": {
+		"message": "錯誤：$ERR$",
+		"placeholders": {
+			"err": { "content": "$1", "example": "Network error" }
+		}
+	}
+}

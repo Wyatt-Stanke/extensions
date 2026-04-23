@@ -1,0 +1,101 @@
+{
+	"extensionName": {
+		"message": "AP Classroom 도구"
+	},
+	"extensionDescription": {
+		"message": "AP Classroom의 동영상 시청 진행 상황을 추적하고 관리합니다."
+	},
+	"statusChecking": {
+		"message": "확인 중..."
+	},
+	"statusNotRunning": {
+		"message": "실행되지 않음"
+	},
+	"statusBlockingSingular": {
+		"message": "$COUNT$개의 동영상 차단 중",
+		"placeholders": {
+			"count": { "content": "$1", "example": "1" }
+		}
+	},
+	"statusBlockingPlural": {
+		"message": "$COUNT$개의 동영상 차단 중",
+		"placeholders": {
+			"count": { "content": "$1", "example": "3" }
+		}
+	},
+	"statusBlockingDetail": {
+		"message": "진행 상황 요청이 차단되고 있습니다."
+	},
+	"statusReady": {
+		"message": "준비됨"
+	},
+	"statusVideoDetected": {
+		"message": "동영상 $VIDEO_ID$ 감지됨.",
+		"placeholders": {
+			"video_id": { "content": "$1", "example": "12345" }
+		}
+	},
+	"statusMonitoring": {
+		"message": "모니터링 중"
+	},
+	"statusWaitingVideo": {
+		"message": "동영상 재생을 기다리는 중..."
+	},
+	"btnMarkComplete": {
+		"message": "완료로 표시"
+	},
+	"btnReset": {
+		"message": "초기화"
+	},
+	"btnWaiting": {
+		"message": "대기 중..."
+	},
+	"btnSending": {
+		"message": "전송 중..."
+	},
+	"btnStartPlaying": {
+		"message": "동영상을 재생해 주세요..."
+	},
+	"btnBlockingReset": {
+		"message": "$COUNT$개 차단 중 — 초기화",
+		"placeholders": {
+			"count": { "content": "$1", "example": "2" }
+		}
+	},
+	"notOnPage": {
+		"message": "AP Classroom 페이지가 아닙니다"
+	},
+	"notOnPageSub": {
+		"message": "apclassroom.collegeboard.org로 이동하여 이 확장 프로그램을 사용하세요."
+	},
+	"showOverlayLabel": {
+		"message": "페이지에 오버레이 표시"
+	},
+	"howToUseTitle": {
+		"message": "사용 방법"
+	},
+	"howToUseStep1": {
+		"message": "AP Classroom의 동영상 페이지로 이동"
+	},
+	"howToUseStep2": {
+		"message": "잠시 동영상을 재생"
+	},
+	"howToUseStep3": {
+		"message": "<strong>완료로 표시</strong>를 클릭하거나 페이지의 버튼을 사용"
+	},
+	"alertNoDuration": {
+		"message": "동영상 길이를 가져올 수 없습니다. 동영상이 로드되었는지 확인하세요."
+	},
+	"alertFailed": {
+		"message": "실패: $CODE$",
+		"placeholders": {
+			"code": { "content": "$1", "example": "403" }
+		}
+	},
+	"alertError": {
+		"message": "오류: $ERR$",
+		"placeholders": {
+			"err": { "content": "$1", "example": "Network error" }
+		}
+	}
+}
