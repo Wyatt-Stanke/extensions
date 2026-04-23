@@ -239,15 +239,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 				);
 
 				const chevronBtn = (
-					<button type="button" className="add-split-chevron" title="More options">
+					<button
+						type="button"
+						className="add-split-chevron"
+						title="More options"
+					>
 						<i data-lucide="chevron-down" />
 					</button>
 				) as HTMLButtonElement;
 				chevronBtn.addEventListener("click", (event) => {
 					event.stopPropagation();
-					for (const d of document.querySelectorAll(
-						".add-dropdown.open",
-					)) {
+					for (const d of document.querySelectorAll(".add-dropdown.open")) {
 						if (d !== dropdown) d.classList.remove("open");
 					}
 					dropdown.classList.toggle("open");

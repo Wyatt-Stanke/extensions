@@ -48,10 +48,7 @@ export function jsx(
 }
 
 /** JSX fragment — renders children without a wrapper element. */
-export function Fragment(
-	_props: null,
-	...children: Child[]
-): DocumentFragment {
+export function Fragment(_props: null, ...children: Child[]): DocumentFragment {
 	const frag = document.createDocumentFragment();
 	appendChildren(frag, children);
 	return frag;

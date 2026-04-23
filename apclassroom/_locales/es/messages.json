@@ -1,119 +1,119 @@
 {
-    "extensionName": {
-        "message": "Herramientas de AP Classroom"
-    },
-    "extensionDescription": {
-        "message": "Rastrea y gestiona el progreso de visualización de videos en AP Classroom."
-    },
-    "statusChecking": {
-        "message": "Verificando..."
-    },
-    "statusNotRunning": {
-        "message": "Inactivo"
-    },
-    "statusBlockingSingular": {
-        "message": "Bloqueando $COUNT$ video",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "1"
-            }
-        }
-    },
-    "statusBlockingPlural": {
-        "message": "Bloqueando $COUNT$ videos",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "3"
-            }
-        }
-    },
-    "statusBlockingDetail": {
-        "message": "Las solicitudes de progreso están siendo interceptadas."
-    },
-    "statusReady": {
-        "message": "Listo"
-    },
-    "statusVideoDetected": {
-        "message": "Video $VIDEO_ID$ detectado.",
-        "placeholders": {
-            "video_id": {
-                "content": "$1",
-                "example": "12345"
-            }
-        }
-    },
-    "statusMonitoring": {
-        "message": "Monitoreando"
-    },
-    "statusWaitingVideo": {
-        "message": "Esperando que se reproduzca un video..."
-    },
-    "btnMarkComplete": {
-        "message": "Marcar como completado"
-    },
-    "btnReset": {
-        "message": "Restablecer"
-    },
-    "btnWaiting": {
-        "message": "Esperando..."
-    },
-    "btnSending": {
-        "message": "Enviando..."
-    },
-    "btnStartPlaying": {
-        "message": "Empieza a reproducir un video..."
-    },
-    "btnBlockingReset": {
-        "message": "Bloqueando $COUNT$ — Restablecer",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
-    "notOnPage": {
-        "message": "No estás en AP Classroom"
-    },
-    "notOnPageSub": {
-        "message": "Navega a apclassroom.collegeboard.org para usar esta extensión."
-    },
-    "showOverlayLabel": {
-        "message": "Mostrar superposición en la página"
-    },
-    "howToUseTitle": {
-        "message": "Cómo usar"
-    },
-    "howToUseStep1": {
-        "message": "Navega a un video en AP Classroom"
-    },
-    "howToUseStep2": {
-        "message": "Empieza a reproducir el video brevemente"
-    },
-    "howToUseStep3": {
-        "message": "Haz clic en <strong>Marcar como completado</strong> o usa el botón de la página"
-    },
-    "alertNoDuration": {
-        "message": "No se pudo obtener la duración del video. Asegúrate de que el video esté cargado."
-    },
-    "alertFailed": {
-        "message": "Falló: $CODE$",
-        "placeholders": {
-            "code": {
-                "content": "$1",
-                "example": "403"
-            }
-        }
-    },
-    "alertError": {
-        "message": "Error: $ERR$",
-        "placeholders": {
-            "err": {
-                "content": "$1",
-                "example": "Network error"
-            }
-        }
-    }
+	"extensionName": {
+		"message": "Herramientas de AP Classroom"
+	},
+	"extensionDescription": {
+		"message": "Rastrea y gestiona el progreso de visualización de videos en AP Classroom."
+	},
+	"statusChecking": {
+		"message": "Verificando..."
+	},
+	"statusNotRunning": {
+		"message": "Inactivo"
+	},
+	"statusBlockingSingular": {
+		"message": "Bloqueando $COUNT$ video",
+		"placeholders": {
+			"count": {
+				"content": "$1",
+				"example": "1"
+			}
+		}
+	},
+	"statusBlockingPlural": {
+		"message": "Bloqueando $COUNT$ videos",
+		"placeholders": {
+			"count": {
+				"content": "$1",
+				"example": "3"
+			}
+		}
+	},
+	"statusBlockingDetail": {
+		"message": "Las solicitudes de progreso están siendo interceptadas."
+	},
+	"statusReady": {
+		"message": "Listo"
+	},
+	"statusVideoDetected": {
+		"message": "Video $VIDEO_ID$ detectado.",
+		"placeholders": {
+			"video_id": {
+				"content": "$1",
+				"example": "12345"
+			}
+		}
+	},
+	"statusMonitoring": {
+		"message": "Monitoreando"
+	},
+	"statusWaitingVideo": {
+		"message": "Esperando que se reproduzca un video..."
+	},
+	"btnMarkComplete": {
+		"message": "Marcar como completado"
+	},
+	"btnReset": {
+		"message": "Restablecer"
+	},
+	"btnWaiting": {
+		"message": "Esperando..."
+	},
+	"btnSending": {
+		"message": "Enviando..."
+	},
+	"btnStartPlaying": {
+		"message": "Empieza a reproducir un video..."
+	},
+	"btnBlockingReset": {
+		"message": "Bloqueando $COUNT$ — Restablecer",
+		"placeholders": {
+			"count": {
+				"content": "$1",
+				"example": "2"
+			}
+		}
+	},
+	"notOnPage": {
+		"message": "No estás en AP Classroom"
+	},
+	"notOnPageSub": {
+		"message": "Navega a apclassroom.collegeboard.org para usar esta extensión."
+	},
+	"showOverlayLabel": {
+		"message": "Mostrar superposición en la página"
+	},
+	"howToUseTitle": {
+		"message": "Cómo usar"
+	},
+	"howToUseStep1": {
+		"message": "Navega a un video en AP Classroom"
+	},
+	"howToUseStep2": {
+		"message": "Empieza a reproducir el video brevemente"
+	},
+	"howToUseStep3": {
+		"message": "Haz clic en <strong>Marcar como completado</strong> o usa el botón de la página"
+	},
+	"alertNoDuration": {
+		"message": "No se pudo obtener la duración del video. Asegúrate de que el video esté cargado."
+	},
+	"alertFailed": {
+		"message": "Falló: $CODE$",
+		"placeholders": {
+			"code": {
+				"content": "$1",
+				"example": "403"
+			}
+		}
+	},
+	"alertError": {
+		"message": "Error: $ERR$",
+		"placeholders": {
+			"err": {
+				"content": "$1",
+				"example": "Network error"
+			}
+		}
+	}
 }

@@ -1,119 +1,119 @@
 {
-    "extensionName": {
-        "message": "AP Classroom 工具"
-    },
-    "extensionDescription": {
-        "message": "跟踪并管理 AP Classroom 上的视频观看进度。"
-    },
-    "statusChecking": {
-        "message": "检查中..."
-    },
-    "statusNotRunning": {
-        "message": "未运行"
-    },
-    "statusBlockingSingular": {
-        "message": "正在拦截 $COUNT$ 个视频",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "1"
-            }
-        }
-    },
-    "statusBlockingPlural": {
-        "message": "正在拦截 $COUNT$ 个视频",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "3"
-            }
-        }
-    },
-    "statusBlockingDetail": {
-        "message": "进度请求正在被拦截。"
-    },
-    "statusReady": {
-        "message": "就绪"
-    },
-    "statusVideoDetected": {
-        "message": "检测到视频 $VIDEO_ID$。",
-        "placeholders": {
-            "video_id": {
-                "content": "$1",
-                "example": "12345"
-            }
-        }
-    },
-    "statusMonitoring": {
-        "message": "监控中"
-    },
-    "statusWaitingVideo": {
-        "message": "等待视频播放..."
-    },
-    "btnMarkComplete": {
-        "message": "标记为已完成"
-    },
-    "btnReset": {
-        "message": "重置"
-    },
-    "btnWaiting": {
-        "message": "等待中..."
-    },
-    "btnSending": {
-        "message": "发送中..."
-    },
-    "btnStartPlaying": {
-        "message": "请开始播放视频..."
-    },
-    "btnBlockingReset": {
-        "message": "正在拦截 $COUNT$ 个 — 重置",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
-    "notOnPage": {
-        "message": "未在 AP Classroom 页面"
-    },
-    "notOnPageSub": {
-        "message": "请前往 apclassroom.collegeboard.org 使用此扩展程序。"
-    },
-    "showOverlayLabel": {
-        "message": "在页面上显示悬浮窗"
-    },
-    "howToUseTitle": {
-        "message": "使用方法"
-    },
-    "howToUseStep1": {
-        "message": "前往 AP Classroom 上的视频页面"
-    },
-    "howToUseStep2": {
-        "message": "短暂播放视频"
-    },
-    "howToUseStep3": {
-        "message": "点击<strong>标记为已完成</strong>或使用页面上的按钮"
-    },
-    "alertNoDuration": {
-        "message": "无法获取视频时长。请确保视频已加载。"
-    },
-    "alertFailed": {
-        "message": "失败：$CODE$",
-        "placeholders": {
-            "code": {
-                "content": "$1",
-                "example": "403"
-            }
-        }
-    },
-    "alertError": {
-        "message": "错误：$ERR$",
-        "placeholders": {
-            "err": {
-                "content": "$1",
-                "example": "Network error"
-            }
-        }
-    }
+	"extensionName": {
+		"message": "AP Classroom 工具"
+	},
+	"extensionDescription": {
+		"message": "跟踪并管理 AP Classroom 上的视频观看进度。"
+	},
+	"statusChecking": {
+		"message": "检查中..."
+	},
+	"statusNotRunning": {
+		"message": "未运行"
+	},
+	"statusBlockingSingular": {
+		"message": "正在拦截 $COUNT$ 个视频",
+		"placeholders": {
+			"count": {
+				"content": "$1",
+				"example": "1"
+			}
+		}
+	},
+	"statusBlockingPlural": {
+		"message": "正在拦截 $COUNT$ 个视频",
+		"placeholders": {
+			"count": {
+				"content": "$1",
+				"example": "3"
+			}
+		}
+	},
+	"statusBlockingDetail": {
+		"message": "进度请求正在被拦截。"
+	},
+	"statusReady": {
+		"message": "就绪"
+	},
+	"statusVideoDetected": {
+		"message": "检测到视频 $VIDEO_ID$。",
+		"placeholders": {
+			"video_id": {
+				"content": "$1",
+				"example": "12345"
+			}
+		}
+	},
+	"statusMonitoring": {
+		"message": "监控中"
+	},
+	"statusWaitingVideo": {
+		"message": "等待视频播放..."
+	},
+	"btnMarkComplete": {
+		"message": "标记为已完成"
+	},
+	"btnReset": {
+		"message": "重置"
+	},
+	"btnWaiting": {
+		"message": "等待中..."
+	},
+	"btnSending": {
+		"message": "发送中..."
+	},
+	"btnStartPlaying": {
+		"message": "请开始播放视频..."
+	},
+	"btnBlockingReset": {
+		"message": "正在拦截 $COUNT$ 个 — 重置",
+		"placeholders": {
+			"count": {
+				"content": "$1",
+				"example": "2"
+			}
+		}
+	},
+	"notOnPage": {
+		"message": "未在 AP Classroom 页面"
+	},
+	"notOnPageSub": {
+		"message": "请前往 apclassroom.collegeboard.org 使用此扩展程序。"
+	},
+	"showOverlayLabel": {
+		"message": "在页面上显示悬浮窗"
+	},
+	"howToUseTitle": {
+		"message": "使用方法"
+	},
+	"howToUseStep1": {
+		"message": "前往 AP Classroom 上的视频页面"
+	},
+	"howToUseStep2": {
+		"message": "短暂播放视频"
+	},
+	"howToUseStep3": {
+		"message": "点击<strong>标记为已完成</strong>或使用页面上的按钮"
+	},
+	"alertNoDuration": {
+		"message": "无法获取视频时长。请确保视频已加载。"
+	},
+	"alertFailed": {
+		"message": "失败：$CODE$",
+		"placeholders": {
+			"code": {
+				"content": "$1",
+				"example": "403"
+			}
+		}
+	},
+	"alertError": {
+		"message": "错误：$ERR$",
+		"placeholders": {
+			"err": {
+				"content": "$1",
+				"example": "Network error"
+			}
+		}
+	}
 }

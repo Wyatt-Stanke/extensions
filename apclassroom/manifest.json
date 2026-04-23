@@ -4,10 +4,7 @@
 	"description": "__MSG_extensionDescription__",
 	"default_locale": "en",
 	"version": "1.2.0",
-	"permissions": [
-		"activeTab",
-		"storage"
-	],
+	"permissions": ["activeTab", "storage"],
 	"host_permissions": [
 		"https://apclassroom.collegeboard.org/*",
 		"https://apc-api-production.collegeboard.org/*"
@@ -17,22 +14,14 @@
 	},
 	"content_scripts": [
 		{
-			"matches": [
-				"https://apclassroom.collegeboard.org/*"
-			],
-			"js": [
-				"dist/content.js"
-			],
+			"matches": ["https://apclassroom.collegeboard.org/*"],
+			"js": ["dist/content.js"],
 			"run_at": "document_start",
 			"world": "MAIN"
 		},
 		{
-			"matches": [
-				"https://apclassroom.collegeboard.org/*"
-			],
-			"js": [
-				"dist/bridge.js"
-			],
+			"matches": ["https://apclassroom.collegeboard.org/*"],
+			"js": ["dist/bridge.js"],
 			"run_at": "document_start",
 			"world": "ISOLATED"
 		}

@@ -23,6 +23,7 @@ const css = [
 	{ src: "apclassroom/popup.css", out: "apclassroom/dist/popup.css" },
 	{ src: "collapse/popup.css", out: "collapse/dist/popup.css" },
 	{ src: "collapse/collapsed.css", out: "collapse/dist/collapsed.css" },
+	{ src: "gclassroom/popup.css", out: "gclassroom/dist/popup.css" },
 ];
 
 const entryPoints = [
@@ -48,6 +49,14 @@ const entryPoints = [
 	{ src: "apclassroom/background.ts", out: "apclassroom/dist/background.js" },
 	{ src: "apclassroom/content.ts", out: "apclassroom/dist/content.js" },
 	{ src: "apclassroom/bridge.ts", out: "apclassroom/dist/bridge.js" },
+
+	{
+		src: "gclassroom/popup.ts",
+		out: "gclassroom/dist/popup.js",
+		globalName: "GClassroomPopup",
+	},
+	{ src: "gclassroom/background.ts", out: "gclassroom/dist/background.js" },
+	{ src: "gclassroom/content.ts", out: "gclassroom/dist/content.js" },
 ];
 
 for (const { src, out, globalName } of entryPoints) {

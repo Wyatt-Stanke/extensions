@@ -1,0 +1,112 @@
+@import "../shared/reset.css";
+@import "../shared/popup-base.css";
+@import "../shared/ui.css";
+
+:root {
+	--accent-color: #0f9d58;
+	/* Google Green */
+	--accent-hover: #0b8043;
+	--accent-dark: #81c995;
+	--accent-hover-dark: #5bb974;
+}
+
+h1 {
+	text-align: center;
+	margin-bottom: 24px;
+	color: var(--accent-color);
+}
+
+.tool-card {
+	margin-bottom: 16px;
+}
+
+.tool-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 8px;
+}
+
+.tool-header h2 {
+	margin: 0;
+	font-size: 16px;
+}
+
+.tool-body {
+	display: none;
+	margin-top: 12px;
+	padding-top: 12px;
+	border-top: 1px solid #eee;
+}
+
+.tool-body.visible {
+	display: block;
+}
+
+.input-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 12px;
+}
+
+.input-row label {
+	font-weight: 500;
+}
+
+.input-row input {
+	padding: 4px 8px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	width: 60px;
+	text-align: center;
+	font-size: 14px;
+}
+
+.input-row input:focus {
+	outline: 2px solid var(--accent-color);
+	border-color: transparent;
+}
+
+.help-text {
+	font-size: 12px;
+	color: #666;
+	line-height: 1.4;
+}
+
+.shortcut-demo {
+	display: inline-block;
+	background: #eee;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	padding: 2px 6px;
+	font-family: monospace;
+	font-weight: bold;
+	color: #333;
+}
+
+@media (prefers-color-scheme: dark) {
+	h1 {
+		color: var(--accent-dark);
+	}
+
+	.tool-body {
+		border-top-color: #444;
+	}
+
+	.input-row input {
+		background: #333;
+		border-color: #555;
+		color: #fff;
+	}
+
+	.help-text {
+		color: #aaa;
+	}
+
+	.shortcut-demo {
+		background: #444;
+		border-color: #666;
+		color: #e8eaed;
+	}
+}

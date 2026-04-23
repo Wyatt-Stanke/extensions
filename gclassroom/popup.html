@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="dist/popup.css" />
+    <script src="dist/popup.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1 data-i18n="extensionName">Google Classroom Tools</h1>
+
+      <div class="card tool-card">
+        <div class="tool-header">
+          <h2 data-i18n="toolDefaultUser">Default User Switch</h2>
+          <label class="toggle-row">
+            <input
+              type="checkbox"
+              id="userSwitchEnabled"
+              class="toggle-input"
+            />
+            <div class="toggle-switch"></div>
+          </label>
+        </div>
+        <div class="tool-body" id="userSwitchBody">
+          <div class="input-row">
+            <label for="userSwitchIndex" data-i18n="labelUserIndex"
+              >User Index</label
+            >
+            <input
+              type="number"
+              id="userSwitchIndex"
+              min="0"
+              max="9"
+              value="0"
+            />
+          </div>
+          <p class="help-text" data-i18n="helpDefaultUser">
+            Redirects classroom.google.com to the specified user index.
+          </p>
+        </div>
+      </div>
+
+      <div class="card tool-card">
+        <div class="tool-header">
+          <h2 data-i18n="toolShortcuts">Keyboard Shortcuts</h2>
+          <label class="toggle-row">
+            <input type="checkbox" id="shortcutsEnabled" class="toggle-input" />
+            <div class="toggle-switch"></div>
+          </label>
+        </div>
+        <div class="tool-body" id="shortcutsBody">
+          <div class="input-row">
+            <label for="shortcutsPrefix" data-i18n="labelPrefixKey"
+              >Prefix Key</label
+            >
+            <input type="text" id="shortcutsPrefix" maxlength="1" value="u" />
+          </div>
+          <p class="help-text">
+            <span data-i18n="helpShortcutsDemo1">Press</span>
+            <span class="shortcut-demo" id="demoPrefix">u</span>
+            ... <span data-i18n="helpShortcutsDemo2">then a number</span>
+            <span class="shortcut-demo">0-9</span> ...
+            <span data-i18n="helpShortcutsDemo3">to switch users.</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="footer">
+        v<span id="version-display"></span> •
+        <a href="mailto:wyatt@stanke.io" target="_blank" data-i18n="support"
+          >Support</a
+        >
+      </div>
+    </div>
+  </body>
+</html>
