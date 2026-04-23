@@ -25,6 +25,17 @@
 					"jsonpath": "$.version"
 				}
 			]
+		},
+		"gclassroom": {
+			"release-type": "simple",
+			"component": "gclassroom",
+			"extra-files": [
+				{
+					"type": "json",
+					"path": "manifest.json",
+					"jsonpath": "$.version"
+				}
+			]
 		}
 	}
 }
