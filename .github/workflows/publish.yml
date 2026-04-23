@@ -9,6 +9,11 @@ on:
         description: "Release tag to republish (e.g. collapse-v1.2.3)"
         required: true
         type: string
+      skip_publish:
+        description: "Skip uploading to the Chrome Web Store"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -18,6 +23,46 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Check if Chrome Web Store upload should be skipped
+        id: skip_check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # workflow_dispatch: honour the explicit input flag
+          if [[ "${{ inputs.skip_publish }}" == "true" ]]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::Skipping Chrome Web Store upload (skip_publish input is true)"
+            exit 0
+          fi
+
+          TAG="${{ github.event.release.tag_name }}"
+          if [[ -z "$TAG" ]]; then
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          COMMIT_SHA=$(git rev-list -n 1 "$TAG")
+          REPO="${{ github.repository }}"
+
+          PR_NUMBER=$(gh api "repos/$REPO/commits/$COMMIT_SHA/pulls" \
+            --header "Accept: application/vnd.github+json" \
+            --jq '.[0].number // empty')
+
+          if [[ -n "$PR_NUMBER" ]]; then
+            echo "Found associated PR #$PR_NUMBER"
+            HAS_LABEL=$(gh pr view "$PR_NUMBER" --repo "$REPO" --json labels \
+              --jq '[.labels[].name] | contains(["autorelease: skip CWS publish"])')
+            if [[ "$HAS_LABEL" == "true" ]]; then
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+              echo "::notice::Skipping Chrome Web Store upload due to 'autorelease: skip CWS publish' label on PR #$PR_NUMBER"
+            else
+              echo "skip=false" >> "$GITHUB_OUTPUT"
+            fi
+          else
+            echo "No associated PR found, proceeding with upload"
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Determine extension from release tag
         id: meta
@@ -68,7 +113,7 @@ jobs:
             "${{ steps.meta.outputs.extension }}.zip"
 
       - name: Upload and submit for review
-        if: ${{ steps.extid.outputs.id != '' }}
+        if: ${{ steps.extid.outputs.id != '' && steps.skip_check.outputs.skip != 'true' }}
         run: |
           npx chrome-webstore-upload-cli upload \
             --source "${{ steps.meta.outputs.extension }}.zip" \
