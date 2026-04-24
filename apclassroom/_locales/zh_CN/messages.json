@@ -115,5 +115,8 @@
 				"example": "Network error"
 			}
 		}
+	},
+	"successReloading": {
+		"message": "视频已标记为已完成。正在重新加载..."
 	}
 }
