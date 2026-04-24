@@ -158,7 +158,12 @@ function createButton() {
 
 	button = document.createElement("button");
 	button.id = "ap-tools-btn";
-	button.innerHTML = `<span class="ap-tools-dot"></span><span class="ap-tools-label">${msg("btnWaiting")}</span>`;
+	const dot = document.createElement("span");
+	dot.className = "ap-tools-dot";
+	const label = document.createElement("span");
+	label.className = "ap-tools-label";
+	label.textContent = msg("btnWaiting");
+	button.append(dot, label);
 
 	const style = document.createElement("style");
 	style.textContent = `
