@@ -56,6 +56,27 @@ chrome.storage.local.get({ showOverlay: true }, (result) => {
 	);
 });
 
+// Send locale strings to the MAIN world (chrome.i18n is unavailable there)
+const _localeKeys = [
+	"btnWaiting",
+	"btnSending",
+	"btnMarkComplete",
+	"btnStartPlaying",
+	"btnBlockingReset",
+	"alertNoDuration",
+	"alertFailed",
+	"alertError",
+	"successReloading",
+] as const;
+const _localeStrings: Record<string, string> = {};
+for (const key of _localeKeys) {
+	_localeStrings[key] = chrome.i18n.getMessage(key);
+}
+window.postMessage(
+	{ type: ApMessageType.AP_TOOLS_LOCALE_STRINGS, strings: _localeStrings },
+	"*",
+);
+
 // Request initial state
 setTimeout(() => {
 	window.postMessage({ type: ApMessageType.AP_TOOLS_GET_STATE }, "*");

@@ -2,39 +2,24 @@ import { ApMessageType } from "./messaging";
 
 // ---------------------------------------------------------------------------
 // Locale helper (MAIN world — chrome.i18n is not available here)
-// Keep translations in sync with apclassroom/_locales/*/messages.json
+// English defaults used until the bridge sends the real locale strings.
+// Falls back to the key name itself if a key is missing.
 // ---------------------------------------------------------------------------
-type Lang = "en" | "es";
-
-const contentMessages: Record<Lang, Record<string, string>> = {
-	en: {
-		btnWaiting: "Waiting...",
-		btnSending: "Sending...",
-		btnMarkComplete: "Mark Complete",
-		btnStartPlaying: "Start playing a video...",
-		btnBlockingReset: "Blocking $1 — Reset",
-		alertNoDuration:
-			"Could not get video duration. Make sure the video is loaded.",
-		alertFailed: "Failed: $1",
-		alertError: "Error: $1",
-	},
-	es: {
-		btnWaiting: "Esperando...",
-		btnSending: "Enviando...",
-		btnMarkComplete: "Marcar como completado",
-		btnStartPlaying: "Empieza a reproducir un video...",
-		btnBlockingReset: "Bloqueando $1 — Restablecer",
-		alertNoDuration:
-			"No se pudo obtener la duración del video. Asegúrate de que el video esté cargado.",
-		alertFailed: "Falló: $1",
-		alertError: "Error: $1",
-	},
+let _strings: Record<string, string> = {
+	btnWaiting: "Waiting...",
+	btnSending: "Sending...",
+	btnMarkComplete: "Mark Complete",
+	btnStartPlaying: "Start playing a video...",
+	btnBlockingReset: "Blocking $1 — Reset",
+	alertNoDuration:
+		"Could not get video duration. Make sure the video is loaded.",
+	alertFailed: "Failed: $1",
+	alertError: "Error: $1",
+	successReloading: "Video marked complete. Reloading...",
 };
 
-const _lang: Lang = navigator.language.startsWith("es") ? "es" : "en";
-
 function msg(key: string, ...subs: string[]): string {
-	let m = contentMessages[_lang][key] ?? contentMessages.en[key] ?? key;
+	let m = _strings[key] ?? key;
 	for (let i = 0; i < subs.length; i++) {
 		m = m.replace(`$${i + 1}`, subs[i]);
 	}
@@ -72,6 +57,10 @@ let overlayVisible = true;
 window.addEventListener("message", (event) => {
 	if (event.data?.type === ApMessageType.AP_TOOLS_GET_STATE) {
 		broadcastState();
+	}
+	if (event.data?.type === ApMessageType.AP_TOOLS_LOCALE_STRINGS) {
+		_strings = { ..._strings, ...event.data.strings };
+		updateButton();
 	}
 	if (event.data?.type === ApMessageType.CLICK_BUTTON) {
 		handleClick();
