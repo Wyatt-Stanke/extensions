@@ -1,35 +1,35 @@
 {
-    "extensionName": {
-        "message": "Google Classroom Tools"
-    },
-    "extensionDescription": {
-        "message": "A collection of tools for Google Classroom, including default user switching and keyboard shortcuts."
-    },
-    "toolDefaultUser": {
-        "message": "Default User Switch"
-    },
-    "labelUserIndex": {
-        "message": "User Index"
-    },
-    "helpDefaultUser": {
-        "message": "Redirects classroom.google.com to the specified user index."
-    },
-    "toolShortcuts": {
-        "message": "Keyboard Shortcuts"
-    },
-    "labelPrefixKey": {
-        "message": "Prefix Key"
-    },
-    "helpShortcutsDemo1": {
-        "message": "Press"
-    },
-    "helpShortcutsDemo2": {
-        "message": "then a number"
-    },
-    "helpShortcutsDemo3": {
-        "message": "to switch users."
-    },
-    "support": {
-        "message": "Support"
-    }
+	"extensionName": {
+		"message": "Google Classroom Tools"
+	},
+	"extensionDescription": {
+		"message": "A collection of tools for Google Classroom, including default user switching and keyboard shortcuts."
+	},
+	"toolDefaultUser": {
+		"message": "Default User Switch"
+	},
+	"labelUserIndex": {
+		"message": "User Index"
+	},
+	"helpDefaultUser": {
+		"message": "Redirects classroom.google.com to the specified user index."
+	},
+	"toolShortcuts": {
+		"message": "Keyboard Shortcuts"
+	},
+	"labelPrefixKey": {
+		"message": "Prefix Key"
+	},
+	"helpShortcutsDemo1": {
+		"message": "Press"
+	},
+	"helpShortcutsDemo2": {
+		"message": "then a number"
+	},
+	"helpShortcutsDemo3": {
+		"message": "to switch users."
+	},
+	"support": {
+		"message": "Support"
+	}
 }
