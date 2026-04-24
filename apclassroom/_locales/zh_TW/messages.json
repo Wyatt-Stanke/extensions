@@ -14,13 +14,19 @@
 	"statusBlockingSingular": {
 		"message": "正在攔截 $COUNT$ 部影片",
 		"placeholders": {
-			"count": { "content": "$1", "example": "1" }
+			"count": {
+				"content": "$1",
+				"example": "1"
+			}
 		}
 	},
 	"statusBlockingPlural": {
 		"message": "正在攔截 $COUNT$ 部影片",
 		"placeholders": {
-			"count": { "content": "$1", "example": "3" }
+			"count": {
+				"content": "$1",
+				"example": "3"
+			}
 		}
 	},
 	"statusBlockingDetail": {
@@ -32,7 +38,10 @@
 	"statusVideoDetected": {
 		"message": "偵測到影片 $VIDEO_ID$。",
 		"placeholders": {
-			"video_id": { "content": "$1", "example": "12345" }
+			"video_id": {
+				"content": "$1",
+				"example": "12345"
+			}
 		}
 	},
 	"statusMonitoring": {
@@ -59,7 +68,10 @@
 	"btnBlockingReset": {
 		"message": "正在攔截 $COUNT$ 部 — 重設",
 		"placeholders": {
-			"count": { "content": "$1", "example": "2" }
+			"count": {
+				"content": "$1",
+				"example": "2"
+			}
 		}
 	},
 	"notOnPage": {
@@ -89,13 +101,19 @@
 	"alertFailed": {
 		"message": "失敗：$CODE$",
 		"placeholders": {
-			"code": { "content": "$1", "example": "403" }
+			"code": {
+				"content": "$1",
+				"example": "403"
+			}
 		}
 	},
 	"alertError": {
 		"message": "錯誤：$ERR$",
 		"placeholders": {
-			"err": { "content": "$1", "example": "Network error" }
+			"err": {
+				"content": "$1",
+				"example": "Network error"
+			}
 		}
 	},
 	"successReloading": {
