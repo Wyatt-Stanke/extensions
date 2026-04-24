@@ -115,5 +115,8 @@
 				"example": "Network error"
 			}
 		}
+	},
+	"successReloading": {
+		"message": "Video marked complete. Reloading..."
 	}
 }

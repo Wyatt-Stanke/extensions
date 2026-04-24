@@ -97,5 +97,8 @@
 		"placeholders": {
 			"err": { "content": "$1", "example": "Network error" }
 		}
+	},
+	"successReloading": {
+		"message": "동영상이 완료로 표시되었습니다. 새로고침 중..."
 	}
 }

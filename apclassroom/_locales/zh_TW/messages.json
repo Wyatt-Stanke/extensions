@@ -97,5 +97,8 @@
 		"placeholders": {
 			"err": { "content": "$1", "example": "Network error" }
 		}
+	},
+	"successReloading": {
+		"message": "影片已標記為已完成。正在重新載入..."
 	}
 }

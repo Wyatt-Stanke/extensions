@@ -1,4 +1,5 @@
 import { ApMessageType } from "./messaging";
+import { showToast } from "../shared/toast";
 
 // ---------------------------------------------------------------------------
 // Locale helper (MAIN world — chrome.i18n is not available here)
@@ -327,7 +328,7 @@ async function handleClick() {
 
 	const duration = getVideoDuration();
 	if (!duration) {
-		alert(msg("alertNoDuration"));
+		showToast(msg("alertNoDuration"), "error");
 		return;
 	}
 
@@ -406,17 +407,18 @@ async function handleClick() {
 				closeBtn.click();
 				console.log("[AP Tools] Clicked modal close button");
 			}
+			showToast(msg("successReloading"), "success");
 			setTimeout(() => location.reload(), 500);
 			return;
 		} else {
 			const text = await response.text();
 			console.error("[AP Tools] Failed:", response.status, text);
-			alert(msg("alertFailed", String(response.status)));
+			showToast(msg("alertFailed", String(response.status)), "error");
 			updateButton();
 		}
 	} catch (e: unknown) {
 		console.error("[AP Tools] Error:", e);
-		alert(msg("alertError", (e as Error).message));
+		showToast(msg("alertError", (e as Error).message), "error");
 		updateButton();
 	}
 }
