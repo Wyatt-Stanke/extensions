@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.3.0](https://github.com/Wyatt-Stanke/extensions/compare/apclassroom-v1.2.0...apclassroom-v1.3.0) (2026-04-24)
+
+
+### Features
+
+* **apclassroom:** add Korean, Simplified Chinese, and Traditional Chinese localization support ([63578d3](https://github.com/Wyatt-Stanke/extensions/commit/63578d37af5566c9dd2241115d16e4fdc130c824))
+* **apclassroom:** add localization support for English and Spanish ([e30ec8a](https://github.com/Wyatt-Stanke/extensions/commit/e30ec8aef9bb6081c3a2b455bfc6f4dfe0b2c383))
+* **apclassroom:** migrate popup to shared UI utilities ([5ecb009](https://github.com/Wyatt-Stanke/extensions/commit/5ecb00963edd9d8db849bd396708b87826b4cf0d))
+* **gclassroom:** start working on extension ([a013555](https://github.com/Wyatt-Stanke/extensions/commit/a013555c0d7f29c0bb343c7482dc483396a95015))
+
 ## [1.2.0](https://github.com/Wyatt-Stanke/extensions/compare/apclassroom-v1.1.0...apclassroom-v1.2.0) (2026-04-21)
 
 
