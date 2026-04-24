@@ -14,13 +14,19 @@
 	"statusBlockingSingular": {
 		"message": "$COUNT$개의 동영상 차단 중",
 		"placeholders": {
-			"count": { "content": "$1", "example": "1" }
+			"count": {
+				"content": "$1",
+				"example": "1"
+			}
 		}
 	},
 	"statusBlockingPlural": {
 		"message": "$COUNT$개의 동영상 차단 중",
 		"placeholders": {
-			"count": { "content": "$1", "example": "3" }
+			"count": {
+				"content": "$1",
+				"example": "3"
+			}
 		}
 	},
 	"statusBlockingDetail": {
@@ -32,7 +38,10 @@
 	"statusVideoDetected": {
 		"message": "동영상 $VIDEO_ID$ 감지됨.",
 		"placeholders": {
-			"video_id": { "content": "$1", "example": "12345" }
+			"video_id": {
+				"content": "$1",
+				"example": "12345"
+			}
 		}
 	},
 	"statusMonitoring": {
@@ -59,7 +68,10 @@
 	"btnBlockingReset": {
 		"message": "$COUNT$개 차단 중 — 초기화",
 		"placeholders": {
-			"count": { "content": "$1", "example": "2" }
+			"count": {
+				"content": "$1",
+				"example": "2"
+			}
 		}
 	},
 	"notOnPage": {
@@ -89,13 +101,19 @@
 	"alertFailed": {
 		"message": "실패: $CODE$",
 		"placeholders": {
-			"code": { "content": "$1", "example": "403" }
+			"code": {
+				"content": "$1",
+				"example": "403"
+			}
 		}
 	},
 	"alertError": {
 		"message": "오류: $ERR$",
 		"placeholders": {
-			"err": { "content": "$1", "example": "Network error" }
+			"err": {
+				"content": "$1",
+				"example": "Network error"
+			}
 		}
 	},
 	"successReloading": {
