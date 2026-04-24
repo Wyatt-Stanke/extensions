@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 	// Save functions
 	userSwitchIndex.addEventListener("change", async () => {
 		let val = parseInt(userSwitchIndex.value, 10);
-		if (isNaN(val) || val < 0) val = 0;
+		if (Number.isNaN(val) || val < 0) val = 0;
 		if (val > 9) val = 9;
 		userSwitchIndex.value = val.toString();
 		await chrome.storage.local.set({ "userSwitch.userIndex": val });

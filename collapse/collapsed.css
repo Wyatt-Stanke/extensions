@@ -142,6 +142,80 @@ h1:focus {
 	box-shadow: 0 2px 8px rgba(26, 115, 232, 0.15);
 }
 
+.video-thumbnail {
+	width: 120px;
+	height: 68px;
+	border-radius: 4px;
+	object-fit: cover;
+	flex-shrink: 0;
+	background: #e0e0e0;
+}
+
+.video-info {
+	flex: 1;
+	min-width: 0;
+}
+
+.video-title {
+	font-size: 14px;
+	font-weight: 600;
+	color: #333;
+	margin-bottom: 4px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.video-channel {
+	font-size: 12px;
+	color: #888;
+	margin-bottom: 8px;
+}
+
+.playlist-badge {
+	display: inline-block;
+	font-size: 10px;
+	color: #1a73e8;
+	background: #e8f0fe;
+	padding: 1px 6px;
+	border-radius: 4px;
+	margin-left: 6px;
+	vertical-align: middle;
+}
+
+.progress-container {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.progress-bar {
+	flex: 1;
+	height: 4px;
+	background: #e0e0e0;
+	border-radius: 2px;
+	overflow: hidden;
+}
+
+.progress-fill {
+	height: 100%;
+	background: #1a73e8;
+	border-radius: 2px;
+	transition: width 0.3s;
+}
+
+.progress-text {
+	font-size: 11px;
+	color: #888;
+	flex-shrink: 0;
+	min-width: 90px;
+	text-align: right;
+}
+
+.video-actions {
+	flex-shrink: 0;
+}
+
 /* ---- Grid layout ---- */
 .video-list[data-layout="grid"] {
 	display: grid;
@@ -219,80 +293,6 @@ h1:focus {
 .video-list[data-layout="compact"] .progress-container {
 	flex-shrink: 0;
 	width: 160px;
-}
-
-.video-thumbnail {
-	width: 120px;
-	height: 68px;
-	border-radius: 4px;
-	object-fit: cover;
-	flex-shrink: 0;
-	background: #e0e0e0;
-}
-
-.video-info {
-	flex: 1;
-	min-width: 0;
-}
-
-.video-title {
-	font-size: 14px;
-	font-weight: 600;
-	color: #333;
-	margin-bottom: 4px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
-.video-channel {
-	font-size: 12px;
-	color: #888;
-	margin-bottom: 8px;
-}
-
-.playlist-badge {
-	display: inline-block;
-	font-size: 10px;
-	color: #1a73e8;
-	background: #e8f0fe;
-	padding: 1px 6px;
-	border-radius: 4px;
-	margin-left: 6px;
-	vertical-align: middle;
-}
-
-.progress-container {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-}
-
-.progress-bar {
-	flex: 1;
-	height: 4px;
-	background: #e0e0e0;
-	border-radius: 2px;
-	overflow: hidden;
-}
-
-.progress-fill {
-	height: 100%;
-	background: #1a73e8;
-	border-radius: 2px;
-	transition: width 0.3s;
-}
-
-.progress-text {
-	font-size: 11px;
-	color: #888;
-	flex-shrink: 0;
-	min-width: 90px;
-	text-align: right;
-}
-
-.video-actions {
-	flex-shrink: 0;
 }
 
 .btn-remove {

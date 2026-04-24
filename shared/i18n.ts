@@ -16,12 +16,14 @@ export function t(key: string, substitutions?: string | string[]): string {
  */
 export function applyI18n(root: ParentNode = document): void {
 	for (const el of root.querySelectorAll<HTMLElement>("[data-i18n]")) {
-		const key = el.dataset.i18n!;
+		const key = el.dataset.i18n;
+		if (!key) continue;
 		const msg = chrome.i18n.getMessage(key);
 		if (msg) el.textContent = msg;
 	}
 	for (const el of root.querySelectorAll<HTMLElement>("[data-i18n-html]")) {
-		const key = el.dataset.i18nHtml!;
+		const key = el.dataset.i18nHtml;
+		if (!key) continue;
 		const msg = chrome.i18n.getMessage(key);
 		if (msg) el.innerHTML = msg;
 	}

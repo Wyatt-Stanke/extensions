@@ -27,7 +27,7 @@ export function switchUserInUrl(url: string, targetUserIndex: number): string {
 
 		// Otherwise insert /u/N before the path
 		return `${CLASSROOM_ORIGIN}/u/${targetUserIndex}${path.startsWith("/") ? path : `/${path}`}${parsed.search}${parsed.hash}`;
-	} catch (e) {
+	} catch (_e) {
 		return url;
 	}
 }
