@@ -1,5 +1,5 @@
-import { ApMessageType } from "./messaging";
 import { showToast } from "../shared/toast";
+import { ApMessageType } from "./messaging";
 
 // ---------------------------------------------------------------------------
 // Locale helper (MAIN world — chrome.i18n is not available here)
@@ -158,10 +158,13 @@ function createButton() {
 
 	button = document.createElement("button");
 	button.id = "ap-tools-btn";
+	button.setAttribute("aria-label", msg("btnWaiting"));
 	const dot = document.createElement("span");
 	dot.className = "ap-tools-dot";
+	dot.setAttribute("aria-hidden", "true");
 	const label = document.createElement("span");
 	label.className = "ap-tools-label";
+	label.setAttribute("aria-live", "polite");
 	label.textContent = msg("btnWaiting");
 	button.append(dot, label);
 
@@ -262,14 +265,17 @@ function updateButton() {
 	if (state.blocking.length > 0) {
 		button.className = "ap-blocking";
 		label.textContent = msg("btnBlockingReset", String(state.blocking.length));
+		button.setAttribute("aria-label", label.textContent);
 		button.disabled = false;
 	} else if (state.videoId) {
 		button.className = "ap-ready";
 		label.textContent = msg("btnMarkComplete");
+		button.setAttribute("aria-label", label.textContent);
 		button.disabled = false;
 	} else {
 		button.className = "";
 		label.textContent = msg("btnStartPlaying");
+		button.setAttribute("aria-label", label.textContent);
 		button.disabled = true;
 	}
 }
