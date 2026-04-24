@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.4.0](https://github.com/Wyatt-Stanke/extensions/compare/apclassroom-v1.3.0...apclassroom-v1.4.0) (2026-04-24)
+
+
+### Features
+
+* **apclassroom:** expand how to use section by default in popup ([7576173](https://github.com/Wyatt-Stanke/extensions/commit/7576173c1e0fa8f030a0cfd1175e4635090fcbf1))
+* **apclassroom:** locale strings in content script ([d020f59](https://github.com/Wyatt-Stanke/extensions/commit/d020f5955a61b7cd9d92d202957dd43f430d7bc1))
+* **apclassroom:** replace alert dialogs with toasts ([4d46990](https://github.com/Wyatt-Stanke/extensions/commit/4d469906bb26929ea8dba456f53a2754d02d831b))
+
+
+### Bug Fixes
+
+* **apclassroom:** add aria labels to overlay button ([308bd58](https://github.com/Wyatt-Stanke/extensions/commit/308bd580f692b32bcb35a4214e3ad2bac2895c0f))
+* **apclassroom:** replace innerHTML in createButton ([cc5dbc3](https://github.com/Wyatt-Stanke/extensions/commit/cc5dbc303a11a6c1990ff2a3e3536b5bba6eaf62))
+
 ## [1.3.0](https://github.com/Wyatt-Stanke/extensions/compare/apclassroom-v1.2.0...apclassroom-v1.3.0) (2026-04-24)
 
 
