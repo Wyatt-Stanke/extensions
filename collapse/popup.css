@@ -190,39 +190,11 @@
 	gap: 4px;
 }
 
-.btn-sm {
-	padding: 3px 8px;
-	font-size: 12px;
-	text-align: center;
-	width: auto;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	box-sizing: border-box;
-}
-
-.btn-secondary {
-	background: #e8eaed;
-	color: #333;
-}
-
-.btn-secondary:hover:not(:disabled) {
-	background: #d2d5db;
-}
-
 @media (prefers-color-scheme: dark) {
 	.scope-toggle {
 		border-color: #3c4043;
 	}
 
-	.btn-secondary {
-		background: #3c4043;
-		color: #e8eaed;
-	}
-
-	.btn-secondary:hover:not(:disabled) {
-		background: #5f6368;
-	}
 	.scope-btn {
 		color: #9aa0a6;
 	}

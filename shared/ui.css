@@ -40,6 +40,26 @@
 	background: #d32f2f;
 }
 
+.btn-secondary {
+	background: #e8eaed;
+	color: #333;
+}
+
+.btn-secondary:hover:not(:disabled) {
+	background: #d2d5db;
+}
+
+.btn-sm {
+	padding: 3px 8px;
+	font-size: 12px;
+	text-align: center;
+	width: auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+}
+
 /* Toggle switch */
 .settings-section {
 	padding: 10px 12px;
@@ -168,6 +188,13 @@
 	}
 	.btn-danger:hover:not(:disabled) {
 		background: #ef9a9a;
+	}
+	.btn-secondary {
+		background: #3c4043;
+		color: #e8eaed;
+	}
+	.btn-secondary:hover:not(:disabled) {
+		background: #5f6368;
 	}
 	.toggle-label {
 		color: #bdc1c6;
