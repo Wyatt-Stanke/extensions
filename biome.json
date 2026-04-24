@@ -1,8 +1,22 @@
 {
 	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
 	"files": {
-		"includes": ["**", "!**/dist", "!**/node_modules"]
+		"includes": [
+			"**",
+			"!**/dist",
+			"!**/node_modules"
+		]
 	},
+	"overrides": [
+		{
+			"includes": [
+				"**/*.json"
+			],
+			"formatter": {
+				"enabled": false
+			}
+		}
+	],
 	"vcs": {
 		"enabled": true,
 		"clientKind": "git",
