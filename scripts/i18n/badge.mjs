@@ -55,8 +55,8 @@ const ROW_H = 28;
 const WIDTH = 620;
 const HEIGHT = PAD * 2 + TITLE_H + LEGEND_H + DIVIDER_H + rows.length * ROW_H;
 
-const LOCALE_X = PAD;
-const BAR_X = PAD + 155; // Pushed bar further right to accommodate padding
+const LOCALE_X = 0;
+const BAR_X = 155;
 const BAR_W = 240;
 const barH = 12; // Extracted to top context
 const COUNT_X = BAR_X + BAR_W + 14;
@@ -113,7 +113,7 @@ svg += `<style>
   }
 </style>\n`;
 svg += `  <rect width="${WIDTH}" height="${HEIGHT}" rx="8" fill="transparent"/>\n`;
-svg += `  <text x="${PAD}" y="${PAD + 16}" font-family="${FONT}" font-size="15" font-weight="600" fill="${C.text}">Translation Status</text>\n`;
+// svg += `  <text x="${PAD}" y="${PAD + 16}" font-family="${FONT}" font-size="15" font-weight="600" fill="${C.text}">Translation Status</text>\n`;
 
 // Legend (right side of title row)
 const legendItems = [
@@ -122,7 +122,7 @@ const legendItems = [
 	{ label: "outdated", color: C.outdated },
 	{ label: "missing", color: C.missing },
 ];
-let legendX = PAD;
+let legendX = 0;
 const legendY = PAD + TITLE_H + 4;
 for (const item of legendItems) {
 	svg += `  <rect x="${legendX}" y="${legendY - 9}" width="10" height="10" rx="3" fill="${item.color}"/>\n`;
@@ -132,7 +132,7 @@ for (const item of legendItems) {
 
 // Divider
 const dividerY = PAD + TITLE_H + LEGEND_H + 4;
-svg += `  <line x1="${PAD}" y1="${dividerY}" x2="${WIDTH - PAD}" y2="${dividerY}" stroke="${C.border}" stroke-width="1"/>\n`;
+svg += `  <line x1="0" y1="${dividerY}" x2="${WIDTH - PAD}" y2="${dividerY}" stroke="${C.border}" stroke-width="1"/>\n`;
 
 // Rows
 rows.forEach((r, i) => {

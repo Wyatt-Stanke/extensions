@@ -27,52 +27,51 @@
   }
 </style>
   <rect width="620" height="272" rx="8" fill="transparent"/>
-  <text x="20" y="36" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="var(--text)">Translation Status</text>
-  <rect x="20" y="43" width="10" height="10" rx="3" fill="var(--reviewed)"/>
-  <text x="34" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="var(--muted)">reviewed</text>
-  <rect x="101.6" y="43" width="10" height="10" rx="3" fill="var(--aiDraft)"/>
-  <text x="115.6" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="var(--muted)">ai-draft</text>
-  <rect x="183.2" y="43" width="10" height="10" rx="3" fill="var(--outdated)"/>
-  <text x="197.2" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="var(--muted)">outdated</text>
-  <rect x="264.79999999999995" y="43" width="10" height="10" rx="3" fill="var(--missing)"/>
-  <text x="278.79999999999995" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="var(--muted)">missing</text>
-  <line x1="20" y1="74" x2="600" y2="74" stroke="var(--border)" stroke-width="1"/>
-  <text x="20" y="105" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="500" fill="var(--text)" xml:space="preserve">apclassroom <tspan fill="var(--muted)">/ </tspan>en</text>
-  <rect x="175" y="95" width="240" height="12" rx="3" fill="var(--missing)"/>
-  <rect x="175" y="95" width="240" height="12" rx="3" fill="var(--reviewed)"/>
-  <text x="429" y="105" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="11" fill="var(--muted)">27 keys</text>
+  <rect x="0" y="43" width="10" height="10" rx="3" fill="var(--reviewed)"/>
+  <text x="14" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="var(--muted)">reviewed</text>
+  <rect x="81.6" y="43" width="10" height="10" rx="3" fill="var(--aiDraft)"/>
+  <text x="95.6" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="var(--muted)">ai-draft</text>
+  <rect x="163.2" y="43" width="10" height="10" rx="3" fill="var(--outdated)"/>
+  <text x="177.2" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="var(--muted)">outdated</text>
+  <rect x="244.79999999999998" y="43" width="10" height="10" rx="3" fill="var(--missing)"/>
+  <text x="258.79999999999995" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="var(--muted)">missing</text>
+  <line x1="0" y1="74" x2="600" y2="74" stroke="var(--border)" stroke-width="1"/>
+  <text x="0" y="105" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="500" fill="var(--text)" xml:space="preserve">apclassroom <tspan fill="var(--muted)">/ </tspan>en</text>
+  <rect x="155" y="95" width="240" height="12" rx="3" fill="var(--missing)"/>
+  <rect x="155" y="95" width="240" height="12" rx="3" fill="var(--reviewed)"/>
+  <text x="409" y="105" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="11" fill="var(--muted)">27 keys</text>
   <text x="600" y="105" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="var(--muted)">source</text>
-  <text x="20" y="133" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="500" fill="var(--text)" xml:space="preserve">apclassroom <tspan fill="var(--muted)">/ </tspan>es</text>
-  <rect x="175" y="123" width="240" height="12" rx="3" fill="var(--missing)"/>
-  <g transform="translate(175, 123)" clip-path="url(#bar-clip)">
+  <text x="0" y="133" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="500" fill="var(--text)" xml:space="preserve">apclassroom <tspan fill="var(--muted)">/ </tspan>es</text>
+  <rect x="155" y="123" width="240" height="12" rx="3" fill="var(--missing)"/>
+  <g transform="translate(155, 123)" clip-path="url(#bar-clip)">
     <rect x="0.00" y="0" width="240.00" height="12" fill="var(--aiDraft)"/>
   </g>
-  <text x="429" y="133" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="11" fill="var(--muted)">27 ai</text>
+  <text x="409" y="133" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="11" fill="var(--muted)">27 ai</text>
   <text x="600" y="133" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="var(--text)">0%</text>
-  <text x="20" y="161" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="500" fill="var(--text)" xml:space="preserve">apclassroom <tspan fill="var(--muted)">/ </tspan>ko</text>
-  <rect x="175" y="151" width="240" height="12" rx="3" fill="var(--missing)"/>
-  <g transform="translate(175, 151)" clip-path="url(#bar-clip)">
+  <text x="0" y="161" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="500" fill="var(--text)" xml:space="preserve">apclassroom <tspan fill="var(--muted)">/ </tspan>ko</text>
+  <rect x="155" y="151" width="240" height="12" rx="3" fill="var(--missing)"/>
+  <g transform="translate(155, 151)" clip-path="url(#bar-clip)">
     <rect x="0.00" y="0" width="240.00" height="12" fill="var(--aiDraft)"/>
   </g>
-  <text x="429" y="161" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="11" fill="var(--muted)">27 ai</text>
+  <text x="409" y="161" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="11" fill="var(--muted)">27 ai</text>
   <text x="600" y="161" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="var(--text)">0%</text>
-  <text x="20" y="189" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="500" fill="var(--text)" xml:space="preserve">apclassroom <tspan fill="var(--muted)">/ </tspan>zh_CN</text>
-  <rect x="175" y="179" width="240" height="12" rx="3" fill="var(--missing)"/>
-  <g transform="translate(175, 179)" clip-path="url(#bar-clip)">
+  <text x="0" y="189" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="500" fill="var(--text)" xml:space="preserve">apclassroom <tspan fill="var(--muted)">/ </tspan>zh_CN</text>
+  <rect x="155" y="179" width="240" height="12" rx="3" fill="var(--missing)"/>
+  <g transform="translate(155, 179)" clip-path="url(#bar-clip)">
     <rect x="0.00" y="0" width="240.00" height="12" fill="var(--aiDraft)"/>
   </g>
-  <text x="429" y="189" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="11" fill="var(--muted)">27 ai</text>
+  <text x="409" y="189" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="11" fill="var(--muted)">27 ai</text>
   <text x="600" y="189" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="var(--text)">0%</text>
-  <text x="20" y="217" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="500" fill="var(--text)" xml:space="preserve">apclassroom <tspan fill="var(--muted)">/ </tspan>zh_TW</text>
-  <rect x="175" y="207" width="240" height="12" rx="3" fill="var(--missing)"/>
-  <g transform="translate(175, 207)" clip-path="url(#bar-clip)">
+  <text x="0" y="217" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="500" fill="var(--text)" xml:space="preserve">apclassroom <tspan fill="var(--muted)">/ </tspan>zh_TW</text>
+  <rect x="155" y="207" width="240" height="12" rx="3" fill="var(--missing)"/>
+  <g transform="translate(155, 207)" clip-path="url(#bar-clip)">
     <rect x="0.00" y="0" width="240.00" height="12" fill="var(--aiDraft)"/>
   </g>
-  <text x="429" y="217" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="11" fill="var(--muted)">27 ai</text>
+  <text x="409" y="217" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="11" fill="var(--muted)">27 ai</text>
   <text x="600" y="217" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="var(--text)">0%</text>
-  <text x="20" y="245" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="500" fill="var(--text)" xml:space="preserve">gclassroom  <tspan fill="var(--muted)">/ </tspan>en</text>
-  <rect x="175" y="235" width="240" height="12" rx="3" fill="var(--missing)"/>
-  <rect x="175" y="235" width="240" height="12" rx="3" fill="var(--reviewed)"/>
-  <text x="429" y="245" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="11" fill="var(--muted)">11 keys</text>
+  <text x="0" y="245" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="500" fill="var(--text)" xml:space="preserve">gclassroom  <tspan fill="var(--muted)">/ </tspan>en</text>
+  <rect x="155" y="235" width="240" height="12" rx="3" fill="var(--missing)"/>
+  <rect x="155" y="235" width="240" height="12" rx="3" fill="var(--reviewed)"/>
+  <text x="409" y="245" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="11" fill="var(--muted)">11 keys</text>
   <text x="600" y="245" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="var(--muted)">source</text>
 </svg>
