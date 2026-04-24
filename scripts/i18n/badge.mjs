@@ -167,12 +167,12 @@ rows.forEach((r, i) => {
 		svg += `  </g>\n`;
 		const pct = Math.round((r.reviewed / r.total) * 100);
 		const countParts = [];
-		if (r.reviewed) countParts.push(`${r.reviewed}✓`);
+		if (r.reviewed) countParts.push(`${r.reviewed} reviewed`);
 		if (r.aiDraft) countParts.push(`${r.aiDraft} ai`);
-		if (r.outdated) countParts.push(`${r.outdated} !`);
-		if (r.missing) countParts.push(`${r.missing} ∅`);
+		if (r.outdated) countParts.push(`${r.outdated} outdated`);
+		if (r.missing) countParts.push(`${r.missing} missing`);
 
-		svg += `  <text x="${COUNT_X}" y="${textY}" font-family="${MONO}" font-size="11" fill="${C.muted}">${esc(countParts.join("  "))}</text>\n`;
+		svg += `  <text x="${COUNT_X}" y="${textY}" font-family="${MONO}" font-size="11" fill="${C.muted}">${esc(countParts.join(", "))}</text>\n`;
 		svg += `  <text x="${PCT_X}" y="${textY}" text-anchor="end" font-family="${FONT}" font-size="11" font-weight="600" fill="${C.text}">${pct}%</text>\n`;
 	}
 });
