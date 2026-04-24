@@ -1,0 +1,110 @@
+{
+	"alertError": {
+		"status": "ai-draft",
+		"source_hash": "85f34a00ef8b"
+	},
+	"alertFailed": {
+		"status": "ai-draft",
+		"source_hash": "044301ce9dfa"
+	},
+	"alertNoDuration": {
+		"status": "ai-draft",
+		"source_hash": "be57bb900f4f"
+	},
+	"btnBlockingReset": {
+		"status": "ai-draft",
+		"source_hash": "12492b985625"
+	},
+	"btnMarkComplete": {
+		"status": "ai-draft",
+		"source_hash": "9e5d22bb3b6f"
+	},
+	"btnReset": {
+		"status": "ai-draft",
+		"source_hash": "0b8c52e746d3"
+	},
+	"btnSending": {
+		"status": "ai-draft",
+		"source_hash": "479c53832bef"
+	},
+	"btnStartPlaying": {
+		"status": "ai-draft",
+		"source_hash": "bfc189bd3d00"
+	},
+	"btnWaiting": {
+		"status": "ai-draft",
+		"source_hash": "8a07395e17e5"
+	},
+	"extensionDescription": {
+		"status": "ai-draft",
+		"source_hash": "7d7d1c88e610"
+	},
+	"extensionName": {
+		"status": "ai-draft",
+		"source_hash": "98ad313cd001"
+	},
+	"howToUseStep1": {
+		"status": "ai-draft",
+		"source_hash": "7b282f2329e1"
+	},
+	"howToUseStep2": {
+		"status": "ai-draft",
+		"source_hash": "9c19d7e93ff0"
+	},
+	"howToUseStep3": {
+		"status": "ai-draft",
+		"source_hash": "9ad46886bc7f"
+	},
+	"howToUseTitle": {
+		"status": "ai-draft",
+		"source_hash": "c870f03062a6"
+	},
+	"notOnPage": {
+		"status": "ai-draft",
+		"source_hash": "344710a354e8"
+	},
+	"notOnPageSub": {
+		"status": "ai-draft",
+		"source_hash": "fa67436ed8f6"
+	},
+	"showOverlayLabel": {
+		"status": "ai-draft",
+		"source_hash": "775746c2c46b"
+	},
+	"statusBlockingDetail": {
+		"status": "ai-draft",
+		"source_hash": "5d92fd44ecb7"
+	},
+	"statusBlockingPlural": {
+		"status": "ai-draft",
+		"source_hash": "ca9a649057f7"
+	},
+	"statusBlockingSingular": {
+		"status": "ai-draft",
+		"source_hash": "8def8200163f"
+	},
+	"statusChecking": {
+		"status": "ai-draft",
+		"source_hash": "1e266d9b9a2e"
+	},
+	"statusMonitoring": {
+		"status": "ai-draft",
+		"source_hash": "307d122297b0"
+	},
+	"statusNotRunning": {
+		"status": "ai-draft",
+		"source_hash": "f0c21d21860c"
+	},
+	"statusReady": {
+		"status": "ai-draft",
+		"source_hash": "353294860f6a"
+	},
+	"statusVideoDetected": {
+		"status": "ai-draft",
+		"source_hash": "256e419310ea"
+	},
+	"statusWaitingVideo": {
+		"status": "ai-draft",
+		"source_hash": "082d06d58428"
+	}
+}

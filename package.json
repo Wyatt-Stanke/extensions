@@ -8,7 +8,11 @@
 		"lint": "biome lint .",
 		"test:type": "tsc --noEmit",
 		"test:lint": "biome check . --error-on-warnings",
-		"test": "npm run test:type && npm run test:lint"
+		"test": "npm run test:type && npm run test:lint",
+		"i18n:validate": "node scripts/i18n/validate.mjs",
+		"i18n:badge": "node scripts/i18n/badge.mjs",
+		"i18n:init": "node scripts/i18n/init-status.mjs",
+		"i18n:translate": "node scripts/i18n/translate.mjs"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.4.12",
