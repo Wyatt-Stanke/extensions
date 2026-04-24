@@ -3,6 +3,7 @@ import { createMessenger } from "../shared/messaging";
 export enum ApMessageType {
 	AP_TOOLS_GET_STATE = "AP_TOOLS_GET_STATE",
 	AP_TOOLS_STATE = "AP_TOOLS_STATE",
+	AP_TOOLS_LOCALE_STRINGS = "AP_TOOLS_LOCALE_STRINGS",
 	STATE_UPDATE = "STATE_UPDATE",
 	GET_STATE = "GET_STATE",
 	CLICK_BUTTON = "CLICK_BUTTON",
@@ -21,6 +22,12 @@ export type ApProtocol = {
 	};
 	[ApMessageType.AP_TOOLS_STATE]: {
 		request: { type: ApMessageType.AP_TOOLS_STATE; state: ApState };
+	};
+	[ApMessageType.AP_TOOLS_LOCALE_STRINGS]: {
+		request: {
+			type: ApMessageType.AP_TOOLS_LOCALE_STRINGS;
+			strings: Record<string, string>;
+		};
 	};
 	[ApMessageType.STATE_UPDATE]: {
 		request: { type: ApMessageType.STATE_UPDATE; state: ApState };
