@@ -217,6 +217,39 @@ h1:focus {
 	flex-shrink: 0;
 }
 
+/* ---- Video Actions (Shared) ---- */
+.btn-remove {
+	width: 32px;
+	height: 32px;
+	border: none;
+	border-radius: 50%;
+	background: transparent;
+	color: #888;
+	font-size: 18px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition:
+		background 0.2s,
+		color 0.2s;
+}
+
+.btn-remove:hover {
+	background: #fce8e6;
+	color: #c5221f;
+}
+
+.video-list[data-layout="grid"] .btn-remove {
+	background: rgba(0, 0, 0, 0.6);
+	color: #fff;
+}
+
+.video-list[data-layout="grid"] .btn-remove:hover {
+	background: rgba(0, 0, 0, 0.8);
+	color: #ff8a80;
+}
+
 /* ---- Grid layout ---- */
 .video-list[data-layout="grid"] {
 	display: grid;
@@ -321,38 +354,6 @@ h1:focus {
 .video-list[data-layout="compact"] .progress-container {
 	flex-shrink: 0;
 	width: 160px;
-}
-
-.btn-remove {
-	width: 32px;
-	height: 32px;
-	border: none;
-	border-radius: 50%;
-	background: transparent;
-	color: #888;
-	font-size: 18px;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	transition:
-		background 0.2s,
-		color 0.2s;
-}
-
-.btn-remove:hover {
-	background: #fce8e6;
-	color: #c5221f;
-}
-
-.video-list[data-layout="grid"] .btn-remove {
-	background: rgba(0, 0, 0, 0.6);
-	color: #fff;
-}
-
-.video-list[data-layout="grid"] .btn-remove:hover {
-	background: rgba(0, 0, 0, 0.8);
-	color: #ff8a80;
 }
 
 .empty-state {
@@ -502,6 +503,10 @@ h1:focus {
 	}
 	.btn-remove:hover {
 		background: rgba(197, 34, 31, 0.2);
+		color: #f28b82;
+	}
+	.video-list[data-layout="grid"] .btn-remove:hover {
+		background: rgba(0, 0, 0, 0.8);
 		color: #f28b82;
 	}
 	.empty-state {
