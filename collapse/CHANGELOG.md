@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.4.0](https://github.com/Wyatt-Stanke/extensions/compare/collapse-v1.3.0...collapse-v1.4.0) (2026-04-24)
+
+
+### Features
+
+* **gclassroom:** start working on extension ([a013555](https://github.com/Wyatt-Stanke/extensions/commit/a013555c0d7f29c0bb343c7482dc483396a95015))
+
+
+### Bug Fixes
+
+* issues with layout ([f6ff7d6](https://github.com/Wyatt-Stanke/extensions/commit/f6ff7d618ee9cc9b7645a66838e8dc6ff4e82edd))
+* move some css to shared ([564bf8e](https://github.com/Wyatt-Stanke/extensions/commit/564bf8eb6c0c2d9e1be4d098ba4dd5493154c5d7))
+
 ## [1.3.0](https://github.com/Wyatt-Stanke/extensions/compare/collapse-v1.2.0...collapse-v1.3.0) (2026-04-21)
 
 
