@@ -1,28 +1,28 @@
 {
-	"compilerOptions": {
-		"types": ["chrome-types"],
-		"target": "ESNext",
-		"module": "ESNext",
-		"moduleResolution": "node",
-		"allowJs": true,
-		"strict": true,
-		"esModuleInterop": true,
-		"skipLibCheck": true,
-		"forceConsistentCasingInFileNames": true,
-		"resolveJsonModule": true,
-		"noEmit": true,
-		"jsx": "react",
-		"jsxFactory": "jsx",
-		"jsxFragmentFactory": "Fragment"
-	},
-	"include": [
-		"apclassroom/**/*.ts",
-		"apclassroom/**/*.tsx",
-		"collapse/**/*.ts",
-		"collapse/**/*.tsx",
-		"gclassroom/**/*.ts",
-		"gclassroom/**/*.tsx",
-		"shared/**/*.ts",
-		"scripts/**/*.mts"
-	]
+  "compilerOptions": {
+    "types": ["chrome-types"],
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowJs": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "jsx": "react",
+    "jsxFactory": "jsx",
+    "jsxFragmentFactory": "Fragment"
+  },
+  "include": [
+    "apclassroom/**/*.ts",
+    "apclassroom/**/*.tsx",
+    "collapse/**/*.ts",
+    "collapse/**/*.tsx",
+    "gclassroom/**/*.ts",
+    "gclassroom/**/*.tsx",
+    "shared/**/*.ts",
+    "scripts/**/*.mts"
+  ]
 }
