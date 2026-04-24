@@ -56,6 +56,7 @@ h1:focus {
 	padding: 8px 16px;
 	border: none;
 	border-radius: 6px;
+	font-family: inherit;
 	font-size: 13px;
 	font-weight: 600;
 	cursor: pointer;
@@ -229,23 +230,50 @@ h1:focus {
 	padding: 0;
 	overflow: hidden;
 	gap: 0;
+	position: relative;
 }
 
 .video-list[data-layout="grid"] .video-thumbnail {
 	width: 100%;
+	min-width: 100%;
+	max-width: 100%;
 	height: auto;
 	aspect-ratio: 16 / 9;
 	border-radius: 0;
+	display: block;
+	object-fit: cover;
 }
 
 .video-list[data-layout="grid"] .video-info {
-	padding: 10px 12px 4px;
+	padding: 10px 12px 12px;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.video-list[data-layout="grid"] .video-channel {
+	margin-bottom: 4px;
+}
+
+.video-list[data-layout="grid"] .progress-container {
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.video-list[data-layout="grid"] .progress-bar {
+	flex: 0 0 100%;
+}
+
+.video-list[data-layout="grid"] .progress-text {
+	text-align: left;
+	min-width: auto;
 }
 
 .video-list[data-layout="grid"] .video-actions {
-	padding: 0 12px 8px;
-	display: flex;
-	justify-content: flex-end;
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	padding: 0;
 }
 
 /* ---- Compact layout ---- */
@@ -315,6 +343,16 @@ h1:focus {
 .btn-remove:hover {
 	background: #fce8e6;
 	color: #c5221f;
+}
+
+.video-list[data-layout="grid"] .btn-remove {
+	background: rgba(0, 0, 0, 0.6);
+	color: #fff;
+}
+
+.video-list[data-layout="grid"] .btn-remove:hover {
+	background: rgba(0, 0, 0, 0.8);
+	color: #ff8a80;
 }
 
 .empty-state {
