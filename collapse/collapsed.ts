@@ -1,7 +1,7 @@
+import { createIcons, LayoutGrid, LayoutList, List } from "lucide";
 import { escapeAttr, escapeHtml } from "../shared/escape";
 import { html } from "../shared/html";
 import { getById } from "../shared/typed-getters";
-import { LayoutGrid, LayoutList, List, createIcons } from "lucide";
 import { CollapseMessageType, sendMessage, type VideoList } from "./messaging";
 
 type Layout = "list" | "grid" | "compact";

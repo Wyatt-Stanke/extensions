@@ -5,7 +5,7 @@ type Config = {
 	prefixKey: string;
 };
 
-let config: Config = { enabled: false, prefixKey: "u" };
+const config: Config = { enabled: false, prefixKey: "u" };
 let pendingPrefix = false;
 let pendingTimer: ReturnType<typeof setTimeout> | null = null;
 

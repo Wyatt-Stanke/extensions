@@ -9,28 +9,32 @@ async function enableUserRedirect(userIndex: number) {
 				id: RULE_ID_ROOT,
 				priority: 1,
 				action: {
-					type: chrome.declarativeNetRequest.RuleActionType.REDIRECT,
+					type: "redirect" as chrome.declarativeNetRequest.RuleActionType,
 					redirect: {
 						regexSubstitution: `https://classroom.google.com/u/${userIndex}/`,
 					},
 				},
 				condition: {
 					regexFilter: "^https://classroom\\.google\\.com/?$",
-					resourceTypes: [chrome.declarativeNetRequest.ResourceType.MAIN_FRAME],
+					resourceTypes: [
+						"main_frame" as chrome.declarativeNetRequest.ResourceType,
+					],
 				},
 			},
 			{
 				id: RULE_ID_PATH,
 				priority: 1,
 				action: {
-					type: chrome.declarativeNetRequest.RuleActionType.REDIRECT,
+					type: "redirect" as chrome.declarativeNetRequest.RuleActionType,
 					redirect: {
 						regexSubstitution: `https://classroom.google.com/u/${userIndex}/\\1`,
 					},
 				},
 				condition: {
 					regexFilter: "^https://classroom\\.google\\.com/([^u].*)$",
-					resourceTypes: [chrome.declarativeNetRequest.ResourceType.MAIN_FRAME],
+					resourceTypes: [
+						"main_frame" as chrome.declarativeNetRequest.ResourceType,
+					],
 				},
 			},
 		],

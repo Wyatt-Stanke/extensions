@@ -1,5 +1,5 @@
-import { displayVersion } from "../shared/popup-version.js";
 import { applyI18n, t } from "../shared/i18n";
+import { displayVersion } from "../shared/popup-version.js";
 import { bindToggle, hide, show } from "../shared/ui";
 import { ApMessageType, sendTabMessage } from "./messaging";
 
@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		actionBtn.addEventListener("click", async () => {
 			if (!currentTabId) return;
 			actionBtn.disabled = true;
-			await sendTabMessage<ApMessageType.GET_STATE>(currentTabId, {
+			await sendTabMessage(currentTabId, {
 				type: ApMessageType.CLICK_BUTTON,
 			});
 			setTimeout(updateStatus, 300);
