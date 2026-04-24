@@ -2,10 +2,13 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "npm run build:icons && node scripts/build.mjs",
 		"build:icons": "node scripts/generate-icons.mjs",
+		"build": "npm run build:icons && node scripts/build.mjs",
 		"format": "biome format . --fix",
-		"lint": "biome lint ."
+		"lint": "biome lint .",
+		"test:type": "tsc --noEmit",
+		"test:lint": "biome check . --error-on-warnings",
+		"test": "npm run test:type && npm run test:lint"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.4.12",
