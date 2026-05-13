@@ -118,5 +118,8 @@
 	},
 	"successReloading": {
 		"message": "Video marked complete. Reloading..."
+	},
+	"apTestsGoodLuck": {
+		"message": "Good luck on the AP tests!"
 	}
 }

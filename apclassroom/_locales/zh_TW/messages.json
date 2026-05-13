@@ -118,5 +118,8 @@
 	},
 	"successReloading": {
 		"message": "影片已標記為已完成。正在重新載入..."
+	},
+	"apTestsGoodLuck": {
+		"message": "祝 AP 考試順利！"
 	}
 }

@@ -6,6 +6,11 @@ import { ApMessageType, sendTabMessage } from "./messaging";
 document.addEventListener("DOMContentLoaded", async () => {
 	applyI18n();
 	displayVersion();
+
+	const apTestsBanner = document.getElementById("ap-tests-banner");
+	if (apTestsBanner && new Date().getMonth() === 4) {
+		show(apTestsBanner);
+	}
 	const statusDot = document.getElementById("status-dot");
 	const statusText = document.getElementById("status-text");
 	const statusDetail = document.getElementById("status-detail");
