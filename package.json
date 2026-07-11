@@ -21,6 +21,6 @@
 		"esbuild": "0.28.0",
 		"lucide": "1.11.0",
 		"sharp": "0.34.5",
-		"typescript": "6.0.3"
+		"typescript": "7.0.2"
 	}
 }
