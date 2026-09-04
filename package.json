@@ -16,7 +16,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.4.13",
-		"chrome-types": "0.1.425",
+		"chrome-types": "0.1.441",
 		"chrome-webstore-upload-cli": "3.5.0",
 		"esbuild": "0.28.0",
 		"lucide": "1.11.0",
