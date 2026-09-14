@@ -1,4 +1,11 @@
 {
-	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["config:best-practices"]
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:best-practices",
+        ":dependencyDashboard",
+        ":automergeMajor"
+    ],
+    "git-submodules": {
+        "enabled": true
+    }
 }
