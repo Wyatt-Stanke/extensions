@@ -15,7 +15,7 @@
 		"i18n:translate": "node scripts/i18n/translate.mjs"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.4.13",
+		"@biomejs/biome": "2.5.14",
 		"chrome-types": "0.1.447",
 		"chrome-webstore-upload-cli": "4.0.1",
 		"esbuild": "0.28.2",
