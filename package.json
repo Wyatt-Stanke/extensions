@@ -19,7 +19,7 @@
 		"chrome-types": "0.1.451",
 		"chrome-webstore-upload-cli": "4.0.1",
 		"esbuild": "0.28.2",
-		"lucide": "1.50.0",
+		"lucide": "1.51.0",
 		"sharp": "0.35.5",
 		"typescript": "7.0.2"
 	}
