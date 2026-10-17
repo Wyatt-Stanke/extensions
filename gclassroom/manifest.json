@@ -4,15 +4,24 @@
 	"description": "__MSG_extensionDescription__",
 	"default_locale": "en",
 	"version": "1.0.0",
-	"permissions": ["storage", "declarativeNetRequest"],
-	"host_permissions": ["https://classroom.google.com/*"],
+	"permissions": [
+		"storage",
+		"declarativeNetRequest"
+	],
+	"host_permissions": [
+		"https://classroom.google.com/*"
+	],
 	"background": {
 		"service_worker": "dist/background.js"
 	},
 	"content_scripts": [
 		{
-			"matches": ["https://classroom.google.com/*"],
-			"js": ["dist/content.js"],
+			"matches": [
+				"https://classroom.google.com/*"
+			],
+			"js": [
+				"dist/content.js"
+			],
 			"run_at": "document_start",
 			"world": "ISOLATED"
 		}
